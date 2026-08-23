@@ -11,7 +11,7 @@ signal chat_message_received(sender_name: String, message: String, color: Color)
 const DEFAULT_PORT: int = 8910
 const MAX_PLAYERS: int = 8
 
-var peer: ENetMultiplayerPeer = null
+var peer: MultiplayerPeer = null
 var is_multiplayer_active: bool = false
 var is_host: bool = false
 var local_player_name: String = "勇者"
@@ -26,11 +26,27 @@ func _ready():
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
+func is_web_client() -> bool:
+	return OS.has_feature("web")
+
 func host_game(port: int = DEFAULT_PORT, player_name: String = "房主勇者") -> Error:
-	peer = ENetMultiplayerPeer.new()
-	var err = peer.create_server(port, MAX_PLAYERS)
+	if is_web_client():
+		# Browser sandbox cannot listen on raw TCP/UDP server ports directly without WebRTC
+		Global.broadcast_message("【提示】網頁端作為房主需透過專用中繼伺服器或 WebSocket 連線！", Color.ORANGE)
+	
+	# Create Universal WebSocket / ENet server
+	var ws_peer = WebSocketMultiplayerPeer.new()
+	var err = ws_peer.create_server(port)
+	if err == OK:
+		peer = ws_peer
+	else:
+		# Fallback to ENet if WebSocket port is busy
+		var enet_peer = ENetMultiplayerPeer.new()
+		err = enet_peer.create_server(port, MAX_PLAYERS)
+		peer = enet_peer
+		
 	if err != OK:
-		Global.broadcast_message("創建房間失敗: 錯誤碼 %d" % err, Color.RED)
+		Global.broadcast_message("創建房間失敗: 錯誤碼 %d (請檢查 Port %d 是否被佔用)" % [err, port], Color.RED)
 		return err
 		
 	multiplayer.multiplayer_peer = peer
@@ -46,14 +62,34 @@ func host_game(port: int = DEFAULT_PORT, player_name: String = "房主勇者") -
 		"max_hp": Global.player_max_hp
 	}
 	
-	Global.broadcast_message("★ 多人伺服器已建立！連接埠: %d ★" % port, Color(0.2, 1.0, 0.4))
+	Global.broadcast_message("★ 多人伺服器已建立！(支援 Web / PC 跨端連線) Port: %d ★" % port, Color(0.2, 1.0, 0.4))
 	return OK
 
-func join_game(ip: String = "127.0.0.1", port: int = DEFAULT_PORT, player_name: String = "冒險者") -> Error:
-	peer = ENetMultiplayerPeer.new()
-	var err = peer.create_client(ip, port)
+func join_game(address: String = "127.0.0.1", port: int = DEFAULT_PORT, player_name: String = "冒險者") -> Error:
+	var clean_addr = address.strip_edges()
+	var target_url = clean_addr
+	
+	# Auto-format WebSocket URL for browser & desktop compatibility
+	if not target_url.begins_with("ws://") and not target_url.begins_with("wss://"):
+		if target_url.contains(":"):
+			target_url = "ws://" + target_url
+		else:
+			target_url = "ws://" + target_url + ":" + str(port)
+			
+	var ws_peer = WebSocketMultiplayerPeer.new()
+	var err = ws_peer.create_client(target_url)
+	
+	# If on desktop and ws fails, try ENet
+	if err != OK and not is_web_client():
+		var enet_peer = ENetMultiplayerPeer.new()
+		var host_ip = clean_addr.replace("ws://", "").replace("wss://", "").split(":")[0]
+		err = enet_peer.create_client(host_ip, port)
+		peer = enet_peer
+	else:
+		peer = ws_peer
+		
 	if err != OK:
-		Global.broadcast_message("連線至房間失敗: 錯誤碼 %d" % err, Color.RED)
+		Global.broadcast_message("連線失敗: 錯誤碼 %d" % err, Color.RED)
 		return err
 		
 	multiplayer.multiplayer_peer = peer
@@ -61,7 +97,7 @@ func join_game(ip: String = "127.0.0.1", port: int = DEFAULT_PORT, player_name: 
 	is_host = false
 	local_player_name = player_name
 	
-	Global.broadcast_message("正在連線至 %s:%d ..." % [ip, port], Color(0.4, 0.8, 1.0))
+	Global.broadcast_message("正在連線至: %s ..." % target_url, Color(0.4, 0.8, 1.0))
 	return OK
 
 func leave_game():
@@ -75,7 +111,6 @@ func leave_game():
 
 func _on_peer_connected(id: int):
 	Global.broadcast_message("玩家 [ID: %d] 加入了冒險隊伍！" % id, Color(0.3, 1.0, 0.5))
-	# Send our player info to the newly connected peer
 	rpc_id(id, "register_player", multiplayer.get_unique_id(), {
 		"name": local_player_name,
 		"job_id": Global.player_job_id,
@@ -102,7 +137,7 @@ func _on_connected_to_server():
 	})
 
 func _on_connection_failed():
-	Global.broadcast_message("連線失敗！請檢查伺服器 IP 與 Port 是否正確！", Color.RED)
+	Global.broadcast_message("連線失敗！請檢查伺服器位址或網路狀態！", Color.RED)
 	emit_signal("connection_failed")
 	leave_game()
 
