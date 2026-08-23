@@ -237,6 +237,18 @@ func trigger_game_over(victory: bool):
 	is_game_over = true
 	emit_signal("game_over_triggered", victory)
 
+func reset_game_state():
+	is_game_over = false
+	goddess_hp = goddess_max_hp
+	player_hp = player_max_hp
+	player_mp = player_max_mp
+	current_wave = 1
+	emit_signal("goddess_hp_changed", goddess_hp, goddess_max_hp)
+	emit_signal("player_hp_changed", player_hp, player_max_hp)
+	emit_signal("player_mp_changed", player_mp, player_max_mp)
+	emit_signal("wave_changed", current_wave, MAX_WAVES)
+	broadcast_message("★ 女神結界已完全重生！重新開始守護！ ★", Color.CYAN)
+
 func broadcast_message(text: String, color: Color = Color.WHITE):
 	emit_signal("message_broadcast", text, color)
 

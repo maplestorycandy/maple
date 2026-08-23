@@ -93,6 +93,19 @@ func spawn_enemy(monster_id: int, is_boss: bool):
 		mob.tree_exited.connect(_on_monster_defeated)
 		active_wave_monsters += 1
 
+func restart_defense_loop():
+	# Clear previous wave attackers
+	var mobs = get_tree().get_nodes_in_group("wave_attackers")
+	for m in mobs:
+		if is_instance_valid(m):
+			m.queue_free()
+			
+	current_wave = 1
+	active_wave_monsters = 0
+	is_wave_active = false
+	is_spawning = false
+	start_wave_from_host(1)
+
 func _on_monster_defeated():
 	active_wave_monsters = max(0, active_wave_monsters - 1)
 	if active_wave_monsters <= 0 and not is_spawning and not Global.is_game_over:

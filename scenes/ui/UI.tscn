@@ -113,8 +113,8 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = -240.0
-offset_right = 360.0
+offset_top = -255.0
+offset_right = 380.0
 offset_bottom = -105.0
 grow_vertical = 0
 mouse_filter = 0
@@ -126,9 +126,24 @@ size_flags_vertical = 3
 bbcode_enabled = true
 scroll_following = true
 
-[node name="ChatInput" type="LineEdit" parent="HUD/ChatContainer"]
+[node name="InputRow" type="HBoxContainer" parent="HUD/ChatContainer"]
 layout_mode = 2
-placeholder_text = "按 Enter 鍵輸入發送隊伍訊息..."
+theme_override_constants/separation = 4
+
+[node name="ChatInput" type="LineEdit" parent="HUD/ChatContainer/InputRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "按 Enter 輸入訊息 (ESC 關閉)..."
+
+[node name="SendButton" type="Button" parent="HUD/ChatContainer/InputRow"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "發送"
+
+[node name="CancelButton" type="Button" parent="HUD/ChatContainer/InputRow"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "✕"
 
 [node name="BottomBar" type="Panel" parent="HUD"]
 layout_mode = 1
@@ -433,7 +448,7 @@ text = "冒險夥伴"
 
 [node name="IPInput" type="LineEdit" parent="NetworkModal/TabContainer/加入房間/VBox"]
 layout_mode = 2
-placeholder_text = "房主 IP 位址 (本機測試輸入 127.0.0.1 或區域網路 IP)"
+placeholder_text = "房主 IP 或公網網址 (例如 xxxx.trycloudflare.com)"
 text = "127.0.0.1"
 
 [node name="PortInput" type="LineEdit" parent="NetworkModal/TabContainer/加入房間/VBox"]
@@ -712,10 +727,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -160.0
-offset_right = 300.0
-offset_bottom = 160.0
+offset_left = -320.0
+offset_top = -170.0
+offset_right = 320.0
+offset_bottom = 170.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -724,10 +739,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -250.0
-offset_top = 40.0
-offset_right = 250.0
-offset_bottom = 120.0
+offset_left = -280.0
+offset_top = 35.0
+offset_right = 280.0
+offset_bottom = 115.0
 grow_horizontal = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
@@ -737,21 +752,24 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RestartButton" type="Button" parent="GameOverModal"]
+custom_minimum_size = Vector2(240, 42)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -70.0
-offset_right = 100.0
-offset_bottom = -25.0
+offset_left = -120.0
+offset_top = -65.0
+offset_right = 120.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "重新開始守護"
+text = "🔄 重新守護女神 (5 秒後自動開始)"
 
 [connection signal="pressed" from="HUD/TopBar/StartWaveButton" to="." method="_on_start_wave_button_pressed"]
+[connection signal="pressed" from="HUD/ChatContainer/InputRow/SendButton" to="." method="_on_chat_send_pressed"]
+[connection signal="pressed" from="HUD/ChatContainer/InputRow/CancelButton" to="HUD/ChatContainer/InputRow/ChatInput" method="release_focus"]
 [connection signal="pressed" from="PauseModal/CloseButton" to="." method="resume_game"]
 [connection signal="pressed" from="PauseModal/VBox/ResumeButton" to="." method="resume_game"]
 [connection signal="pressed" from="PauseModal/VBox/JobButton" to="." method="open_job_selection"]

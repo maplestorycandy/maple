@@ -24,7 +24,7 @@ extends CanvasLayer
 
 # In-Game Chat Box
 @onready var chat_container: Control = $HUD/ChatContainer
-@onready var chat_input: LineEdit = $HUD/ChatContainer/ChatInput
+@onready var chat_input: LineEdit = $HUD/ChatContainer/InputRow/ChatInput
 @onready var chat_log: RichTextLabel = $HUD/ChatContainer/ChatLog
 
 # Pause & Ready UI
@@ -70,6 +70,11 @@ func _ready():
 	Global.game_over_triggered.connect(show_game_over)
 	LevelBuffManager.buff_selection_requested.connect(show_buff_choices)
 	
+	# Chat Signals
+	if chat_input:
+		chat_input.text_submitted.connect(_on_chat_text_submitted)
+		chat_input.gui_input.connect(_on_chat_gui_input)
+	
 	# Network signals
 	NetworkManager.player_connected.connect(_on_net_player_update)
 	NetworkManager.player_disconnected.connect(_on_net_player_update)
@@ -94,6 +99,17 @@ func _process(_delta):
 	if map_name_label and MapDatabase.MAPS.has(Global.current_map_id):
 		map_name_label.text = MapDatabase.MAPS[Global.current_map_id].name
 
+func _on_chat_gui_input(event: InputEvent):
+	if event is InputEventKey and event.is_pressed() and not event.is_echo():
+		if event.keycode == KEY_ESCAPE:
+			if chat_input:
+				chat_input.text = ""
+				chat_input.release_focus()
+				get_viewport().set_input_as_handled()
+
+func _on_chat_text_submitted(_new_text: String):
+	_on_chat_send_pressed()
+
 func _unhandled_input(event: InputEvent):
 	if not (event is InputEventKey) or not event.is_pressed() or event.is_echo():
 		return
@@ -103,6 +119,10 @@ func _unhandled_input(event: InputEvent):
 	if focus_owner is LineEdit or focus_owner is TextEdit:
 		if event.keycode == KEY_ENTER:
 			_on_chat_send_pressed()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_ESCAPE:
+			focus_owner.release_focus()
+			get_viewport().set_input_as_handled()
 		return
 		
 	# ESC Key Priority: Close open modals first, otherwise toggle pause
@@ -358,14 +378,33 @@ func setup_map_selection_list():
 		)
 		map_list_container.add_child(btn)
 
+var restart_timer_tween: Tween
+
 func show_game_over(victory: bool):
 	game_over_modal.visible = true
+	var restart_btn = game_over_modal.get_node_or_null("RestartButton")
+	
 	if victory:
 		game_over_title.text = "★ 恭喜通關 50 波攻城大獲全勝！★\n守護了女神與整個楓之谷世界！"
 		game_over_title.modulate = Color.GOLD
 	else:
-		game_over_title.text = "☠ 守護失敗！女神結界已破碎 ☠\n再接再厲，拯救楓之谷！"
+		game_over_title.text = "☠ 守護失敗！女神結界已破碎 ☠\n即將自動重生，重新守護女神！"
 		game_over_title.modulate = Color.RED
+		
+	# Automatic countdown to restart defense (5 seconds)
+	if restart_timer_tween and restart_timer_tween.is_valid():
+		restart_timer_tween.kill()
+		
+	restart_timer_tween = create_tween()
+	for sec in range(5, 0, -1):
+		if restart_btn:
+			restart_btn.text = "🔄 重新守護女神 (%d 秒後自動開始)" % sec
+		restart_timer_tween.tween_interval(1.0)
+		
+	restart_timer_tween.tween_callback(func():
+		if game_over_modal.visible:
+			_on_restart_pressed()
+	)
 
 func _on_host_room_pressed():
 	var name_txt = host_name_input.text.strip_edges() if host_name_input else "房主勇者"
@@ -415,13 +454,14 @@ func update_network_ui():
 		party_list_label.text = txt
 
 func _on_chat_send_pressed():
-	if not chat_input or chat_input.text.strip_edges() == "":
-		if chat_input: chat_input.release_focus()
+	if not chat_input:
 		return
-		
 	var msg = chat_input.text.strip_edges()
 	chat_input.text = ""
 	chat_input.release_focus()
+	
+	if msg == "":
+		return
 	
 	if NetworkManager.is_multiplayer_active:
 		NetworkManager.rpc("broadcast_chat", NetworkManager.local_player_name, msg, "cyan")
@@ -434,5 +474,17 @@ func _on_chat_received(sender: String, msg: String, col: Color):
 		chat_log.append_text("[color=#%s]★ [%s]: %s[/color]\n" % [col.to_html(false), sender, msg])
 
 func _on_restart_pressed():
+	if restart_timer_tween and restart_timer_tween.is_valid():
+		restart_timer_tween.kill()
+		
 	get_tree().paused = false
-	get_tree().reload_current_scene()
+	if game_over_modal:
+		game_over_modal.visible = false
+	if pause_modal:
+		pause_modal.visible = false
+		
+	Global.reset_game_state()
+	
+	var wave_ctrl = get_tree().current_scene.get_node_or_null("WaveDefenseController")
+	if is_instance_valid(wave_ctrl):
+		wave_ctrl.restart_defense_loop()
