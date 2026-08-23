@@ -87,27 +87,77 @@ func _process(_delta):
 		meso_label.text = "楓幣: %d" % Global.meso_gold
 	if map_name_label and MapDatabase.MAPS.has(Global.current_map_id):
 		map_name_label.text = MapDatabase.MAPS[Global.current_map_id].name
+
+func _unhandled_input(event: InputEvent):
+	if not (event is InputEventKey) or not event.is_pressed() or event.is_echo():
+		return
 		
-	# Pause Hotkey (ESC or F1)
-	if Input.is_key_pressed(KEY_ESCAPE) or Input.is_key_pressed(KEY_F1):
-		toggle_pause()
-		
-	# Hotkey checks
-	if Input.is_key_pressed(KEY_J) and not job_select_modal.visible and not pause_modal.visible:
-		open_job_selection()
-	if Input.is_key_pressed(KEY_N) and not network_modal.visible and not pause_modal.visible:
-		network_modal.visible = true
-	if Input.is_action_just_pressed("toggle_map") and not pause_modal.visible:
-		map_select_modal.visible = not map_select_modal.visible
-	if Input.is_action_just_pressed("open_pet_bag") and not pause_modal.visible:
-		pet_bag_modal.visible = not pet_bag_modal.visible
-		
-	# Chat Toggle with Enter
-	if Input.is_action_just_pressed("ui_accept") and not pause_modal.visible:
-		if chat_input and not chat_input.has_focus():
-			chat_input.grab_focus()
-		elif chat_input and chat_input.has_focus():
+	# If typing inside a text input field, don't trigger game hotkeys
+	var focus_owner = get_viewport().gui_get_focus_owner()
+	if focus_owner is LineEdit or focus_owner is TextEdit:
+		if event.keycode == KEY_ENTER:
 			_on_chat_send_pressed()
+		return
+		
+	# ESC Key Priority: Close open modals first, otherwise toggle pause
+	if event.keycode == KEY_ESCAPE:
+		if has_any_modal_open():
+			close_all_modals()
+		else:
+			toggle_pause()
+		return
+		
+	# F1 Key: Pause Toggle
+	if event.keycode == KEY_F1:
+		toggle_pause()
+		return
+		
+	# N Key: Toggle Multiplayer Network Modal
+	if event.keycode == KEY_N:
+		toggle_modal(network_modal)
+		return
+		
+	# J Key: Toggle Job Selection Modal
+	if event.keycode == KEY_J:
+		toggle_modal(job_select_modal)
+		return
+		
+	# M Key: Toggle Map Fast Travel Modal
+	if event.keycode == KEY_M:
+		toggle_modal(map_select_modal)
+		return
+		
+	# P Key: Toggle Pet Inventory Modal
+	if event.keycode == KEY_P:
+		toggle_modal(pet_bag_modal)
+		return
+		
+	# Enter Key: Focus Chat
+	if event.keycode == KEY_ENTER:
+		if chat_input:
+			chat_input.grab_focus()
+
+func has_any_modal_open() -> bool:
+	return (network_modal and network_modal.visible) or \
+		   (job_select_modal and job_select_modal.visible) or \
+		   (pet_bag_modal and pet_bag_modal.visible) or \
+		   (map_select_modal and map_select_modal.visible) or \
+		   (pause_modal and pause_modal.visible)
+
+func close_all_modals():
+	if network_modal: network_modal.visible = false
+	if job_select_modal: job_select_modal.visible = false
+	if pet_bag_modal: pet_bag_modal.visible = false
+	if map_select_modal: map_select_modal.visible = false
+	if pause_modal and get_tree().paused:
+		resume_game()
+
+func toggle_modal(modal: Control):
+	if not modal:
+		return
+	var target_vis = not modal.visible
+	close_all_modals()
+	modal.visible = target_vis
 
 func toggle_pause():
 	if get_tree().paused:
@@ -116,6 +166,7 @@ func toggle_pause():
 		pause_game()
 
 func pause_game():
+	close_all_modals()
 	get_tree().paused = true
 	if pause_modal:
 		pause_modal.visible = true
@@ -154,7 +205,7 @@ func update_player_job_display(job_data: Dictionary):
 		level_label.modulate = job_data.get("color", Color.WHITE)
 
 func open_job_selection():
-	job_select_modal.visible = true
+	toggle_modal(job_select_modal)
 
 func setup_job_selection_list():
 	if not job_card_container:
