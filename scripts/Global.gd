@@ -267,6 +267,17 @@ func dismiss_active_pet():
 	active_pet_data = {}
 	emit_signal("pet_unsummoned")
 
+func remove_pet_from_inventory(index: int):
+	if index >= 0 and index < pet_inventory.size():
+		var pet = pet_inventory[index]
+		if active_pet_data.get("name", "") == pet.get("name", ""):
+			dismiss_active_pet()
+		pet_inventory.remove_at(index)
+		var reward_meso = max(10, int(pet.get("hp", 100) * 0.05))
+		meso_gold += reward_meso
+		emit_signal("pet_inventory_updated")
+		broadcast_message("已放生寵物 [%s] (獲得 %d 楓幣)" % [pet.get("name", "寵物"), reward_meso], Color.YELLOW)
+
 func change_map(map_id: String):
 	current_map_id = map_id
 	emit_signal("map_change_requested", map_id)

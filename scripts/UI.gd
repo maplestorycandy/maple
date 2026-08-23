@@ -41,6 +41,7 @@ extends CanvasLayer
 @onready var game_over_title: Label = $GameOverModal/TitleLabel
 
 var broadcast_tween: Tween
+var restart_timer_tween: Tween
 
 func _ready():
 	# Apply font to UI tree
@@ -88,10 +89,64 @@ func _ready():
 	update_goddess_hp(Global.goddess_hp, Global.goddess_max_hp)
 	update_wave(Global.current_wave, Global.MAX_WAVES)
 	
+	setup_touch_controls()
 	setup_job_selection_list()
 	setup_map_selection_list()
 	refresh_pet_bag()
 	update_network_ui()
+
+func setup_touch_controls():
+	var tc = get_node_or_null("HUD/TouchControls")
+	if not tc:
+		return
+		
+	# Left Virtual Pad (Movement)
+	bind_hold_button(tc.get_node_or_null("LeftPad/BtnLeft"), "move_left")
+	bind_hold_button(tc.get_node_or_null("LeftPad/BtnRight"), "move_right")
+	bind_hold_button(tc.get_node_or_null("LeftPad/BtnDown"), "move_down")
+	
+	# Right Action & Skill Buttons
+	bind_press_button(tc.get_node_or_null("RightPad/BtnJump"), "jump")
+	bind_press_button(tc.get_node_or_null("RightPad/BtnAttack"), "attack_basic")
+	bind_press_button(tc.get_node_or_null("RightPad/BtnSkill1"), "skill_1")
+	bind_press_button(tc.get_node_or_null("RightPad/BtnSkill2"), "skill_2")
+	bind_press_button(tc.get_node_or_null("RightPad/BtnSkill3"), "skill_3")
+	bind_press_button(tc.get_node_or_null("RightPad/BtnCapture"), "capture")
+	bind_press_button(tc.get_node_or_null("RightPad/BtnPet"), "summon_pet")
+	
+	# Top Quick Menu Buttons
+	var top_nav = tc.get_node_or_null("TopMenuBar")
+	if top_nav:
+		var b_lobby = top_nav.get_node_or_null("BtnLobby")
+		if b_lobby: b_lobby.pressed.connect(func(): toggle_modal(network_modal))
+		var b_job = top_nav.get_node_or_null("BtnJob")
+		if b_job: b_job.pressed.connect(func(): toggle_modal(job_select_modal))
+		var b_map = top_nav.get_node_or_null("BtnMap")
+		if b_map: b_map.pressed.connect(func(): toggle_modal(map_select_modal))
+		var b_bag = top_nav.get_node_or_null("BtnBag")
+		if b_bag: b_bag.pressed.connect(func(): toggle_modal(pet_bag_modal))
+		var b_pause = top_nav.get_node_or_null("BtnPause")
+		if b_pause: b_pause.pressed.connect(toggle_pause)
+
+func bind_hold_button(btn: Button, action: String):
+	if not is_instance_valid(btn):
+		return
+	btn.button_down.connect(func():
+		Input.action_press(action)
+	)
+	btn.button_up.connect(func():
+		Input.action_release(action)
+	)
+
+func bind_press_button(btn: Button, action: String):
+	if not is_instance_valid(btn):
+		return
+	btn.button_down.connect(func():
+		Input.action_press(action)
+	)
+	btn.button_up.connect(func():
+		Input.action_release(action)
+	)
 
 func _process(_delta):
 	if meso_label:
@@ -114,7 +169,6 @@ func _unhandled_input(event: InputEvent):
 	if not (event is InputEventKey) or not event.is_pressed() or event.is_echo():
 		return
 		
-	# If typing inside a text input field, don't trigger game hotkeys
 	var focus_owner = get_viewport().gui_get_focus_owner()
 	if focus_owner is LineEdit or focus_owner is TextEdit:
 		if event.keycode == KEY_ENTER:
@@ -125,7 +179,6 @@ func _unhandled_input(event: InputEvent):
 			get_viewport().set_input_as_handled()
 		return
 		
-	# ESC Key Priority: Close open modals first, otherwise toggle pause
 	if event.keycode == KEY_ESCAPE:
 		if has_any_modal_open():
 			close_all_modals()
@@ -133,32 +186,26 @@ func _unhandled_input(event: InputEvent):
 			toggle_pause()
 		return
 		
-	# F1 Key: Pause Toggle
 	if event.keycode == KEY_F1:
 		toggle_pause()
 		return
 		
-	# N Key: Toggle Multiplayer Network Modal
 	if event.keycode == KEY_N:
 		toggle_modal(network_modal)
 		return
 		
-	# J Key: Toggle Job Selection Modal
 	if event.keycode == KEY_J:
 		toggle_modal(job_select_modal)
 		return
 		
-	# M Key: Toggle Map Fast Travel Modal
 	if event.keycode == KEY_M:
 		toggle_modal(map_select_modal)
 		return
 		
-	# P Key: Toggle Pet Inventory Modal
 	if event.keycode == KEY_P:
 		toggle_modal(pet_bag_modal)
 		return
 		
-	# Enter Key: Focus Chat
 	if event.keycode == KEY_ENTER:
 		if chat_input:
 			chat_input.grab_focus()
@@ -335,29 +382,68 @@ func select_buff(buff: Dictionary):
 	buff_modal.visible = false
 	get_tree().paused = false
 
-# Pet Bag Modal
+# Pet Bag Modal with Switch & Delete/Release Functions
 func refresh_pet_bag():
 	if not pet_list_container:
 		return
 	for child in pet_list_container.get_children():
 		child.queue_free()
 		
+	if Global.pet_inventory.is_empty():
+		var empty_lbl = Label.new()
+		empty_lbl.text = "【背包目前沒有捕獲的寵物夥伴】\n靠近野怪按 E 鍵丟出封印網捕捉！"
+		empty_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		pet_list_container.add_child(empty_lbl)
+		return
+		
 	for i in range(Global.pet_inventory.size()):
 		var pet = Global.pet_inventory[i]
-		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(400, 45)
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		
 		var is_active = (Global.active_pet_data.get("name", "") == pet.name)
-		var status_str = "[已出戰]" if is_active else "[點擊召喚出戰]"
-		btn.text = "【%s】種族: %s | HP: %d | 攻擊: %d | 速度: %d  %s" % [pet.name, pet.type, pet.hp, pet.atk, pet.speed, status_str]
+		var status_str = "【出戰中】" if is_active else "[休息中]"
+		
+		# Info Box
+		var info_lbl = Label.new()
+		info_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info_lbl.text = "%s %s (Lv.%d) | HP:%d 攻:%d 速:%d" % [
+			status_str, pet.name, pet.get("level", 1), pet.hp, pet.atk, pet.speed
+		]
+		if is_active:
+			info_lbl.modulate = Color.GREEN
+		row.add_child(info_lbl)
+		
+		# Action Button (Summon / Dismiss)
+		var act_btn = Button.new()
+		act_btn.custom_minimum_size = Vector2(100, 36)
+		act_btn.text = "召回休息" if is_active else "召喚出戰"
+		if is_active:
+			act_btn.modulate = Color(1.0, 0.8, 0.3)
+		else:
+			act_btn.modulate = Color(0.3, 1.0, 0.5)
 		var idx = i
-		btn.pressed.connect(func():
+		act_btn.pressed.connect(func():
 			if is_active:
 				Global.dismiss_active_pet()
 			else:
 				Global.select_active_pet(idx)
 			refresh_pet_bag()
 		)
-		pet_list_container.add_child(btn)
+		row.add_child(act_btn)
+		
+		# Delete / Release Button
+		var del_btn = Button.new()
+		del_btn.custom_minimum_size = Vector2(90, 36)
+		del_btn.text = "🗑 放生"
+		del_btn.modulate = Color(1.0, 0.4, 0.4)
+		del_btn.pressed.connect(func():
+			Global.remove_pet_from_inventory(idx)
+			refresh_pet_bag()
+		)
+		row.add_child(del_btn)
+		
+		pet_list_container.add_child(row)
 
 # Map Selection Fast Travel
 func setup_map_selection_list():
@@ -377,8 +463,6 @@ func setup_map_selection_list():
 			map_select_modal.visible = false
 		)
 		map_list_container.add_child(btn)
-
-var restart_timer_tween: Tween
 
 func show_game_over(victory: bool):
 	game_over_modal.visible = true

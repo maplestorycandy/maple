@@ -103,24 +103,268 @@ grow_vertical = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 26
-text = "冒險開始！按 ESC/F1 暫停 | 按 F2 開始進攻！"
+text = "冒險開始！點擊右下技能或按鍵作戰！"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TouchControls" type="Control" parent="HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopMenuBar" type="HBoxContainer" parent="HUD/TouchControls"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 15.0
+offset_top = 10.0
+offset_right = 400.0
+offset_bottom = 50.0
+theme_override_constants/separation = 6
+
+[node name="BtnLobby" type="Button" parent="HUD/TouchControls/TopMenuBar"]
+custom_minimum_size = Vector2(70, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 1, 1)
+text = "🌐 連線"
+
+[node name="BtnJob" type="Button" parent="HUD/TouchControls/TopMenuBar"]
+custom_minimum_size = Vector2(70, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+text = "★ 轉職"
+
+[node name="BtnMap" type="Button" parent="HUD/TouchControls/TopMenuBar"]
+custom_minimum_size = Vector2(70, 36)
+layout_mode = 2
+text = "🗺️ 地圖"
+
+[node name="BtnBag" type="Button" parent="HUD/TouchControls/TopMenuBar"]
+custom_minimum_size = Vector2(70, 36)
+layout_mode = 2
+text = "🎒 寵物"
+
+[node name="BtnPause" type="Button" parent="HUD/TouchControls/TopMenuBar"]
+custom_minimum_size = Vector2(70, 36)
+layout_mode = 2
+text = "⏸ 暫停"
+
+[node name="LeftPad" type="Control" parent="HUD/TouchControls"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -240.0
+offset_right = 240.0
+offset_bottom = -20.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BtnLeft" type="Button" parent="HUD/TouchControls/LeftPad"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = -20.0
+offset_right = -35.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
+text = "◀"
+
+[node name="BtnRight" type="Button" parent="HUD/TouchControls/LeftPad"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 35.0
+offset_top = -20.0
+offset_right = 105.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
+text = "▶"
+
+[node name="BtnDown" type="Button" parent="HUD/TouchControls/LeftPad"]
+custom_minimum_size = Vector2(70, 60)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = 30.0
+offset_right = 35.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "▼下跳"
+
+[node name="RightPad" type="Control" parent="HUD/TouchControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -260.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BtnJump" type="Button" parent="HUD/TouchControls/RightPad"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -90.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "跳躍"
+
+[node name="BtnAttack" type="Button" parent="HUD/TouchControls/RightPad"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_top = -90.0
+offset_right = -100.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "攻擊"
+
+[node name="BtnSkill1" type="Button" parent="HUD/TouchControls/RightPad"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -245.0
+offset_top = -80.0
+offset_right = -185.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.3, 0.8, 1, 1)
+text = "一轉\n(Z)"
+
+[node name="BtnSkill2" type="Button" parent="HUD/TouchControls/RightPad"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_top = -160.0
+offset_right = -115.0
+offset_bottom = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.8, 0.4, 1, 1)
+text = "二轉\n(C)"
+
+[node name="BtnSkill3" type="Button" parent="HUD/TouchControls/RightPad"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -95.0
+offset_top = -165.0
+offset_right = -30.0
+offset_bottom = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+text = "奧義\n(V)"
+
+[node name="BtnCapture" type="Button" parent="HUD/TouchControls/RightPad"]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -150.0
+offset_right = -195.0
+offset_bottom = -95.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.4, 1, 0.7, 1)
+text = "捕捉\n(E)"
+
+[node name="BtnPet" type="Button" parent="HUD/TouchControls/RightPad"]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -315.0
+offset_top = -110.0
+offset_right = -260.0
+offset_bottom = -55.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.7, 0.3, 1)
+text = "寵物\n(R)"
 
 [node name="ChatContainer" type="VBoxContainer" parent="HUD"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -255.0
-offset_right = 380.0
-offset_bottom = -105.0
+offset_left = 250.0
+offset_top = -210.0
+offset_right = 580.0
+offset_bottom = -95.0
 grow_vertical = 0
 mouse_filter = 0
 
 [node name="ChatLog" type="RichTextLabel" parent="HUD/ChatContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -133,15 +377,15 @@ theme_override_constants/separation = 4
 [node name="ChatInput" type="LineEdit" parent="HUD/ChatContainer/InputRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "按 Enter 輸入訊息 (ESC 關閉)..."
+placeholder_text = "輸入聊天訊息..."
 
 [node name="SendButton" type="Button" parent="HUD/ChatContainer/InputRow"]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "發送"
 
 [node name="CancelButton" type="Button" parent="HUD/ChatContainer/InputRow"]
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 text = "✕"
 
@@ -151,9 +395,10 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -95.0
+offset_top = -88.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 
 [node name="HBox" type="HBoxContainer" parent="HUD/BottomBar"]
 layout_mode = 1
@@ -161,15 +406,16 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = 8.0
+offset_top = 6.0
 offset_right = -20.0
-offset_bottom = -8.0
+offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="StatsBox" type="VBoxContainer" parent="HUD/BottomBar/HBox"]
-custom_minimum_size = Vector2(380, 0)
+custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
 
 [node name="LevelLabel" type="Label" parent="HUD/BottomBar/HBox/StatsBox"]
@@ -179,7 +425,7 @@ theme_override_constants/outline_size = 3
 text = "Lv. 1 【劍士】"
 
 [node name="HPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 value = 100.0
 show_percentage = false
@@ -199,7 +445,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 value = 100.0
 show_percentage = false
@@ -219,7 +465,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EXPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
-custom_minimum_size = Vector2(0, 14)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 show_percentage = false
 
@@ -242,19 +488,8 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "楓幣: 0"
-
-[node name="ControlsGuide" type="Label" parent="HUD/BottomBar/HBox"]
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 13
-text = "【操作指南】
-方向鍵 / A D: 移動 | 空白鍵: 跳躍 (二段跳) | 下+跳: 下跳
-X / Ctrl: 普攻 | Z: 一轉技 | C: 二轉技 | V: 終極奧義
-ESC / F1: 遊戲暫停 / 關閉視窗 | F2: 開始防守波次 | N: 多人組隊 | J: 轉職選單
-E: 捕捉寵物 | R: 召喚寵物 | M: 10大野圖傳送 | P: 寵物背包"
 
 [node name="PauseModal" type="Panel" parent="."]
 process_mode = 2
@@ -608,10 +843,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -200.0
-offset_right = 300.0
-offset_bottom = 200.0
+offset_left = -320.0
+offset_top = -220.0
+offset_right = 320.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -620,13 +855,13 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -150.0
+offset_left = -200.0
 offset_top = 15.0
-offset_right = 150.0
+offset_right = 200.0
 offset_bottom = 45.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 20
-text = "【寵物收服背包】"
+text = "【寵物收服背包與管理】"
 horizontal_alignment = 1
 
 [node name="CloseButton" type="Button" parent="PetBagModal"]
