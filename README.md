@@ -3,7 +3,7 @@
 100% 經典還原楓之谷 ARPG 戰鬥手感，具備 **五大經典職業**、**100 種怪物圖鑑**、**50 波城外攻城防守**、**10 大世界地圖探索**、**每 5 級 Roguelite 三選一祝福** 與 **多人線上組隊連線**！
 
 🌐 **線上網頁版 (GitHub Pages 直接玩)**:
-👉 `https://candylovema.github.io/maple/`
+👉 `https://maplestorycandy.github.io/maple/`
 
 ---
 
