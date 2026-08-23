@@ -44,13 +44,14 @@ var broadcast_tween: Tween
 
 func _ready():
 	# Apply font to UI tree
-	var font_path = "res://assets/fonts/NotoSansTC-Regular.otf"
-	if not FileAccess.file_exists(font_path):
-		font_path = "res://assets/fonts/NotoSansTC.ttf"
-	var bytes = FileAccess.get_file_as_bytes(font_path)
-	if bytes.size() > 0:
-		var font = FontFile.new()
-		font.data = bytes
+	var font = load("res://assets/fonts/ChineseFont.ttf")
+	if not font:
+		var font_path = "res://assets/fonts/ChineseFont.ttf"
+		if FileAccess.file_exists(font_path):
+			var f = FontFile.new()
+			f.data = FileAccess.get_file_as_bytes(font_path)
+			font = f
+	if font:
 		var theme = Theme.new()
 		theme.default_font = font
 		theme.default_font_size = 14
