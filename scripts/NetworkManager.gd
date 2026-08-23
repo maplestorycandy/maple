@@ -70,8 +70,11 @@ func join_game(address: String = "127.0.0.1", port: int = DEFAULT_PORT, player_n
 	var clean_addr = address.strip_edges()
 	var target_url = clean_addr
 	
+	# If running on HTTPS Web and user didn't specify protocol, auto-select WSS/WS
 	if not target_url.begins_with("ws://") and not target_url.begins_with("wss://"):
-		if target_url.contains(":"):
+		if target_url.contains("trycloudflare.com") or target_url.contains("ngrok") or target_url.contains("onrender.com") or target_url.contains("glitch.me"):
+			target_url = "wss://" + target_url
+		elif target_url.contains(":"):
 			target_url = "ws://" + target_url
 		else:
 			target_url = "ws://" + target_url + ":" + str(port)
