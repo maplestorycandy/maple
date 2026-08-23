@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  export_web:
+  export_and_deploy:
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.3
@@ -37,8 +37,22 @@ jobs:
         run: |
           cp coi-serviceworker.js build/web/coi-serviceworker.js || true
 
-      - name: Deploy to GitHub Pages
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+      - name: Deploy to gh-pages branch (Branch Support)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build/web
           branch: gh-pages
+
+  deploy_to_pages:
+    needs: export_and_deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
