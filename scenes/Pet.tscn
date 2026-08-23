@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ptscn123"]
+
+[ext_resource type="Script" path="res://scripts/Pet.gd" id="1_pet"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pet"]
+radius = 14.0
+height = 28.0
+
+[node name="Pet" type="CharacterBody2D" groups=["allies", "pets"]]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_pet")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("CapsuleShape2D_pet")

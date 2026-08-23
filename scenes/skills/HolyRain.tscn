@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://hlyrn123"]
+
+[ext_resource type="Script" path="res://scripts/HolyRain.gd" id="1_hly"]
+
+[node name="HolyRain" type="Node2D"]
+z_index = 50
+script = ExtResource("1_hly")

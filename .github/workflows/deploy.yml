@@ -1,0 +1,44 @@
+name: "Deploy Godot 4 Web to GitHub Pages"
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  export_web:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Web Directory
+        run: |
+          mkdir -v -p build/web
+
+      - name: Export Godot Web Project
+        run: |
+          godot -v --headless --export-release "Web" build/web/index.html
+
+      - name: Add Service Worker for COOP/COEP
+        run: |
+          cp coi-serviceworker.js build/web/coi-serviceworker.js || true
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build/web
+          branch: gh-pages

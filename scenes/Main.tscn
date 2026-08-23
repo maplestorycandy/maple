@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3 uid="uid://mnscn123"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/MapManager.gd" id="2_map"]
+[ext_resource type="PackedScene" path="res://scenes/Goddess.tscn" id="3_gds"]
+[ext_resource type="PackedScene" path="res://scenes/monsters/BaseMonster.tscn" id="4_mob"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="5_ply"]
+[ext_resource type="Script" path="res://scripts/WaveDefenseController.gd" id="6_wave"]
+[ext_resource type="PackedScene" path="res://scenes/ui/UI.tscn" id="7_ui"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(3600, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat1"]
+size = Vector2(260, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat2"]
+size = Vector2(300, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat3"]
+size = Vector2(280, 20)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="MapManager" type="Node2D" parent="."]
+script = ExtResource("2_map")
+goddess_scene = ExtResource("3_gds")
+monster_scene = ExtResource("4_mob")
+
+[node name="BackgroundRect" type="ColorRect" parent="MapManager"]
+z_index = -100
+offset_left = -2000.0
+offset_top = -1200.0
+offset_right = 2000.0
+offset_bottom = 800.0
+color = Color(0.7, 0.9, 0.5, 1)
+
+[node name="Platforms" type="StaticBody2D" parent="MapManager"]
+collision_mask = 0
+
+[node name="GroundCollision" type="CollisionShape2D" parent="MapManager/Platforms"]
+position = Vector2(0, 430)
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="Platform1" type="CollisionShape2D" parent="MapManager/Platforms"]
+position = Vector2(-670, 250)
+shape = SubResource("RectangleShape2D_plat1")
+one_way_collision = true
+
+[node name="Platform2" type="CollisionShape2D" parent="MapManager/Platforms"]
+position = Vector2(-200, 160)
+shape = SubResource("RectangleShape2D_plat2")
+one_way_collision = true
+
+[node name="Platform3" type="CollisionShape2D" parent="MapManager/Platforms"]
+position = Vector2(290, 190)
+shape = SubResource("RectangleShape2D_plat3")
+one_way_collision = true
+
+[node name="Platform4" type="CollisionShape2D" parent="MapManager/Platforms"]
+position = Vector2(775, 230)
+shape = SubResource("RectangleShape2D_plat1")
+one_way_collision = true
+
+[node name="Platform5" type="CollisionShape2D" parent="MapManager/Platforms"]
+position = Vector2(-1080, 170)
+shape = SubResource("RectangleShape2D_plat1")
+one_way_collision = true
+
+[node name="Platform6" type="CollisionShape2D" parent="MapManager/Platforms"]
+position = Vector2(1220, 150)
+shape = SubResource("RectangleShape2D_plat1")
+one_way_collision = true
+
+[node name="OuterGate" type="Marker2D" parent="." groups=["outer_gate"]]
+position = Vector2(1450, 360)
+
+[node name="Goddess" parent="." instance=ExtResource("3_gds")]
+position = Vector2(0, 380)
+
+[node name="Player" parent="." instance=ExtResource("5_ply")]
+position = Vector2(-120, 350)
+
+[node name="WaveDefenseController" type="Node2D" parent="." node_paths=PackedStringArray("goddess_node", "outer_gate_spawn_point")]
+script = ExtResource("6_wave")
+goddess_node = NodePath("../Goddess")
+outer_gate_spawn_point = NodePath("../OuterGate")
+
+[node name="UI" parent="." instance=ExtResource("7_ui")]

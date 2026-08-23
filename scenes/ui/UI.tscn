@@ -1,0 +1,698 @@
+[gd_scene load_steps=3 format=3 uid="uid://uiscn123"]
+
+[ext_resource type="Script" path="res://scripts/UI.gd" id="1_ui"]
+[ext_resource type="Script" path="res://scripts/AdvancedRadarMap.gd" id="2_radar"]
+
+[node name="UI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_ui")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="VBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 145.0
+grow_horizontal = 2
+theme_override_constants/separation = 4
+
+[node name="WaveLabel" type="Label" parent="HUD/TopBar"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = "第 1 / 50 波 [準備階段]"
+horizontal_alignment = 1
+
+[node name="StartWaveButton" type="Button" parent="HUD/TopBar"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
+text = "⚔ 點擊開始防守第 1 波 (按 F2)"
+
+[node name="GoddessHPBar" type="ProgressBar" parent="HUD/TopBar"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="HUD/TopBar/GoddessHPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "女神神聖結界: 25000 / 25000 (100%)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MapNameLabel" type="Label" parent="HUD/TopBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "【主城】楓葉草原 & 女神要塞"
+horizontal_alignment = 1
+
+[node name="RadarContainer" type="PanelContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 170.0
+grow_horizontal = 0
+
+[node name="AdvancedRadarMap" type="Control" parent="HUD/RadarContainer"]
+layout_mode = 2
+script = ExtResource("2_radar")
+
+[node name="BroadcastLabel" type="Label" parent="HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -180.0
+offset_right = 400.0
+offset_bottom = -130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 26
+text = "冒險開始！按 ESC/F1 暫停 | 按 F2 開始進攻！"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChatContainer" type="VBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -240.0
+offset_right = 360.0
+offset_bottom = -105.0
+grow_vertical = 0
+mouse_filter = 0
+
+[node name="ChatLog" type="RichTextLabel" parent="HUD/ChatContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+
+[node name="ChatInput" type="LineEdit" parent="HUD/ChatContainer"]
+layout_mode = 2
+placeholder_text = "按 Enter 鍵輸入發送隊伍訊息..."
+
+[node name="BottomBar" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -95.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="HUD/BottomBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 8.0
+offset_right = -20.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="StatsBox" type="VBoxContainer" parent="HUD/BottomBar/HBox"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="HUD/BottomBar/HBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "Lv. 1 【劍士】"
+
+[node name="HPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="HUD/BottomBar/HBox/StatsBox/HPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 11
+text = "HP: 750 / 750"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="HUD/BottomBar/HBox/StatsBox/MPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 11
+text = "MP: 120 / 120"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EXPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="HUD/BottomBar/HBox/StatsBox/EXPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 10
+text = "EXP: 0 / 100 (0.0%)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MesoLabel" type="Label" parent="HUD/BottomBar/HBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 12
+text = "楓幣: 0"
+
+[node name="ControlsGuide" type="Label" parent="HUD/BottomBar/HBox"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "【操作指南】
+方向鍵 / A D: 移動 | 空白鍵: 跳躍 (二段跳) | 下+跳: 下跳
+X / Ctrl: 普攻 | Z: 一轉技 | C: 二轉技 | V: 終極奧義
+ESC / F1: 遊戲暫停 | F2: 開始防守波次 | N: 多人組隊 | J: 轉職選單
+E: 捕捉寵物 | R: 召喚寵物 | M: 10大野圖傳送 | P: 寵物背包"
+
+[node name="PauseModal" type="Panel" parent="."]
+process_mode = 2
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -180.0
+offset_right = 220.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="PauseModal"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "⏸ 遊戲已暫停 (PAUSED)"
+horizontal_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="PauseModal"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -60.0
+offset_right = 140.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="ResumeButton" type="Button" parent="PauseModal/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "▶ 繼續遊戲 (Resume)"
+
+[node name="JobButton" type="Button" parent="PauseModal/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "★ 切換 / 選擇職業 (J)"
+
+[node name="LobbyButton" type="Button" parent="PauseModal/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "🌐 多人連線組隊大廳 (N)"
+
+[node name="RestartButton" type="Button" parent="PauseModal/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "🔄 重新開始本局"
+
+[node name="NetworkModal" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -220.0
+offset_right = 320.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="NetworkModal"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 12.0
+offset_right = 200.0
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+text = "★ 多人連線組隊大廳 (按 N 關閉) ★"
+horizontal_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="NetworkModal"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -165.0
+offset_right = 280.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="建立房間" type="TabBar" parent="NetworkModal/TabContainer"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="NetworkModal/TabContainer/建立房間"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 15.0
+offset_right = -20.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="NameInput" type="LineEdit" parent="NetworkModal/TabContainer/建立房間/VBox"]
+layout_mode = 2
+placeholder_text = "輸入您的角色暱稱 (預設: 房主勇者)"
+text = "房主勇者"
+
+[node name="PortInput" type="LineEdit" parent="NetworkModal/TabContainer/建立房間/VBox"]
+layout_mode = 2
+placeholder_text = "伺服器 Port (預設: 8910)"
+text = "8910"
+
+[node name="HostButton" type="Button" parent="NetworkModal/TabContainer/建立房間/VBox"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+text = "創建多人冒險伺服器 (Host Server)"
+
+[node name="加入房間" type="TabBar" parent="NetworkModal/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="NetworkModal/TabContainer/加入房間"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 15.0
+offset_right = -20.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="NameInput" type="LineEdit" parent="NetworkModal/TabContainer/加入房間/VBox"]
+layout_mode = 2
+placeholder_text = "輸入您的角色暱稱"
+text = "冒險夥伴"
+
+[node name="IPInput" type="LineEdit" parent="NetworkModal/TabContainer/加入房間/VBox"]
+layout_mode = 2
+placeholder_text = "房主 IP 位址 (本機測試輸入 127.0.0.1 或區域網路 IP)"
+text = "127.0.0.1"
+
+[node name="PortInput" type="LineEdit" parent="NetworkModal/TabContainer/加入房間/VBox"]
+layout_mode = 2
+placeholder_text = "連線 Port (預設: 8910)"
+text = "8910"
+
+[node name="JoinButton" type="Button" parent="NetworkModal/TabContainer/加入房間/VBox"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+text = "連線進入房主世界 (Join Room)"
+
+[node name="PartyStatus" type="VBoxContainer" parent="NetworkModal"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = -135.0
+offset_right = 280.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="StatusLabel" type="Label" parent="NetworkModal/PartyStatus"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "連線狀態: [單機離線模式]"
+
+[node name="MemberList" type="Label" parent="NetworkModal/PartyStatus"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "【當前房間在線隊員 (1 人)】
+• [單人] Lv.1 劍士 (您)"
+
+[node name="LeaveButton" type="Button" parent="NetworkModal/PartyStatus"]
+layout_mode = 2
+text = "斷開 / 離開房間"
+
+[node name="JobSelectModal" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -580.0
+offset_top = -240.0
+offset_right = 580.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="JobSelectModal"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 15.0
+offset_right = 250.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = "★ 經典楓之谷 五大職業選擇 ★"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="JobSelectModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 60.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JobCards" type="HBoxContainer" parent="JobSelectModal/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="BuffSelectionModal" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -220.0
+offset_right = 450.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="BuffSelectionModal"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "★ 升級祝福 三選一 ★"
+horizontal_alignment = 1
+
+[node name="CardContainer" type="HBoxContainer" parent="BuffSelectionModal"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -120.0
+offset_right = 390.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PetBagModal" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="PetBagModal"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 15.0
+offset_right = 150.0
+offset_bottom = 45.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "【寵物收服背包】(按 P 關閉)"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PetBagModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 55.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PetList" type="VBoxContainer" parent="PetBagModal/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="MapSelectModal" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -240.0
+offset_right = 420.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="MapSelectModal"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 15.0
+offset_right = 200.0
+offset_bottom = 45.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "【楓之谷 世界地圖傳送】(按 M 關閉)"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MapSelectModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 55.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MapGrid" type="GridContainer" parent="MapSelectModal/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="GameOverModal" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -160.0
+offset_right = 300.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="GameOverModal"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 40.0
+offset_right = 250.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 24
+text = "守護結束"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOverModal"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -70.0
+offset_right = 100.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "重新開始守護"
+
+[connection signal="pressed" from="HUD/TopBar/StartWaveButton" to="." method="_on_start_wave_button_pressed"]
+[connection signal="pressed" from="PauseModal/VBox/ResumeButton" to="." method="resume_game"]
+[connection signal="pressed" from="PauseModal/VBox/JobButton" to="." method="open_job_selection"]
+[connection signal="pressed" from="PauseModal/VBox/LobbyButton" to="." method="network_modal.show"]
+[connection signal="pressed" from="PauseModal/VBox/RestartButton" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="NetworkModal/TabContainer/建立房間/VBox/HostButton" to="." method="_on_host_room_pressed"]
+[connection signal="pressed" from="NetworkModal/TabContainer/加入房間/VBox/JoinButton" to="." method="_on_join_room_pressed"]
+[connection signal="pressed" from="NetworkModal/PartyStatus/LeaveButton" to="." method="_on_leave_room_pressed"]
+[connection signal="pressed" from="GameOverModal/RestartButton" to="." method="_on_restart_pressed"]

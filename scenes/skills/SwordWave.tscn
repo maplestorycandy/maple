@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://swdwv123"]
+
+[ext_resource type="Script" path="res://scripts/SwordWave.gd" id="1_swd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_swd"]
+radius = 28.0
+
+[node name="SwordWave" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_swd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_swd")

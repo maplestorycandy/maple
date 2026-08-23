@@ -1,0 +1,14 @@
+# Godot 4 & Engine Binaries
+.godot/
+*.translation
+*.exe
+*.zip
+*.log
+
+# Ignore local builds (will be built via GitHub Actions)
+build/
+dist/
+
+# OS specific files
+.DS_Store
+Thumbs.db

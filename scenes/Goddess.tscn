@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://gdsscn123"]
+
+[ext_resource type="Script" path="res://scripts/Goddess.gd" id="1_gds"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gds"]
+radius = 32.0
+height = 90.0
+
+[node name="Goddess" type="Area2D" groups=["goddess"]]
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("1_gds")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -45)
+shape = SubResource("CapsuleShape2D_gds")
