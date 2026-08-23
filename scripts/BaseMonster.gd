@@ -1,6 +1,7 @@
 # BaseMonster.gd
 extends CharacterBody2D
 
+@export var net_id: int = 0
 @export var monster_id: int = 1
 @export var monster_name: String = "綠水靈"
 @export var monster_type: String = "Slime"
@@ -19,6 +20,10 @@ var is_wave_attacker: bool = false
 var is_boss: bool = false
 var facing_direction: int = 1
 
+# Network interpolation variables
+var target_net_pos: Vector2 = Vector2.ZERO
+var target_net_vel: Vector2 = Vector2.ZERO
+
 # AI Timers & State
 var ai_timer: float = 0.0
 var jump_cooldown: float = 1.5
@@ -32,9 +37,13 @@ var hurt_flash: float = 0.0
 
 func _ready():
 	add_to_group("enemies")
+	target_net_pos = global_position
+	if net_id != 0 and not NetworkManager.monsters.has(net_id):
+		NetworkManager.monsters[net_id] = self
 	setup_visuals()
 
 func setup(data: Dictionary, target_pos: Vector2 = Vector2.ZERO):
+	monster_id = data.get("id", 1)
 	monster_name = data.get("name", "Monster")
 	monster_type = data.get("type", "Slime")
 	max_hp = data.get("hp", 100)
@@ -61,57 +70,70 @@ func setup_visuals():
 	scale = Vector2(body_scale, body_scale)
 	queue_redraw()
 
+func is_client_puppet() -> bool:
+	return NetworkManager.is_multiplayer_active and not NetworkManager.is_host
+
+func network_sync_position(pos: Vector2, vel: Vector2, cur_hp: int, facing: int):
+	target_net_pos = pos
+	target_net_vel = vel
+	hp = cur_hp
+	facing_direction = facing
+	queue_redraw()
+
 func _physics_process(delta):
 	anim_frame += delta * 6.0
 	if hurt_flash > 0.0:
 		hurt_flash -= delta * 5.0
+		queue_redraw()
 	
+	# If this is a Client in multiplayer, interpolate from Host's state
+	if is_client_puppet():
+		global_position = global_position.lerp(target_net_pos, 0.4)
+		velocity = target_net_vel
+		return
+		
+	# --- HOST / SINGLE PLAYER AUTHORITATIVE AI ---
 	if not is_on_floor() and not (monster_type == "Fly" or monster_type == "Ghost" or monster_type == "Void"):
 		velocity.y += 980.0 * delta
 	
 	# Determine navigation goal
 	var goal_pos = target_position
 	if not is_wave_attacker:
-		# Wild monster: check for nearby player
 		var player = get_tree().get_first_node_in_group("player")
 		if is_instance_valid(player) and global_position.distance_to(player.global_position) < 350.0:
 			goal_pos = player.global_position
 		else:
-			goal_pos = global_position # idle/patrol
-			
-	handle_ai_behavior(delta, goal_pos)
-	move_and_slide()
-	queue_redraw()
+			goal_pos = global_position
 	
-	# Attack target in melee range
+	ai_timer += delta
 	attack_timer += delta
+	boss_skill_timer += delta
+	
+	update_monster_ai(delta, goal_pos)
+	move_and_slide()
+	
 	if attack_timer >= attack_cooldown:
 		check_melee_attack()
 
-func handle_ai_behavior(delta: float, goal: Vector2):
-	ai_timer += delta
-	boss_skill_timer += delta
-	
-	var dir_x = 0.0
-	if goal != global_position:
-		dir_x = sign(goal.x - global_position.x)
-		if dir_x != 0:
-			facing_direction = int(dir_x)
-			
+func update_monster_ai(_delta: float, goal: Vector2):
+	var dir_x = sign(goal.x - global_position.x)
+	if dir_x != 0:
+		facing_direction = int(dir_x)
+		
 	match ai_type:
-		"hop":
-			if is_on_floor() and ai_timer >= jump_cooldown:
-				ai_timer = 0.0
-				velocity.y = -350.0
-				velocity.x = dir_x * speed * 1.5
-			elif is_on_floor():
-				velocity.x = move_toward(velocity.x, 0, speed * 2.0 * delta)
-				
+		"hop", "jump_charge":
+			if is_on_floor():
+				if ai_timer >= jump_cooldown:
+					ai_timer = 0.0
+					velocity.x = dir_x * speed * 1.5
+					velocity.y = -350.0
+				else:
+					velocity.x = move_toward(velocity.x, 0, speed * 2.0)
+					
 		"crawl", "patrol":
 			if is_wave_attacker:
 				velocity.x = dir_x * speed
 			else:
-				# Wild mob wandering
 				if int(ai_timer) % 4 < 2:
 					velocity.x = facing_direction * speed * 0.5
 				else:
@@ -152,13 +174,11 @@ func handle_ai_behavior(delta: float, goal: Vector2):
 				cast_boss_ultimate()
 
 func check_melee_attack():
-	# Check collision with Player
 	var player = get_tree().get_first_node_in_group("player")
 	if is_instance_valid(player) and global_position.distance_to(player.global_position) < (45.0 * body_scale):
 		attack_timer = 0.0
 		Global.damage_player(atk)
 		
-	# Check collision with Goddess
 	var goddess = get_tree().get_first_node_in_group("goddess")
 	if is_instance_valid(goddess) and global_position.distance_to(goddess.global_position) < (60.0 * body_scale):
 		attack_timer = 0.0
@@ -170,13 +190,11 @@ func cast_ground_quake():
 		Global.damage_player(int(atk * 1.3))
 
 func shoot_magic_orb(target: Vector2):
-	# Spawn simple projectile
 	var bullet_dir = (target - global_position).normalized()
 	var slash = load("res://scenes/skills/SwordWave.tscn").instantiate()
 	slash.global_position = global_position
 	slash.target_direction = bullet_dir
 	slash.damage = int(atk * 1.2)
-	# Modulate bullet to enemy color
 	slash.modulate = Color(1.0, 0.2, 0.2)
 	get_parent().add_child(slash)
 
@@ -188,7 +206,18 @@ func cast_boss_ultimate():
 		if dist < 400.0:
 			Global.damage_player(int(atk * 1.8))
 
+# Networked Damage Entrypoint
 func take_damage_custom(amount: int, is_crit: bool = false, hit_index: int = 0):
+	if NetworkManager.is_multiplayer_active:
+		NetworkManager.request_damage_on_monster(net_id, amount, is_crit, hit_index)
+	else:
+		take_damage_authoritative(amount, is_crit, hit_index)
+
+func take_damage(amount: int, is_crit: bool = false):
+	take_damage_custom(amount, is_crit, 0)
+
+# Authoritative damage execution on Host / Single Player
+func take_damage_authoritative(amount: int, is_crit: bool = false, hit_index: int = 0):
 	hp -= amount
 	hurt_flash = 1.0
 	spawn_damage_text(amount, is_crit, hit_index)
@@ -197,11 +226,14 @@ func take_damage_custom(amount: int, is_crit: bool = false, hit_index: int = 0):
 		var v_heal = int(amount * 0.15)
 		Global.heal_player(v_heal)
 	
+	if NetworkManager.is_multiplayer_active and NetworkManager.is_host:
+		NetworkManager.rpc("broadcast_mob_hit", net_id, amount, is_crit, hit_index, hp)
+		
 	if hp <= 0:
-		die()
-
-func take_damage(amount: int, is_crit: bool = false):
-	take_damage_custom(amount, is_crit, 0)
+		if NetworkManager.is_multiplayer_active and NetworkManager.is_host:
+			NetworkManager.rpc("broadcast_mob_death", net_id, exp_reward, meso_reward)
+		else:
+			die_synchronized(exp_reward, meso_reward)
 
 func spawn_damage_text(amount: int, is_crit: bool, hit_index: int = 0):
 	var dmg_scene = load("res://scenes/skills/DamageNumber.tscn")
@@ -211,13 +243,15 @@ func spawn_damage_text(amount: int, is_crit: bool, hit_index: int = 0):
 		num.setup(amount, is_crit, false, false, hit_index)
 		get_tree().current_scene.add_child.call_deferred(num)
 
-func die():
-	Global.add_exp(exp_reward)
-	Global.meso_gold += meso_reward
+func die_synchronized(exp_amt: int, meso_amt: int):
+	Global.add_exp(exp_amt)
+	Global.meso_gold += meso_amt
 	queue_free()
 
+func die():
+	die_synchronized(exp_reward, meso_reward)
+
 func on_captured():
-	# Cleanly freed upon capture
 	queue_free()
 
 func get_capture_data() -> Dictionary:
@@ -234,105 +268,108 @@ func get_capture_data() -> Dictionary:
 		"level": 1
 	}
 
+# Procedural Drawing of 10 MapleStory Archetypes
 func _draw():
-	var draw_col = body_color
+	var col = body_color
 	if hurt_flash > 0.0:
-		draw_col = draw_col.lerp(Color.WHITE, hurt_flash)
+		col = Color(1.0, 0.4, 0.4)
 		
 	var bounce = sin(anim_frame) * 3.0
+	var f = facing_direction
 	
-	# 1. BOSS Glowing Aura
-	if is_boss:
-		draw_circle(Vector2.ZERO, 36.0, Color(0.8, 0.2, 0.9, 0.25 + 0.15 * sin(anim_frame)))
-		draw_arc(Vector2.ZERO, 38.0, 0, TAU, 24, Color(1.0, 0.4, 0.1, 0.6), 3.0)
-	
-	# 2. Draw procedural body by monster type
 	match monster_type:
 		"Slime":
-			# Jelly droplet
-			draw_circle(Vector2(0, -14 + bounce), 16.0, draw_col)
-			draw_circle(Vector2(0, -8), 18.0, draw_col)
-			# Eyes
-			draw_circle(Vector2(-5 * facing_direction, -15 + bounce), 3.0, Color.BLACK)
-			draw_circle(Vector2(5 * facing_direction, -15 + bounce), 3.0, Color.BLACK)
-			draw_circle(Vector2(-4 * facing_direction, -16 + bounce), 1.0, Color.WHITE)
-			draw_circle(Vector2(6 * facing_direction, -16 + bounce), 1.0, Color.WHITE)
-			# Rosy cheeks
-			draw_circle(Vector2(-9 * facing_direction, -10 + bounce), 2.5, Color(1.0, 0.4, 0.6, 0.6))
-			draw_circle(Vector2(9 * facing_direction, -10 + bounce), 2.5, Color(1.0, 0.4, 0.6, 0.6))
+			draw_circle(Vector2(0, -14 + bounce), 14, col)
+			draw_circle(Vector2(0, -18 + bounce), 4, Color(1, 1, 0.3, 0.8))
+			draw_circle(Vector2(4 * f, -15 + bounce), 3, Color.BLACK)
+			draw_circle(Vector2(4 * f + 1, -16 + bounce), 1.2, Color.WHITE)
 			
 		"Snail":
-			# Snail Shell
-			draw_circle(Vector2(-6 * facing_direction, -16), 14.0, draw_col)
-			draw_arc(Vector2(-6 * facing_direction, -16), 8.0, 0, TAU, 12, Color(0.1, 0.1, 0.2), 2.0)
-			# Body & eyestalks
-			draw_circle(Vector2(8 * facing_direction, -8), 8.0, Color(0.95, 0.9, 0.7))
-			draw_circle(Vector2(12 * facing_direction, -18 + bounce), 3.0, Color.WHITE)
-			draw_circle(Vector2(12 * facing_direction, -18 + bounce), 1.5, Color.BLACK)
+			draw_circle(Vector2(0, -12), 12, col.darkened(0.2))
+			draw_circle(Vector2(0, -12), 8, col.lightened(0.3))
+			draw_circle(Vector2(9 * f, -8), 7, col)
+			draw_circle(Vector2(11 * f, -10), 2.5, Color.BLACK)
 			
 		"Mushroom":
-			# Stem
-			draw_circle(Vector2(0, -10), 12.0, Color(0.95, 0.92, 0.8))
-			# Mushroom Cap
-			draw_circle(Vector2(0, -22 + bounce), 18.0, draw_col)
-			# Spots
-			draw_circle(Vector2(-7, -24 + bounce), 3.5, Color.WHITE)
-			draw_circle(Vector2(7, -24 + bounce), 3.5, Color.WHITE)
-			# Face
-			draw_circle(Vector2(-4 * facing_direction, -10), 2.0, Color.BLACK)
-			draw_circle(Vector2(4 * facing_direction, -10), 2.0, Color.BLACK)
+			draw_circle(Vector2(0, -6), 8, Color(1.0, 0.95, 0.8))
+			draw_arc(Vector2(0, -14), 16, PI, 2 * PI, 16, col, 14.0)
+			draw_circle(Vector2(3 * f, -6), 2, Color.BLACK)
+			draw_circle(Vector2(-6, -18), 3, Color.WHITE)
+			draw_circle(Vector2(6, -18), 3, Color.WHITE)
 			
-		"Beast", "Centaur", "TempleBeast":
-			# Beast body & head
-			draw_circle(Vector2(0, -14), 16.0, draw_col)
-			draw_circle(Vector2(10 * facing_direction, -20 + bounce), 12.0, draw_col)
-			# Ears & Snout
-			draw_circle(Vector2(6 * facing_direction, -30 + bounce), 5.0, draw_col.darkened(0.2))
-			draw_circle(Vector2(16 * facing_direction, -18 + bounce), 5.0, Color(1.0, 0.6, 0.7))
+		"Beast":
+			draw_rect(Rect2(-16, -20 + bounce, 32, 20), col, true)
+			draw_circle(Vector2(12 * f, -16 + bounce), 9, col.lightened(0.1))
+			draw_circle(Vector2(15 * f, -18 + bounce), 2.5, Color.BLACK)
+			draw_colored_polygon(PackedVector2Array([
+				Vector2(10 * f, -24 + bounce),
+				Vector2(15 * f, -32 + bounce),
+				Vector2(18 * f, -22 + bounce)
+			]), col.darkened(0.3))
 			
-		"Golem", "Mud":
-			# Rocky rugged body
-			draw_circle(Vector2(0, -18), 22.0, draw_col)
-			draw_circle(Vector2(0, -32 + bounce), 12.0, draw_col.darkened(0.15))
-			# Glowing rune eyes
-			draw_circle(Vector2(-4 * facing_direction, -32 + bounce), 3.0, Color(0.2, 1.0, 0.8))
-			draw_circle(Vector2(4 * facing_direction, -32 + bounce), 3.0, Color(0.2, 1.0, 0.8))
+		"Golem":
+			draw_rect(Rect2(-20, -35, 40, 35), col, true)
+			draw_circle(Vector2(-8, -26), 4, Color.ORANGE_RED)
+			draw_circle(Vector2(8, -26), 4, Color.ORANGE_RED)
+			draw_rect(Rect2(-26, -28, 10, 20), col.darkened(0.2), true)
+			draw_rect(Rect2(16, -28, 10, 20), col.darkened(0.2), true)
 			
-		"Fly", "Dragon", "Demon", "UndeadDragon":
-			# Floating demonic / winged body
-			draw_circle(Vector2(0, -16 + bounce), 14.0, draw_col)
-			# Wings
-			var wing_flap = sin(anim_frame * 2.0) * 10.0
-			draw_line(Vector2(-6, -20 + bounce), Vector2(-22, -32 + wing_flap), draw_col.lightened(0.3), 5.0)
-			draw_line(Vector2(6, -20 + bounce), Vector2(22, -32 + wing_flap), draw_col.lightened(0.3), 5.0)
-			# Horns
-			draw_line(Vector2(-4, -26 + bounce), Vector2(-10, -38 + bounce), Color(0.2, 0.1, 0.1), 3.0)
-			draw_line(Vector2(4, -26 + bounce), Vector2(10, -38 + bounce), Color(0.2, 0.1, 0.1), 3.0)
+		"Dragon", "Demon":
+			draw_colored_polygon(PackedVector2Array([
+				Vector2(0, -35 + bounce),
+				Vector2(-20, -10 + bounce),
+				Vector2(0, 0 + bounce),
+				Vector2(20, -10 + bounce)
+			]), col)
+			draw_colored_polygon(PackedVector2Array([
+				Vector2(-10, -20 + bounce),
+				Vector2(-35 * f, -35 + bounce),
+				Vector2(-25 * f, -10 + bounce)
+			]), col.darkened(0.4))
+			draw_circle(Vector2(8 * f, -22 + bounce), 4, Color.YELLOW)
 			
-		"Ghost", "ToyGhost", "Void":
-			# Translucent spectral body
-			draw_circle(Vector2(0, -16 + bounce), 15.0, Color(draw_col.r, draw_col.g, draw_col.b, 0.75))
-			draw_circle(Vector2(0, -8 + bounce * 1.5), 10.0, Color(draw_col.r, draw_col.g, draw_col.b, 0.4))
-			# Ghostly hollow eyes
-			draw_circle(Vector2(-4 * facing_direction, -18 + bounce), 3.5, Color.BLACK)
-			draw_circle(Vector2(4 * facing_direction, -18 + bounce), 3.5, Color.BLACK)
+		"Ghost":
+			draw_circle(Vector2(0, -18 + bounce), 14, col)
+			draw_colored_polygon(PackedVector2Array([
+				Vector2(-14, -18 + bounce),
+				Vector2(14, -18 + bounce),
+				Vector2(10, 0 + bounce),
+				Vector2(0, -6 + bounce),
+				Vector2(-10, 0 + bounce)
+			]), col)
+			draw_circle(Vector2(4 * f, -18 + bounce), 3.5, Color.RED)
 			
-		_:
-			# Default standard monster appearance
-			draw_circle(Vector2(0, -15 + bounce), 16.0, draw_col)
-			draw_circle(Vector2(0, -28 + bounce), 10.0, draw_col.lightened(0.2))
-			draw_circle(Vector2(-4 * facing_direction, -28 + bounce), 2.5, Color.BLACK)
-			draw_circle(Vector2(4 * facing_direction, -28 + bounce), 2.5, Color.BLACK)
-
-	# 3. Health Bar over head
-	var hp_ratio = clamp(float(hp) / float(max_hp), 0.0, 1.0)
-	var bar_w = 32.0
-	var bar_h = 4.0
-	var bar_y = -38.0 + bounce
-	if is_boss:
-		bar_w = 50.0
-		bar_h = 6.0
-		bar_y = -46.0 + bounce
-		
-	draw_rect(Rect2(-bar_w/2, bar_y, bar_w, bar_h), Color(0.1, 0.1, 0.1, 0.8))
-	draw_rect(Rect2(-bar_w/2, bar_y, bar_w * hp_ratio, bar_h), Color(1.0, 0.2, 0.2, 0.9))
+		"Aqua":
+			draw_circle(Vector2(0, -12 + bounce), 12, col)
+			draw_colored_polygon(PackedVector2Array([
+				Vector2(-10 * f, -12 + bounce),
+				Vector2(-20 * f, -20 + bounce),
+				Vector2(-20 * f, -4 + bounce)
+			]), col.lightened(0.3))
+			draw_circle(Vector2(5 * f, -14 + bounce), 3, Color.BLACK)
+			
+		"Toy":
+			draw_rect(Rect2(-12, -24, 24, 24), col, true)
+			draw_rect(Rect2(-6, -34, 12, 10), Color(0.9, 0.8, 0.3), true)
+			draw_circle(Vector2(4 * f, -20), 2.5, Color.BLACK)
+			draw_circle(Vector2(0, -36), 3, Color.RED)
+			
+		_: # Bosses / Temple
+			draw_circle(Vector2(0, -28 + bounce), 26, col)
+			draw_arc(Vector2(0, -28 + bounce), 32, 0, TAU, 24, Color.GOLD, 3.0)
+			draw_circle(Vector2(-8 * f, -32 + bounce), 5, Color.CYAN)
+			draw_circle(Vector2(8 * f, -32 + bounce), 5, Color.CYAN)
+			draw_colored_polygon(PackedVector2Array([
+				Vector2(-12, -54 + bounce),
+				Vector2(0, -66 + bounce),
+				Vector2(12, -54 + bounce)
+			]), Color.GOLD)
+			
+	# Overhead Monster HP Bar
+	if hp < max_hp or is_boss:
+		var bar_w = 40.0 * body_scale
+		var bar_y = -35.0 - (10.0 * body_scale)
+		draw_rect(Rect2(-bar_w / 2, bar_y, bar_w, 4), Color(0.1, 0.1, 0.1, 0.8), true)
+		var fill_w = clamp(float(hp) / float(max_hp), 0.0, 1.0) * bar_w
+		var hp_col = Color.RED if hp < max_hp * 0.3 else (Color.GOLD if is_boss else Color.GREEN)
+		draw_rect(Rect2(-bar_w / 2, bar_y, fill_w, 4), hp_col, true)

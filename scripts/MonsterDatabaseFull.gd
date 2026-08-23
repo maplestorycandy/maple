@@ -135,6 +135,13 @@ static func get_wave_data(wave: int) -> Dictionary:
 		result["boss_id"] = clampi(boss_index, 10, 100)
 	return result
 
+static func get_monster(id: int) -> Dictionary:
+	if FULL_DATABASE.has(id):
+		var data = FULL_DATABASE[id].duplicate()
+		data["id"] = id
+		return data
+	return {"id": id, "name": "Monster", "type": "Slime", "hp": 100, "atk": 10, "speed": 50, "ai": "patrol", "scale": 1.0, "color": Color.GREEN, "exp": 20, "meso": 15}
+
 static func get_biome_monsters(biome_idx: int) -> Array:
 	var start_id = (biome_idx - 1) * 10 + 1
 	var end_id = biome_idx * 10

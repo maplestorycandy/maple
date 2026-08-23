@@ -12,7 +12,6 @@ var auto_next_wave: bool = true
 
 func _ready():
 	Global.wave_changed.connect(_on_global_wave_changed)
-	# Do not auto start wave 1 immediately, let players prepare & wait for multiplayer friends!
 	Global.broadcast_message("【準備階段】請先選擇職業或按 N 等待好友加入！按【F2】開始進攻防守！", Color(0.2, 0.9, 1.0))
 
 func _process(_delta):
@@ -52,6 +51,10 @@ func start_wave(wave_num: int):
 	else:
 		Global.broadcast_message(">>> 第 %d / 50 波 怪物大軍由城外湧出！ <<<" % current_wave, Color(1.0, 0.7, 0.2))
 		
+	# If in multiplayer and NOT host, do not spawn local duplicate enemies! Host will sync them!
+	if NetworkManager.is_multiplayer_active and not NetworkManager.is_host:
+		return
+		
 	var wave_info = MonsterDatabaseFull.get_wave_data(current_wave)
 	is_spawning = true
 	
@@ -73,31 +76,22 @@ func spawn_enemy(monster_id: int, is_boss: bool):
 	if not MonsterDatabaseFull.FULL_DATABASE.has(monster_id):
 		return
 		
-	var data = MonsterDatabaseFull.FULL_DATABASE[monster_id]
-	var mob_scene = load("res://scenes/monsters/BaseMonster.tscn")
-	if not mob_scene:
-		return
-		
-	var mob = mob_scene.instantiate()
 	var spawn_pos = Vector2(1450, 360) # Outer Gate Default
 	if is_instance_valid(outer_gate_spawn_point):
 		spawn_pos = outer_gate_spawn_point.global_position
 		
 	var offset = Vector2(randf_range(-30, 30), randf_range(-10, 10))
-	mob.global_position = spawn_pos + offset
-	
 	var target_goddess_pos = Vector2.ZERO
 	if is_instance_valid(goddess_node):
 		target_goddess_pos = goddess_node.global_position
 		
-	mob.setup(data, target_goddess_pos)
-	mob.add_to_group("wave_attackers")
-	if is_boss:
-		mob.add_to_group("bosses")
-		
-	mob.tree_exited.connect(_on_monster_defeated)
-	active_wave_monsters += 1
-	get_parent().add_child.call_deferred(mob)
+	var mob = NetworkManager.spawn_network_monster(monster_id, spawn_pos + offset, target_goddess_pos, is_boss)
+	if is_instance_valid(mob):
+		mob.add_to_group("wave_attackers")
+		if is_boss:
+			mob.add_to_group("bosses")
+		mob.tree_exited.connect(_on_monster_defeated)
+		active_wave_monsters += 1
 
 func _on_monster_defeated():
 	active_wave_monsters = max(0, active_wave_monsters - 1)

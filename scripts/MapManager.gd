@@ -57,6 +57,9 @@ func load_map(map_id: String):
 	queue_redraw()
 
 func spawn_wild_monster():
+	if NetworkManager.is_multiplayer_active and not NetworkManager.is_host:
+		return # Clients receive synced wild mobs from Host
+		
 	if not MapDatabase.MAPS.has(current_map_id):
 		return
 	var map_info = MapDatabase.MAPS[current_map_id]
@@ -68,20 +71,14 @@ func spawn_wild_monster():
 	if not MonsterDatabaseFull.FULL_DATABASE.has(chosen_id):
 		return
 		
-	var data = MonsterDatabaseFull.FULL_DATABASE[chosen_id]
-	var mob = load("res://scenes/monsters/BaseMonster.tscn").instantiate()
-	
-	# Random spawn location on platforms
 	var spawn_x = randf_range(-1200, 1200)
 	var spawn_y = randf_range(200, 350)
 	if randf() < 0.4:
-		spawn_y = randf_range(0, 150) # on elevated platforms
+		spawn_y = randf_range(0, 150)
 		
-	mob.global_position = Vector2(spawn_x, spawn_y)
-	mob.setup(data, Vector2.ZERO) # Wild mob: no direct goddess target
-	
-	active_wild_monsters.append(mob)
-	get_parent().add_child.call_deferred(mob)
+	var mob = NetworkManager.spawn_network_monster(chosen_id, Vector2(spawn_x, spawn_y), Vector2.ZERO, false)
+	if is_instance_valid(mob):
+		active_wild_monsters.append(mob)
 
 func _draw():
 	if not MapDatabase.MAPS.has(current_map_id):
