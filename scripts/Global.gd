@@ -75,9 +75,14 @@ func _ready():
 	set_player_job("warrior")
 
 func setup_chinese_font():
-	var font = FontFile.new()
-	var err = font.load_dynamic_font("res://assets/fonts/NotoSansTC.ttf")
-	if err == OK:
+	var font_path = "res://assets/fonts/NotoSansTC-Regular.otf"
+	if not FileAccess.file_exists(font_path):
+		font_path = "res://assets/fonts/NotoSansTC.ttf"
+		
+	var bytes = FileAccess.get_file_as_bytes(font_path)
+	if bytes.size() > 0:
+		var font = FontFile.new()
+		font.data = bytes
 		ThemeDB.fallback_font = font
 	
 	# Starter Companion: Snail
