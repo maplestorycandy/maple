@@ -43,6 +43,15 @@ extends CanvasLayer
 var broadcast_tween: Tween
 
 func _ready():
+	# Apply font to UI tree
+	var font = FontFile.new()
+	if font.load_dynamic_font("res://assets/fonts/NotoSansTC.ttf") == OK:
+		var theme = Theme.new()
+		theme.default_font = font
+		theme.default_font_size = 14
+		if $HUD:
+			$HUD.theme = theme
+	
 	# Connect global signals
 	Global.player_hp_changed.connect(update_player_hp)
 	Global.player_mp_changed.connect(update_player_mp)

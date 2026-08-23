@@ -68,7 +68,17 @@ var passive_buffs: Dictionary = {
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	# Load Chinese NotoSans font dynamically for Web & Desktop
+	setup_chinese_font()
+	
 	set_player_job("warrior")
+
+func setup_chinese_font():
+	var font = FontFile.new()
+	var err = font.load_dynamic_font("res://assets/fonts/NotoSansTC.ttf")
+	if err == OK:
+		ThemeDB.fallback_font = font
 	
 	# Starter Companion: Snail
 	add_pet_to_inventory({
