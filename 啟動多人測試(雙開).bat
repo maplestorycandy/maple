@@ -1,3 +1,4 @@
+@chcp 65001 >nul
 @echo off
 title 楓之谷經典版 - 多人連線雙開測試 (Host + Client)
 echo 正在啟動 [視窗 1: 房主 Host]...
