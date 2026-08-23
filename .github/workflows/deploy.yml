@@ -17,24 +17,34 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  export_and_deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.3
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Setup Web Directory
+      - name: Setup Godot 4.3 Engine & Export Templates
         run: |
-          mkdir -v -p build/web
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq wget unzip
+          
+          # Download Godot 4.3 Linux Headless Binary
+          wget -q https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q Godot_v4.3-stable_linux.x86_64.zip
+          sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+          sudo chmod +x /usr/local/bin/godot
 
-      - name: Export Godot Web Project
+          # Setup Official Export Templates
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          wget -q https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
+          unzip -q Godot_v4.3-stable_export_templates.tpz
+          mv templates/* ~/.local/share/godot/export_templates/4.3.stable/
+          rm -rf templates Godot_v4.3-stable_export_templates.tpz Godot_v4.3-stable_linux.x86_64.zip
+
+      - name: Export Web Project
         run: |
+          mkdir -p build/web
           godot -v --headless --export-release "Web" build/web/index.html
-
-      - name: Add Service Worker for COOP/COEP
-        run: |
           cp coi-serviceworker.js build/web/coi-serviceworker.js || true
 
       - name: Upload GitHub Pages Artifact
@@ -42,17 +52,6 @@ jobs:
         with:
           path: build/web
 
-      - name: Deploy to gh-pages branch (Branch Support)
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: build/web
-          branch: gh-pages
-
-  deploy_to_pages:
-    needs: export_and_deploy
-    runs-on: ubuntu-latest
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        continue-on-error: true
