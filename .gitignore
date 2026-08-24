@@ -8,6 +8,7 @@
 # Ignore local builds (will be built via GitHub Actions)
 build/
 dist/
+scratch/
 
 # OS specific files
 .DS_Store
