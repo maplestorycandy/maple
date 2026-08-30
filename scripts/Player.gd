@@ -442,8 +442,8 @@ func find_target_in_direction(max_range: float) -> Node2D:
 
 func apply_multi_hit_damage(target: Node2D, multiplier: float, hits: int):
 	var is_magic = (Global.player_job_id in ["magician", "mage"])
-	var mob_lvl = target.get("monster_level", 1) if "monster_level" in target else 1
-	var mob_avoid = target.get("monster_avoid", 0) if "monster_avoid" in target else 0
+	var mob_lvl = target.monster_level if "monster_level" in target else 1
+	var mob_avoid = target.monster_avoid if "monster_avoid" in target else 0
 	
 	for i in range(hits):
 		var timer = get_tree().create_timer(i * 0.07)
@@ -523,7 +523,10 @@ func _draw():
 		body_color = Color.WHITE
 		
 	# 1. Ground Contact Shadow
-	draw_ellipse(Vector2(0, 0), 14, 5, Color(0, 0, 0, 0.35))
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-14, 0), Vector2(-10, -3), Vector2(0, -4), Vector2(10, -3),
+		Vector2(14, 0), Vector2(10, 3), Vector2(0, 4), Vector2(-10, 3)
+	]), Color(0, 0, 0, 0.35))
 	
 	# 2. Legs / Shoes with Walking Cycle
 	var walk_cycle = sin(anim_frame) * 4.0 if (velocity.x != 0 and is_on_floor()) else 0.0
@@ -590,5 +593,5 @@ func _draw():
 	var font_size = 10
 	var text_size = font.get_string_size(name_str, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
 	var tag_rect = Rect2(-text_size.x / 2.0 - 4, -58, text_size.x + 8, 14)
-	draw_rect(tag_rect, Color(0.05, 0.05, 0.1, 0.75), true, 2)
+	draw_rect(tag_rect, Color(0.05, 0.05, 0.1, 0.75), true)
 	draw_string(font, Vector2(-text_size.x / 2.0, -47), name_str, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.YELLOW)

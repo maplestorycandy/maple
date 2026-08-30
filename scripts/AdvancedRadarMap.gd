@@ -66,7 +66,8 @@ func _draw():
 	if is_instance_valid(player):
 		var p_pos = world_to_radar(player.global_position)
 		draw_circle(p_pos, 4.0, Color(0.1, 1.0, 0.3, 1.0))
-		var facing_vec = Vector2(player.facing_direction * 7, 0)
+		var f_dir = player.facing_direction if "facing_direction" in player else 1
+		var facing_vec = Vector2(f_dir * 7, 0)
 		draw_line(p_pos, p_pos + facing_vec, Color(0.2, 1.0, 0.4), 2.0)
 
 func world_to_radar(w_pos: Vector2) -> Vector2:

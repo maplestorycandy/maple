@@ -116,54 +116,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopMenuBar" type="HBoxContainer" parent="HUD/TouchControls"]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 400.0
-offset_bottom = 50.0
-theme_override_constants/separation = 6
-
-[node name="BtnStats" type="Button" parent="HUD/TouchControls/TopMenuBar"]
-custom_minimum_size = Vector2(70, 36)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 1, 0.5, 1)
-text = "📊 屬性"
-
-[node name="BtnInventory" type="Button" parent="HUD/TouchControls/TopMenuBar"]
-custom_minimum_size = Vector2(70, 36)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
-text = "🎒 裝備"
-
-[node name="BtnLobby" type="Button" parent="HUD/TouchControls/TopMenuBar"]
-custom_minimum_size = Vector2(70, 36)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.9, 1, 1)
-text = "🌐 連線"
-
-[node name="BtnJob" type="Button" parent="HUD/TouchControls/TopMenuBar"]
-custom_minimum_size = Vector2(70, 36)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-text = "★ 轉職"
-
-[node name="BtnMap" type="Button" parent="HUD/TouchControls/TopMenuBar"]
-custom_minimum_size = Vector2(70, 36)
-layout_mode = 2
-text = "🗺️ 地圖"
-
-[node name="BtnBag" type="Button" parent="HUD/TouchControls/TopMenuBar"]
-custom_minimum_size = Vector2(70, 36)
-layout_mode = 2
-text = "🐾 寵物"
-
-[node name="BtnPause" type="Button" parent="HUD/TouchControls/TopMenuBar"]
-custom_minimum_size = Vector2(70, 36)
-layout_mode = 2
-text = "⏸ 暫停"
-
 [node name="LeftPad" type="Control" parent="HUD/TouchControls"]
 layout_mode = 1
 anchors_preset = 2
@@ -407,101 +359,10 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -88.0
+offset_top = -52.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-
-[node name="HBox" type="HBoxContainer" parent="HUD/BottomBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 6.0
-offset_right = -20.0
-offset_bottom = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 20
-
-[node name="StatsBox" type="VBoxContainer" parent="HUD/BottomBar/HBox"]
-custom_minimum_size = Vector2(360, 0)
-layout_mode = 2
-
-[node name="LevelLabel" type="Label" parent="HUD/BottomBar/HBox/StatsBox"]
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-text = "Lv. 1 【劍士】"
-
-[node name="HPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
-custom_minimum_size = Vector2(0, 14)
-layout_mode = 2
-value = 100.0
-show_percentage = false
-
-[node name="Label" type="Label" parent="HUD/BottomBar/HBox/StatsBox/HPBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 11
-text = "HP: 750 / 750"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
-custom_minimum_size = Vector2(0, 14)
-layout_mode = 2
-value = 100.0
-show_percentage = false
-
-[node name="Label" type="Label" parent="HUD/BottomBar/HBox/StatsBox/MPBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 11
-text = "MP: 120 / 120"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="EXPBar" type="ProgressBar" parent="HUD/BottomBar/HBox/StatsBox"]
-custom_minimum_size = Vector2(0, 12)
-layout_mode = 2
-show_percentage = false
-
-[node name="Label" type="Label" parent="HUD/BottomBar/HBox/StatsBox/EXPBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 10
-text = "EXP: 0 / 100 (0.0%)"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MesoLabel" type="Label" parent="HUD/BottomBar/HBox/StatsBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 11
-text = "楓幣: 0"
 
 [node name="PauseModal" type="Panel" parent="."]
 process_mode = 2

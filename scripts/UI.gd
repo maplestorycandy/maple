@@ -272,13 +272,13 @@ func toggle_modal(modal: Control):
 		elif modal == job_select_modal:
 			setup_job_selection_list()
 		elif modal == pet_bag_modal:
-			refresh_pet_bag_modal()
+			refresh_pet_bag()
 		elif modal == monster_book_modal:
 			refresh_monster_book_modal()
 		elif modal == item_book_modal:
 			refresh_item_book_modal()
 		elif modal == scroll_workshop_modal:
-			refresh_scroll_workshop_modal()
+			refresh_scroll_workshop()
 		elif modal == accuracy_modal:
 			refresh_accuracy_modal()
 		elif modal == weapon_attack_modal:
