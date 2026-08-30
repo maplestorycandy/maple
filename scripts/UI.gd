@@ -42,6 +42,9 @@ extends CanvasLayer
 # Dynamic AP Stat Modal & Inventory/Equip Modal
 var stat_modal: Control
 var inventory_modal: Control
+var skill_draft_modal: Control
+var keybinding_modal: Control
+var currently_rebinding_action: String = ""
 var current_inv_tab: String = "equip"
 
 var broadcast_tween: Tween
@@ -77,6 +80,8 @@ func _ready():
 	Global.pet_inventory_updated.connect(refresh_pet_bag)
 	Global.game_over_triggered.connect(show_game_over)
 	LevelBuffManager.buff_selection_requested.connect(show_buff_choices)
+	Global.skill_draft_requested.connect(show_skill_draft_modal)
+	Global.keybindings_changed.connect(refresh_keybinding_modal)
 	
 	# Chat Signals
 	if chat_input:
@@ -144,6 +149,14 @@ func setup_touch_controls():
 		if b_bag: b_bag.pressed.connect(func(): toggle_modal(pet_bag_modal))
 		var b_pause = top_nav.get_node_or_null("BtnPause")
 		if b_pause: b_pause.pressed.connect(toggle_pause)
+		
+		# Keybinding settings button in TopMenuBar
+		var b_keys = Button.new()
+		b_keys.text = "⌨️ 按鍵"
+		b_keys.add_theme_font_size_override("font_size", 12)
+		b_keys.modulate = Color(0.3, 0.9, 1.0)
+		b_keys.pressed.connect(show_keybinding_modal)
+		top_nav.add_child(b_keys)
 
 func bind_hold_button(btn: Button, action: String):
 	if not is_instance_valid(btn):

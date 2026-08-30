@@ -16,6 +16,9 @@ signal pet_unsummoned()
 signal message_broadcast(text: String, color: Color)
 signal game_over_triggered(is_victory: bool)
 signal map_change_requested(map_id: String)
+signal skill_draft_requested(cards: Array)
+signal keybindings_changed()
+signal active_skills_updated()
 
 # Job & Character Stats
 var player_job_id: String = "warrior"
@@ -53,6 +56,27 @@ var mastery: float = 0.60
 var base_crit_rate: float = 0.15
 var player_speed: float = 250.0
 var meso_gold: int = 500
+
+# Custom Keybinding System
+var custom_keybindings: Dictionary = {
+	"attack": KEY_Z,
+	"jump": KEY_SPACE,
+	"skill_1": KEY_X,
+	"skill_2": KEY_C,
+	"skill_3": KEY_V,
+	"skill_4": KEY_B,
+	"skill_5": KEY_N,
+	"skill_6": KEY_M,
+	"ultimate": KEY_F,
+	"tame_monster": KEY_E,
+	"summon_pet": KEY_R,
+	"potion_hp": KEY_1,
+	"potion_mp": KEY_2
+}
+
+var unlocked_skills: Array = ["basic", "skill_1", "skill_2", "skill_3"]
+var drafted_passives: Array = []
+
 var exp_rate_multiplier: float = 5.0 # 500% EXP Multiplier (5x)
 
 # Inventory System (3 Categories: Equip, Use, Etc)
@@ -545,6 +569,11 @@ func level_up():
 	emit_signal("player_mp_changed", player_mp, player_max_mp)
 	emit_signal("player_stats_changed")
 	broadcast_message("🎉 恭喜升級！Lv.%d！獲得 5 點能力值點數 (AP)！" % player_level, Color.GOLD)
+	# Every 5 levels, trigger 3-Choice Roguelike Skill Draft!
+	if player_level % 5 == 0:
+		var cards = generate_skill_draft_cards()
+		emit_signal("skill_draft_requested", cards)
+
 
 func damage_player(amount: int):
 	if is_game_over:

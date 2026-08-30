@@ -13,9 +13,17 @@ var flash_jump_available: bool = true
 var anim_frame: float = 0.0
 
 # Skill cooldowns
+
 var skill_1_cd: float = 0.0
 var skill_2_cd: float = 0.0
 var skill_3_cd: float = 0.0
+var skill_4_cd: float = 0.0
+var skill_5_cd: float = 0.0
+var skill_6_cd: float = 0.0
+var ultimate_cd: float = 0.0
+
+var passive_proc_timer: float = 0.0
+
 var net_sync_timer: float = 0.0
 
 # Down-jump mechanics
@@ -104,37 +112,8 @@ func handle_input(delta):
 			velocity.y = jump_velocity * 0.75
 			Global.broadcast_message("二段跳 Flash Jump!", Color(0.3, 0.9, 1.0))
 			
-	# Attacks & Skills
-	var skills = Global.player_job_data.get("skills", {})
-	
-	if Input.is_action_just_pressed("attack"):
-		perform_job_skill(skills.get("basic", {}), "basic")
-		
-	if Input.is_action_just_pressed("skill_1") and skill_1_cd <= 0:
-		var s1 = skills.get("skill_1", {})
-		if consume_mp(s1.get("mp", 0)):
-			skill_1_cd = s1.get("cd", 1.0) * (1.0 - Global.passive_buffs.get("cooldown_reduction", 0.0))
-			perform_job_skill(s1, "skill_1")
-			
-	if Input.is_action_just_pressed("skill_2") and skill_2_cd <= 0:
-		var s2 = skills.get("skill_2", {})
-		if consume_mp(s2.get("mp", 0)):
-			skill_2_cd = s2.get("cd", 1.5) * (1.0 - Global.passive_buffs.get("cooldown_reduction", 0.0))
-			perform_job_skill(s2, "skill_2")
-			
-	if Input.is_action_just_pressed("skill_3") and skill_3_cd <= 0:
-		var s3 = skills.get("skill_3", {})
-		if consume_mp(s3.get("mp", 0)):
-			skill_3_cd = s3.get("cd", 5.0) * (1.0 - Global.passive_buffs.get("cooldown_reduction", 0.0))
-			perform_job_skill(s3, "skill_3")
-			
-	# Tame Monster (E)
-	if Input.is_action_just_pressed("tame_monster"):
-		attempt_tame_nearby_monster()
-		
-	# Summon / Switch Pet (R)
-	if Input.is_action_just_pressed("summon_pet"):
-		toggle_pet_summon()
+	# Direct Custom Key Check in Input Handlers
+	handle_standard_input_actions()
 
 func consume_mp(amount: int) -> bool:
 	if amount <= 0:
@@ -461,3 +440,105 @@ func sync_skill_cast(skill_key: String):
 	var remote_node = get_parent().get_node_or_null("RemotePlayer_%d" % sender_id)
 	if is_instance_valid(remote_node):
 		remote_node.trigger_skill_visual(skill_key)
+
+
+func _unhandled_input(event: InputEvent):
+	if event is InputEventKey and event.pressed and not event.echo:
+		var code_val = event.physical_keycode if event.physical_keycode != 0 else event.keycode
+		for action in Global.custom_keybindings.keys():
+			if Global.custom_keybindings[action] == code_val:
+				trigger_custom_action(action)
+				get_viewport().set_input_as_handled()
+				break
+
+func handle_standard_input_actions():
+	if Input.is_action_just_pressed("attack"):
+		trigger_custom_action("attack")
+	if Input.is_action_just_pressed("skill_1"):
+		trigger_custom_action("skill_1")
+	if Input.is_action_just_pressed("skill_2"):
+		trigger_custom_action("skill_2")
+	if Input.is_action_just_pressed("skill_3"):
+		trigger_custom_action("skill_3")
+	if Input.is_action_just_pressed("tame_monster"):
+		trigger_custom_action("tame_monster")
+	if Input.is_action_just_pressed("summon_pet"):
+		trigger_custom_action("summon_pet")
+
+func trigger_custom_action(action_name: String):
+	var skills = Global.player_job_data.get("skills", {})
+	var cd_mult = (1.0 - Global.passive_buffs.get("cooldown_reduction", 0.0))
+	
+	match action_name:
+		"attack":
+			perform_job_skill(skills.get("basic", {}), "basic")
+		"skill_1":
+			if skill_1_cd <= 0:
+				var s = skills.get("skill_1", {})
+				if consume_mp(s.get("mp", 0)):
+					skill_1_cd = s.get("cd", 1.0) * cd_mult
+					perform_job_skill(s, "skill_1")
+		"skill_2":
+			if skill_2_cd <= 0:
+				var s = skills.get("skill_2", {})
+				if consume_mp(s.get("mp", 0)):
+					skill_2_cd = s.get("cd", 1.5) * cd_mult
+					perform_job_skill(s, "skill_2")
+		"skill_3":
+			if skill_3_cd <= 0:
+				var s = skills.get("skill_3", {})
+				if consume_mp(s.get("mp", 0)):
+					skill_3_cd = s.get("cd", 2.0) * cd_mult
+					perform_job_skill(s, "skill_3")
+		"skill_4":
+			if skill_4_cd <= 0 and ("skill_4" in Global.unlocked_skills or player_level >= 10):
+				var s = skills.get("skill_4", {})
+				if consume_mp(s.get("mp", 0)):
+					skill_4_cd = s.get("cd", 3.0) * cd_mult
+					perform_job_skill(s, "skill_4")
+		"skill_5":
+			if skill_5_cd <= 0 and ("skill_5" in Global.unlocked_skills or player_level >= 20):
+				var s = skills.get("skill_5", {})
+				if consume_mp(s.get("mp", 0)):
+					skill_5_cd = s.get("cd", 4.0) * cd_mult
+					perform_job_skill(s, "skill_5")
+		"skill_6":
+			if skill_6_cd <= 0 and ("skill_6" in Global.unlocked_skills or player_level >= 30):
+				var s = skills.get("skill_6", {})
+				if consume_mp(s.get("mp", 0)):
+					skill_6_cd = s.get("cd", 5.0) * cd_mult
+					perform_job_skill(s, "skill_6")
+		"ultimate":
+			if ultimate_cd <= 0 and ("ultimate" in Global.unlocked_skills or player_level >= 40):
+				var s = skills.get("ultimate", {})
+				if consume_mp(s.get("mp", 0)):
+					ultimate_cd = s.get("cd", 10.0) * cd_mult
+					perform_job_skill(s, "ultimate")
+		"potion_hp":
+			use_quick_potion("hp")
+		"potion_mp":
+			use_quick_potion("mp")
+		"tame_monster":
+			attempt_tame_nearby_monster()
+		"summon_pet":
+			toggle_pet_summon()
+
+func use_quick_potion(type: String):
+	for i in range(Global.use_inventory.size()):
+		var item = Global.use_inventory[i]
+		var iname = item.get("name", "")
+		if type == "hp" and ("紅" in iname or "白" in iname or "超級" in iname or "HP" in iname or "水" in iname):
+			Global.use_inventory_item(i)
+			return
+		elif type == "mp" and ("藍" in iname or "超級" in iname or "MP" in iname or "水" in iname):
+			Global.use_inventory_item(i)
+			return
+	Global.broadcast_message("無可用【%s】藥水！" % ("生命 HP" if type == "hp" else "魔力 MP"), Color.SALMON)
+
+func trigger_passive_procs():
+	if Global.passive_buffs.get("auto_lightning", false):
+		execute_screen_magic(5.0, 3)
+		Global.broadcast_message("⚡ 天神神罰天雷轟頂！", Color(0.4, 0.9, 1.0))
+	if Global.passive_buffs.get("auto_cannon", false):
+		execute_dragon_strike(4.0, 2)
+		Global.broadcast_message("💣 戰艦重砲全自動開火！", Color.GOLD)
