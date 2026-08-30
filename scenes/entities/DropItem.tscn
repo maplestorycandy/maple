@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://drpitm123"]
+
+[ext_resource type="Script" path="res://scripts/DropItem.gd" id="1_item"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_item"]
+radius = 12.0
+
+[node name="DropItem" type="CharacterBody2D" groups=["drop_items"]]
+collision_layer = 16
+collision_mask = 1
+script = ExtResource("1_item")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_item")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -32.0
+offset_right = 60.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "楓幣"
+horizontal_alignment = 1

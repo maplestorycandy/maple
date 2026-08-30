@@ -445,24 +445,86 @@ func refresh_pet_bag():
 		
 		pet_list_container.add_child(row)
 
-# Map Selection Fast Travel
+# Map Selection Fast Travel with full monster slots & drops
 func setup_map_selection_list():
 	if not map_list_container:
 		return
 	for child in map_list_container.get_children():
 		child.queue_free()
 		
-	for map_info in MapDatabase.get_map_list():
-		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(260, 80)
-		btn.text = "%s\n%s" % [map_info.name, map_info.description]
-		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var maps = MapDatabase.get_map_list()
+	for map_info in maps:
+		var panel = PanelContainer.new()
+		panel.custom_minimum_size = Vector2(360, 110)
+		
+		var vbox = VBoxContainer.new()
+		vbox.add_theme_constant_override("separation", 4)
+		
+		# Header: Map Name + Region + Town/Field tag
+		var header_hbox = HBoxContainer.new()
+		var title_lbl = Label.new()
+		title_lbl.text = "【%s】" % map_info.name
+		title_lbl.add_theme_font_size_override("font_size", 14)
+		title_lbl.modulate = Color(1.0, 0.85, 0.2) if map_info.is_town else Color(0.4, 0.9, 1.0)
+		header_hbox.add_child(title_lbl)
+		
+		var reg_lbl = Label.new()
+		reg_lbl.text = "(%s)" % map_info.region
+		reg_lbl.add_theme_font_size_override("font_size", 11)
+		reg_lbl.modulate = Color(0.7, 0.8, 0.9)
+		header_hbox.add_child(reg_lbl)
+		
+		vbox.add_child(header_hbox)
+		
+		# Monsters & Spawn Slots
+		var mobs_str = "👾 怪物: "
+		if map_info.monsters.is_empty():
+			mobs_str += "無 (安全城鎮/休息區)"
+		else:
+			var m_parts = []
+			for m in map_info.monsters:
+				m_parts.append("%s Lv.%d [%d槽位]" % [m.name, m.level, m.slots])
+			mobs_str += ", ".join(m_parts)
+			
+		var mob_lbl = Label.new()
+		mob_lbl.text = mobs_str
+		mob_lbl.add_theme_font_size_override("font_size", 11)
+		mob_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		mob_lbl.modulate = Color(1.0, 0.7, 0.6) if not map_info.monsters.is_empty() else Color(0.6, 1.0, 0.6)
+		vbox.add_child(mob_lbl)
+		
+		# NPCs
+		if not map_info.npcs.is_empty():
+			var npc_lbl = Label.new()
+			npc_lbl.text = "👤 NPC: " + ", ".join(map_info.npcs.slice(0, 4)) + (" 等..." if map_info.npcs.size() > 4 else "")
+			npc_lbl.add_theme_font_size_override("font_size", 11)
+			npc_lbl.modulate = Color(0.9, 0.9, 0.6)
+			vbox.add_child(npc_lbl)
+			
+		# Portals
+		if not map_info.normal_portals.is_empty():
+			var p_titles = []
+			for p in map_info.normal_portals.slice(0, 3):
+				p_titles.append(p.title.replace("一般傳送點：", "").replace("前往", ""))
+			var p_lbl = Label.new()
+			p_lbl.text = "🚪 傳送: " + " ➔ ".join(p_titles)
+			p_lbl.add_theme_font_size_override("font_size", 10)
+			p_lbl.modulate = Color(0.5, 0.8, 1.0)
+			vbox.add_child(p_lbl)
+			
+		# Travel Button
+		var travel_btn = Button.new()
+		travel_btn.text = "⚡ 傳送前往【%s】" % map_info.name
+		travel_btn.custom_minimum_size = Vector2(0, 26)
 		var mid = map_info.id
-		btn.pressed.connect(func():
+		travel_btn.pressed.connect(func():
 			Global.change_map(mid)
 			map_select_modal.visible = false
 		)
-		map_list_container.add_child(btn)
+		vbox.add_child(travel_btn)
+		
+		panel.add_child(vbox)
+		map_list_container.add_child(panel)
 
 func show_game_over(victory: bool):
 	game_over_modal.visible = true

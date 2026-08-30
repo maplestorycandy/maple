@@ -19,6 +19,7 @@ JobDatabase="*res://scripts/JobDatabase.gd"
 MonsterDatabaseFull="*res://scripts/MonsterDatabaseFull.gd"
 MapDatabase="*res://scripts/MapDatabase.gd"
 LevelBuffManager="*res://scripts/LevelBuffManager.gd"
+DropItemManager="*res://scripts/DropItemManager.gd"
 
 [display]
 

@@ -238,6 +238,12 @@ func spawn_damage_text(amount: int, is_crit: bool, hit_index: int = 0):
 func die_synchronized(exp_amt: int, meso_amt: int):
 	Global.add_exp(exp_amt)
 	Global.meso_gold += meso_amt
+	
+	# Spawn authentic item drops
+	if not is_client_puppet():
+		var mob_data = MonsterDatabaseFull.get_monster(monster_id)
+		DropItemManager.spawn_monster_drops(get_parent(), global_position, mob_data)
+		
 	queue_free()
 
 func die():
