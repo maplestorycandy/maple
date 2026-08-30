@@ -12,8 +12,10 @@ var hurt_flash: float = 0.0
 var flash_jump_available: bool = true
 var anim_frame: float = 0.0
 
-# Skill cooldowns
+# Movement state
+var keyboard_move_dir: float = 0.0
 
+# Skill cooldowns
 var skill_1_cd: float = 0.0
 var skill_2_cd: float = 0.0
 var skill_3_cd: float = 0.0
@@ -23,7 +25,6 @@ var skill_6_cd: float = 0.0
 var ultimate_cd: float = 0.0
 
 var passive_proc_timer: float = 0.0
-
 var net_sync_timer: float = 0.0
 
 # Down-jump mechanics
@@ -43,6 +44,43 @@ func _ready():
 	if not Global.pet_inventory.is_empty():
 		Global.select_active_pet(0)
 
+func _input(event: InputEvent):
+	if event is InputEventKey:
+		var code = event.keycode if event.keycode != 0 else (event.physical_keycode if event.physical_keycode != 0 else event.key_label)
+		
+		# Movement Keys (Arrows & WASD)
+		if code == KEY_LEFT or code == KEY_A:
+			if event.pressed:
+				keyboard_move_dir = -1.0
+			elif not event.pressed and keyboard_move_dir < 0.0:
+				keyboard_move_dir = 1.0 if (Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D)) else 0.0
+		elif code == KEY_RIGHT or code == KEY_D:
+			if event.pressed:
+				keyboard_move_dir = 1.0
+			elif not event.pressed and keyboard_move_dir > 0.0:
+				keyboard_move_dir = -1.0 if (Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A)) else 0.0
+				
+		# Action Keys Trigger on press
+		if event.pressed and not event.echo:
+			# Check custom keybindings
+			var matched = false
+			for action in Global.custom_keybindings.keys():
+				if Global.custom_keybindings[action] == code:
+					trigger_custom_action(action)
+					matched = true
+					break
+			if not matched:
+				if code == KEY_SPACE or code == KEY_ALT:
+					do_jump()
+				elif code == KEY_Z or code == KEY_CTRL:
+					trigger_custom_action("attack")
+				elif code == KEY_X:
+					trigger_custom_action("skill_1")
+				elif code == KEY_C:
+					trigger_custom_action("skill_2")
+				elif code == KEY_V:
+					trigger_custom_action("skill_3")
+
 func _physics_process(delta):
 	anim_frame += delta * 8.0
 	
@@ -57,9 +95,19 @@ func _physics_process(delta):
 			set_collision_mask_value(2, true) # Re-enable one-way platforms
 		
 	# Cooldown timers
-	if skill_1_cd > 0: skill_1_cd -= delta
-	if skill_2_cd > 0: skill_2_cd -= delta
-	if skill_3_cd > 0: skill_3_cd -= delta
+	skill_1_cd = max(0.0, skill_1_cd - delta)
+	skill_2_cd = max(0.0, skill_2_cd - delta)
+	skill_3_cd = max(0.0, skill_3_cd - delta)
+	skill_4_cd = max(0.0, skill_4_cd - delta)
+	skill_5_cd = max(0.0, skill_5_cd - delta)
+	skill_6_cd = max(0.0, skill_6_cd - delta)
+	ultimate_cd = max(0.0, ultimate_cd - delta)
+	
+	# Handle Automatic Passive Talents
+	passive_proc_timer += delta
+	if passive_proc_timer >= 3.5:
+		passive_proc_timer = 0.0
+		trigger_passive_procs()
 	
 	# Multiplayer state sync (20 times per sec)
 	if NetworkManager.is_multiplayer_active:
@@ -78,50 +126,47 @@ func _physics_process(delta):
 		if attack_anim_timer <= 0:
 			is_attacking = false
 			
-	handle_input(delta)
+	handle_movement(delta)
 	move_and_slide()
 	queue_redraw()
 
-func handle_input(delta):
+func handle_movement(delta: float):
 	if Global.is_game_over:
 		return
 		
-	# Horizontal movement (Multi-input: Actions, Keyboard Keys, Touch Buttons)
-	var input_x = 0.0
-	if Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT) or Input.is_physical_key_pressed(KEY_A):
-		input_x -= 1.0
-	if Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT) or Input.is_physical_key_pressed(KEY_D):
-		input_x += 1.0
+	# Multi-source horizontal movement input (Keyboard Events + Polling + Touch Buttons)
+	var input_x = keyboard_move_dir
+	if input_x == 0.0:
+		if Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A):
+			input_x -= 1.0
+		if Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D):
+			input_x += 1.0
 	if Global.touch_move_dir != 0.0:
 		input_x = Global.touch_move_dir
 		
-	var target_speed = max(250.0, Global.player_speed)
+	var target_speed = max(260.0, Global.player_speed)
 	if input_x != 0.0:
-		facing_direction = sign(input_x)
+		facing_direction = 1 if input_x > 0 else -1
 		velocity.x = input_x * target_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, target_speed * 10.0 * delta)
-		
-	# Jump & Down-jump & Flash Jump
-	if Input.is_action_just_pressed("jump"):
-		var is_down = Input.is_action_pressed("move_down") or Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S)
-		if is_down and is_on_floor() and position.y < 350:
-			# Seamless MapleStory Down-Jump: Temporarily drop through platform
-			is_down_jumping = true
-			down_jump_timer = 0.22
-			set_collision_mask_value(2, false) # Drop through Layer 2 platforms
-			position.y += 12.0
-			velocity.y = 220.0
-		elif is_on_floor():
-			velocity.y = jump_velocity
-		elif flash_jump_available:
-			flash_jump_available = false
-			velocity.x = facing_direction * Global.player_speed * 2.2
-			velocity.y = jump_velocity * 0.75
-			Global.broadcast_message("二段跳 Flash Jump!", Color(0.3, 0.9, 1.0))
-			
-	# Direct Custom Key Check in Input Handlers
-	handle_standard_input_actions()
+		velocity.x = move_toward(velocity.x, 0.0, target_speed * 12.0 * delta)
+
+func do_jump():
+	var is_down = Input.is_action_pressed("move_down") or Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S)
+	if is_down and is_on_floor() and position.y < 350:
+		# Down-jump
+		is_down_jumping = true
+		down_jump_timer = 0.22
+		set_collision_mask_value(2, false)
+		position.y += 12.0
+		velocity.y = 220.0
+	elif is_on_floor():
+		velocity.y = jump_velocity
+	elif flash_jump_available:
+		flash_jump_available = false
+		velocity.x = facing_direction * max(260.0, Global.player_speed) * 2.2
+		velocity.y = jump_velocity * 0.75
+		Global.broadcast_message("二段跳 Flash Jump!", Color(0.3, 0.9, 1.0))
 
 func consume_mp(amount: int) -> bool:
 	if amount <= 0:
@@ -133,346 +178,6 @@ func consume_mp(amount: int) -> bool:
 	Global.emit_signal("player_mp_changed", Global.player_mp, Global.player_max_mp)
 	return true
 
-func perform_job_skill(skill_data: Dictionary, skill_key: String):
-	is_attacking = true
-	attack_type = skill_key
-	attack_anim_timer = 0.28
-	
-	var mult = skill_data.get("multiplier", 1.0)
-	var hits = skill_data.get("hits", 1)
-	var type = skill_data.get("type", "melee")
-	var job = Global.player_job_id
-	
-	if NetworkManager.is_multiplayer_active:
-		rpc("sync_skill_cast", skill_key)
-	
-	Global.broadcast_message("【%s】%s !" % [Global.player_job_data.name, skill_data.get("name", "")], Global.player_job_data.color)
-	
-	# Execute damage lines with classic multi-hit delay
-	match job:
-		"warrior":
-			execute_melee_cone_damage(mult, hits, 85.0 if skill_key == "skill_2" else 65.0)
-		"magician":
-			if skill_key == "skill_3":
-				execute_screen_magic(mult, hits)
-			elif skill_key == "skill_2":
-				execute_lightning_storm(mult, hits)
-			else:
-				execute_magic_claw(mult, hits)
-		"bowman":
-			shoot_arrows(mult, hits, skill_key == "skill_2")
-		"thief":
-			if skill_key == "skill_3":
-				execute_savage_blow(mult, 6)
-			else:
-				shoot_throwing_stars(mult, hits)
-		"pirate":
-			if skill_key == "skill_2":
-				execute_somersault_kick(mult, hits)
-			elif skill_key == "skill_3":
-				execute_dragon_strike(mult, hits)
-			else:
-				shoot_pirate_bullet(mult, hits)
-
-func execute_melee_cone_damage(multiplier: float, hits: int, radius: float):
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	var hit_center = global_position + Vector2(facing_direction * 45, -20)
-	
-	for e in enemies:
-		if is_instance_valid(e) and not e.is_queued_for_deletion():
-			if hit_center.distance_to(e.global_position) <= radius:
-				apply_multi_hit_damage(e, multiplier, hits)
-
-func execute_screen_magic(multiplier: float, hits: int):
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	for e in enemies:
-		if is_instance_valid(e) and global_position.distance_to(e.global_position) < 800.0:
-			apply_multi_hit_damage(e, multiplier, hits)
-			
-	var rain = load("res://scenes/skills/HolyRain.tscn").instantiate()
-	rain.global_position = global_position
-	get_parent().add_child.call_deferred(rain)
-
-func execute_lightning_storm(multiplier: float, hits: int):
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	for e in enemies:
-		if is_instance_valid(e) and global_position.distance_to(e.global_position) < 450.0:
-			apply_multi_hit_damage(e, multiplier, hits)
-
-func execute_magic_claw(multiplier: float, hits: int):
-	var enemy = find_target_in_direction(350.0)
-	if enemy:
-		apply_multi_hit_damage(enemy, multiplier, hits)
-	else:
-		execute_melee_cone_damage(multiplier, hits, 90.0)
-
-func shoot_arrows(multiplier: float, hits: int, is_rain: bool):
-	if is_rain:
-		var enemies = get_tree().get_nodes_in_group("enemies")
-		for e in enemies:
-			if is_instance_valid(e) and global_position.distance_to(e.global_position) < 500.0:
-				apply_multi_hit_damage(e, multiplier, hits)
-	else:
-		var enemy = find_target_in_direction(550.0)
-		if enemy:
-			apply_multi_hit_damage(enemy, multiplier, hits)
-		else:
-			execute_melee_cone_damage(multiplier, hits, 70.0)
-
-func shoot_throwing_stars(multiplier: float, hits: int):
-	var enemy = find_target_in_direction(500.0)
-	if enemy:
-		apply_multi_hit_damage(enemy, multiplier, hits)
-	else:
-		execute_melee_cone_damage(multiplier, hits, 70.0)
-
-func execute_savage_blow(multiplier: float, hits: int):
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	var hit_center = global_position + Vector2(facing_direction * 40, -20)
-	for e in enemies:
-		if is_instance_valid(e) and not e.is_queued_for_deletion():
-			if hit_center.distance_to(e.global_position) <= 75.0:
-				apply_multi_hit_damage(e, multiplier, hits)
-
-func execute_somersault_kick(multiplier: float, hits: int):
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	for e in enemies:
-		if is_instance_valid(e) and global_position.distance_to(e.global_position) <= 130.0:
-			apply_multi_hit_damage(e, multiplier, hits)
-
-func execute_dragon_strike(multiplier: float, hits: int):
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	for e in enemies:
-		if is_instance_valid(e) and global_position.distance_to(e.global_position) <= 380.0:
-			apply_multi_hit_damage(e, multiplier, hits)
-			
-	var meteor = load("res://scenes/skills/Meteor.tscn").instantiate()
-	meteor.global_position = global_position + Vector2(facing_direction * 150, -350)
-	meteor.target_pos = global_position + Vector2(facing_direction * 150, 0)
-	get_parent().add_child.call_deferred(meteor)
-
-func shoot_pirate_bullet(multiplier: float, hits: int):
-	var enemy = find_target_in_direction(480.0)
-	if enemy:
-		apply_multi_hit_damage(enemy, multiplier, hits)
-	else:
-		execute_melee_cone_damage(multiplier, hits, 65.0)
-
-func find_target_in_direction(range_dist: float) -> Node2D:
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	var closest: Node2D = null
-	var min_d = range_dist
-	for e in enemies:
-		if is_instance_valid(e) and not e.is_queued_for_deletion():
-			var diff_x = e.global_position.x - global_position.x
-			if (facing_direction > 0 and diff_x > 0) or (facing_direction < 0 and diff_x < 0):
-				var d = global_position.distance_to(e.global_position)
-				if d < min_d:
-					min_d = d
-					closest = e
-	return closest
-
-func apply_multi_hit_damage(target: Node2D, multiplier: float, hits: int):
-	if not is_instance_valid(target) or not target.has_method("take_damage_custom"):
-		if target.has_method("take_damage"):
-			var dmg_info = Global.calculate_skill_damage(multiplier)
-			target.take_damage(dmg_info.damage, dmg_info.is_crit)
-		return
-		
-	for i in range(hits):
-		var hit_idx = i
-		get_tree().create_timer(i * 0.08).timeout.connect(func():
-			if is_instance_valid(target):
-				var dmg_info = Global.calculate_skill_damage(multiplier)
-				target.take_damage_custom(dmg_info.damage, dmg_info.is_crit, hit_idx)
-		)
-
-func attempt_tame_nearby_monster():
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	var closest: Node2D = null
-	var min_dist = 280.0
-	for e in enemies:
-		if is_instance_valid(e) and not e.is_queued_for_deletion():
-			var d = global_position.distance_to(e.global_position)
-			if d < min_dist:
-				min_dist = d
-				closest = e
-				
-	if closest:
-		var net_scene = load("res://scenes/skills/CaptureNet.tscn")
-		if net_scene:
-			var net = net_scene.instantiate()
-			net.global_position = global_position + Vector2(0, -20)
-			net.setup(closest)
-			get_parent().add_child.call_deferred(net)
-			Global.broadcast_message("擲出精靈封印球！", Color(0.2, 0.8, 1.0))
-	else:
-		Global.broadcast_message("周圍沒有可捕捉的怪物目標！", Color(1.0, 0.6, 0.4))
-
-func toggle_pet_summon():
-	if is_instance_valid(Global.active_pet_node):
-		Global.dismiss_active_pet()
-		Global.broadcast_message("召回出戰寵物！", Color.GRAY)
-	else:
-		if not Global.pet_inventory.is_empty():
-			Global.select_active_pet(0)
-			Global.broadcast_message("召喚寵物出戰！", Color(0.3, 1.0, 0.5))
-		else:
-			Global.broadcast_message("寵物背包中目前沒有任何寵物！", Color.ORANGE)
-
-func _on_pet_summoned(pet_data: Dictionary):
-	if is_instance_valid(Global.active_pet_node):
-		Global.active_pet_node.queue_free()
-		
-	var pet_scene = load("res://scenes/Pet.tscn")
-	if pet_scene:
-		var p = pet_scene.instantiate()
-		p.setup_pet(pet_data, self)
-		get_parent().add_child.call_deferred(p)
-
-func _on_pet_unsummoned():
-	if is_instance_valid(Global.active_pet_node):
-		Global.active_pet_node.queue_free()
-		Global.active_pet_node = null
-
-func _on_hp_changed(_cur, _max):
-	hurt_flash = 1.0
-
-func _on_job_changed(_job_data):
-	queue_redraw()
-
-func _draw():
-	var body_col = Color(1.0, 0.85, 0.7)
-	var hair_col = Color(0.85, 0.55, 0.2)
-	var cloth_col = Global.player_job_data.get("color", Color(0.2, 0.5, 0.9))
-	var pants_col = Color(0.3, 0.3, 0.4)
-	
-	if hurt_flash > 0.0:
-		body_col = body_col.lerp(Color.RED, hurt_flash)
-		cloth_col = cloth_col.lerp(Color.WHITE, hurt_flash)
-		
-	var leg_swing = sin(anim_frame) * 4.0 if (velocity.x != 0 and is_on_floor()) else 0.0
-	
-	# 1. Pants & Shoes
-	draw_rect(Rect2(-7 + leg_swing, -8, 5, 8), pants_col)
-	draw_rect(Rect2(2 - leg_swing, -8, 5, 8), pants_col)
-	draw_rect(Rect2(-8 + leg_swing, -2, 7, 3), Color(0.35, 0.2, 0.1))
-	draw_rect(Rect2(1 - leg_swing, -2, 7, 3), Color(0.35, 0.2, 0.1))
-	
-	# 2. Job Themed Armor / Robe
-	draw_rect(Rect2(-9, -22, 18, 14), cloth_col)
-	draw_rect(Rect2(-7, -20, 14, 4), cloth_col.lightened(0.3))
-	
-	# 3. Head & Face
-	draw_circle(Vector2(0, -32), 10.0, body_col)
-	draw_circle(Vector2(3 * facing_direction, -32), 2.5, Color.BLACK)
-	draw_circle(Vector2(4 * facing_direction, -33), 1.0, Color.WHITE)
-	draw_line(Vector2(1 * facing_direction, -27), Vector2(4 * facing_direction, -27), Color(0.5, 0.2, 0.2), 1.5)
-	
-	# 4. Job Hair & Headgear
-	match Global.player_job_id:
-		"magician":
-			# Wizard Hat
-			draw_polygon(
-				PackedVector2Array([
-					Vector2(-14, -36),
-					Vector2(14, -36),
-					Vector2(0, -56)
-				]),
-				PackedColorArray([Color(0.2, 0.3, 0.7), Color(0.2, 0.3, 0.7), Color(0.3, 0.5, 0.9)])
-			)
-		"thief":
-			# Ninja Bandana
-			draw_rect(Rect2(-11, -38, 22, 7), Color(0.15, 0.15, 0.2))
-			draw_line(Vector2(-10 * facing_direction, -34), Vector2(-20 * facing_direction, -30), Color(0.15, 0.15, 0.2), 3.0)
-		_:
-			# Classic Maple Spiky Hair
-			draw_polygon(
-				PackedVector2Array([
-					Vector2(-11, -34),
-					Vector2(-14, -42),
-					Vector2(-6, -45),
-					Vector2(0, -47),
-					Vector2(8, -44),
-					Vector2(13, -38),
-					Vector2(10 * facing_direction, -35),
-					Vector2(0, -38)
-				]),
-				PackedColorArray([hair_col, hair_col, hair_col, hair_col, hair_col, hair_col, hair_col, hair_col])
-			)
-			
-	# 5. Weapon and Attack Visuals
-	if is_attacking:
-		var slash_col = cloth_col.lightened(0.4)
-		match Global.player_job_id:
-			"warrior":
-				draw_arc(Vector2(facing_direction * 30, -20), 45.0, -PI/2, PI/2, 16, slash_col, 6.0)
-				draw_line(Vector2(0, -18), Vector2(facing_direction * 48, -18), Color.SILVER, 5.0)
-			"magician":
-				draw_circle(Vector2(facing_direction * 35, -24), 22.0, Color(0.4, 0.8, 1.0, 0.6))
-				draw_line(Vector2(0, -18), Vector2(facing_direction * 30, -28), Color(0.9, 0.8, 0.3), 4.0)
-			"bowman":
-				draw_arc(Vector2(facing_direction * 20, -20), 20.0, -PI/2, PI/2, 12, Color(0.6, 0.4, 0.2), 3.0)
-				draw_line(Vector2(0, -20), Vector2(facing_direction * 50, -20), Color.YELLOW, 3.0)
-			"thief":
-				draw_circle(Vector2(facing_direction * 25, -20), 12.0, Color.BLACK)
-				draw_arc(Vector2(facing_direction * 25, -20), 16.0, 0, TAU, 8, Color.GOLD, 3.0)
-			"pirate":
-				draw_circle(Vector2(facing_direction * 32, -20), 18.0, Color(1.0, 0.4, 0.1, 0.8))
-				draw_rect(Rect2(facing_direction * 12, -24, 20, 8), Color.DARK_SLATE_GRAY)
-	else:
-		# Idle weapon on back / side
-		match Global.player_job_id:
-			"warrior":
-				draw_line(Vector2(-6 * facing_direction, -14), Vector2(-18 * facing_direction, -42), Color.SILVER, 4.0)
-			"magician":
-				draw_line(Vector2(-6 * facing_direction, -12), Vector2(-16 * facing_direction, -40), Color(0.8, 0.6, 0.2), 3.0)
-				draw_circle(Vector2(-16 * facing_direction, -40), 4.0, Color(0.3, 0.8, 1.0))
-			"bowman":
-				draw_arc(Vector2(-8 * facing_direction, -24), 16.0, -PI/2, PI/2, 10, Color(0.5, 0.3, 0.1), 3.0)
-			"thief":
-				draw_rect(Rect2(-8 * facing_direction, -18, 6, 8), Color.BLACK)
-			"pirate":
-				draw_rect(Rect2(-8 * facing_direction, -18, 10, 5), Color.DARK_SLATE_GRAY)
-
-@rpc("any_peer", "unreliable_ordered")
-func sync_player_state(pos: Vector2, vel: Vector2, facing: int, attacking: bool, job: String, hp_val: int, max_hp_val: int):
-	var sender_id = multiplayer.get_remote_sender_id()
-	var remote_node = get_parent().get_node_or_null("RemotePlayer_%d" % sender_id)
-	if is_instance_valid(remote_node):
-		remote_node.update_state(pos, vel, facing, attacking, job, hp_val, max_hp_val)
-
-@rpc("any_peer", "call_local", "reliable")
-func sync_skill_cast(skill_key: String):
-	var sender_id = multiplayer.get_remote_sender_id()
-	var remote_node = get_parent().get_node_or_null("RemotePlayer_%d" % sender_id)
-	if is_instance_valid(remote_node):
-		remote_node.trigger_skill_visual(skill_key)
-
-
-func _unhandled_input(event: InputEvent):
-	if event is InputEventKey and event.pressed and not event.echo:
-		var code_val = event.physical_keycode if event.physical_keycode != 0 else event.keycode
-		for action in Global.custom_keybindings.keys():
-			if Global.custom_keybindings[action] == code_val:
-				trigger_custom_action(action)
-				get_viewport().set_input_as_handled()
-				break
-
-func handle_standard_input_actions():
-	if Input.is_action_just_pressed("attack"):
-		trigger_custom_action("attack")
-	if Input.is_action_just_pressed("skill_1"):
-		trigger_custom_action("skill_1")
-	if Input.is_action_just_pressed("skill_2"):
-		trigger_custom_action("skill_2")
-	if Input.is_action_just_pressed("skill_3"):
-		trigger_custom_action("skill_3")
-	if Input.is_action_just_pressed("tame_monster"):
-		trigger_custom_action("tame_monster")
-	if Input.is_action_just_pressed("summon_pet"):
-		trigger_custom_action("summon_pet")
-
 func trigger_custom_action(action_name: String):
 	var skills = Global.player_job_data.get("skills", {})
 	var cd_mult = (1.0 - Global.passive_buffs.get("cooldown_reduction", 0.0))
@@ -480,6 +185,8 @@ func trigger_custom_action(action_name: String):
 	match action_name:
 		"attack":
 			perform_job_skill(skills.get("basic", {}), "basic")
+		"jump":
+			do_jump()
 		"skill_1":
 			if skill_1_cd <= 0:
 				var s = skills.get("skill_1", {})
@@ -550,3 +257,247 @@ func trigger_passive_procs():
 	if Global.passive_buffs.get("auto_cannon", false):
 		execute_dragon_strike(4.0, 2)
 		Global.broadcast_message("💣 戰艦重砲全自動開火！", Color.GOLD)
+
+func perform_job_skill(skill_data: Dictionary, skill_key: String):
+	is_attacking = true
+	attack_type = skill_key
+	attack_anim_timer = 0.28
+	
+	var mult = skill_data.get("multiplier", 1.0)
+	var hits = skill_data.get("hits", 1)
+	var job = Global.player_job_id
+	
+	if NetworkManager.is_multiplayer_active:
+		rpc("sync_skill_cast", skill_key)
+	
+	Global.broadcast_message("【%s】%s !" % [Global.player_job_data.name, skill_data.get("name", "")], Global.player_job_data.color)
+	
+	match job:
+		"warrior":
+			if skill_key in ["skill_5", "ultimate"]:
+				execute_screen_warrior(mult, hits)
+			elif skill_key in ["skill_3", "skill_4", "skill_6"]:
+				execute_melee_cone_damage(mult, hits, 120.0)
+			else:
+				execute_melee_cone_damage(mult, hits, 85.0 if skill_key == "skill_2" else 65.0)
+		"magician":
+			if skill_key in ["skill_4", "skill_5", "ultimate"]:
+				execute_screen_magic(mult, hits)
+			elif skill_key in ["skill_2", "skill_3", "skill_6"]:
+				execute_lightning_storm(mult, hits)
+			else:
+				execute_magic_claw(mult, hits)
+		"bowman":
+			if skill_key in ["skill_5", "ultimate"]:
+				execute_screen_magic(mult, hits)
+			else:
+				shoot_arrows(mult, hits, skill_key in ["skill_2", "skill_3", "skill_4", "skill_6"])
+		"thief":
+			if skill_key in ["skill_3", "skill_4", "skill_6"]:
+				execute_savage_blow(mult, hits)
+			elif skill_key == "ultimate":
+				execute_screen_magic(mult, hits)
+			else:
+				shoot_throwing_stars(mult, hits)
+		"pirate":
+			if skill_key in ["skill_5", "skill_6", "ultimate"]:
+				execute_dragon_strike(mult, hits)
+			elif skill_key in ["skill_2", "skill_3"]:
+				execute_somersault_kick(mult, hits)
+			else:
+				shoot_pirate_bullet(mult, hits)
+
+func execute_melee_cone_damage(multiplier: float, hits: int, radius: float):
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var hit_center = global_position + Vector2(facing_direction * 45, -20)
+	
+	for e in enemies:
+		if is_instance_valid(e) and not e.is_queued_for_deletion():
+			if hit_center.distance_to(e.global_position) <= radius:
+				apply_multi_hit_damage(e, multiplier, hits)
+
+func execute_screen_warrior(multiplier: float, hits: int):
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for e in enemies:
+		if is_instance_valid(e) and not e.is_queued_for_deletion():
+			if global_position.distance_to(e.global_position) < 850.0:
+				apply_multi_hit_damage(e, multiplier, hits)
+
+func execute_screen_magic(multiplier: float, hits: int):
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for e in enemies:
+		if is_instance_valid(e) and not e.is_queued_for_deletion():
+			if global_position.distance_to(e.global_position) < 850.0:
+				apply_multi_hit_damage(e, multiplier, hits)
+			
+	var rain_scene = load("res://scenes/skills/HolyRain.tscn")
+	if rain_scene:
+		var rain = rain_scene.instantiate()
+		rain.global_position = global_position
+		get_parent().add_child.call_deferred(rain)
+
+func execute_lightning_storm(multiplier: float, hits: int):
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for e in enemies:
+		if is_instance_valid(e) and not e.is_queued_for_deletion():
+			if global_position.distance_to(e.global_position) < 500.0:
+				apply_multi_hit_damage(e, multiplier, hits)
+
+func execute_magic_claw(multiplier: float, hits: int):
+	var enemy = find_target_in_direction(350.0)
+	if enemy:
+		apply_multi_hit_damage(enemy, multiplier, hits)
+	else:
+		execute_melee_cone_damage(multiplier, hits, 90.0)
+
+func execute_savage_blow(multiplier: float, hits: int):
+	var enemy = find_target_in_direction(220.0)
+	if enemy:
+		apply_multi_hit_damage(enemy, multiplier, hits)
+	else:
+		execute_melee_cone_damage(multiplier, hits, 85.0)
+
+func execute_somersault_kick(multiplier: float, hits: int):
+	execute_melee_cone_damage(multiplier, hits, 120.0)
+
+func execute_dragon_strike(multiplier: float, hits: int):
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for e in enemies:
+		if is_instance_valid(e) and not e.is_queued_for_deletion():
+			if global_position.distance_to(e.global_position) < 400.0:
+				apply_multi_hit_damage(e, multiplier, hits)
+
+func shoot_arrows(multiplier: float, hits: int, is_spread: bool = false):
+	var enemy = find_target_in_direction(650.0)
+	if enemy:
+		apply_multi_hit_damage(enemy, multiplier, hits)
+		if is_spread:
+			var enemies = get_tree().get_nodes_in_group("enemies")
+			for e in enemies:
+				if e != enemy and is_instance_valid(e) and global_position.distance_to(e.global_position) < 400.0:
+					apply_multi_hit_damage(e, multiplier * 0.8, max(1, hits - 1))
+	else:
+		execute_melee_cone_damage(multiplier, hits, 100.0)
+
+func shoot_throwing_stars(multiplier: float, hits: int):
+	var enemy = find_target_in_direction(550.0)
+	if enemy:
+		apply_multi_hit_damage(enemy, multiplier, hits)
+	else:
+		execute_melee_cone_damage(multiplier, hits, 90.0)
+
+func shoot_pirate_bullet(multiplier: float, hits: int):
+	var enemy = find_target_in_direction(500.0)
+	if enemy:
+		apply_multi_hit_damage(enemy, multiplier, hits)
+	else:
+		execute_melee_cone_damage(multiplier, hits, 90.0)
+
+func find_target_in_direction(max_range: float) -> Node2D:
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var closest: Node2D = null
+	var min_dist: float = max_range
+	for e in enemies:
+		if is_instance_valid(e) and not e.is_queued_for_deletion():
+			var diff_x = e.global_position.x - global_position.x
+			if (facing_direction > 0 and diff_x > -20.0) or (facing_direction < 0 and diff_x < 20.0):
+				var dist = global_position.distance_to(e.global_position)
+				if dist < min_dist:
+					min_dist = dist
+					closest = e
+	return closest
+
+func apply_multi_hit_damage(target: Node2D, multiplier: float, hits: int):
+	for i in range(hits):
+		var timer = get_tree().create_timer(i * 0.07)
+		timer.timeout.connect(func():
+			if is_instance_valid(target) and not target.is_queued_for_deletion():
+				var dmg_info = Global.calculate_player_damage(multiplier)
+				var is_crit = dmg_info.is_crit
+				var dmg_val = dmg_info.damage
+				
+				# Life steal passive
+				var life_steal_pct = Global.passive_buffs.get("life_steal", 0.0)
+				if life_steal_pct > 0.0:
+					Global.heal_player(max(1, int(float(dmg_val) * life_steal_pct)))
+					
+				if target.has_method("take_damage"):
+					target.take_damage(dmg_val, is_crit, i)
+		)
+
+func attempt_tame_nearby_monster():
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for e in enemies:
+		if is_instance_valid(e) and global_position.distance_to(e.global_position) < 140.0:
+			if e.has_method("get_capture_data"):
+				var pet_data = e.get_capture_data()
+				var hp_pct = float(e.hp) / float(e.max_hp)
+				var success_chance = 0.40 if hp_pct > 0.5 else 0.85
+				if randf() < success_chance:
+					Global.add_pet_to_inventory(pet_data)
+					Global.broadcast_message("🎉 恭喜成功捕捉【%s】成為寵物夥伴！" % pet_data.name, Color(0.2, 1.0, 0.4))
+					e.queue_free()
+					return
+				else:
+					Global.broadcast_message("❌ 捕捉失敗！怪物掙脫了！", Color.SALMON)
+					return
+	Global.broadcast_message("周圍沒有可捕捉的怪物！", Color.GRAY)
+
+func toggle_pet_summon():
+	if not Global.active_pet_data.is_empty():
+		Global.dismiss_active_pet()
+	else:
+		if not Global.pet_inventory.is_empty():
+			Global.select_active_pet(0)
+		else:
+			Global.broadcast_message("寵物欄中沒有寵物！請按 E 捕捉怪物！", Color.GOLD)
+
+func _on_hp_changed(_cur, _max_hp):
+	pass
+
+func _on_job_changed(_job_data):
+	queue_redraw()
+
+func _on_pet_summoned(pet_data):
+	if is_instance_valid(Global.active_pet_node):
+		Global.active_pet_node.queue_free()
+	var pet_scene = load("res://scenes/Pet.tscn")
+	if pet_scene:
+		var pet = pet_scene.instantiate()
+		pet.setup_pet(pet_data, self)
+		get_parent().add_child.call_deferred(pet)
+		Global.active_pet_node = pet
+
+func _on_pet_unsummoned():
+	if is_instance_valid(Global.active_pet_node):
+		Global.active_pet_node.queue_free()
+		Global.active_pet_node = null
+
+func _draw():
+	var body_color = Global.player_job_data.get("color", Color(0.9, 0.3, 0.2))
+	if hurt_flash > 0.0:
+		body_color = Color.WHITE
+		
+	# Head
+	draw_circle(Vector2(0, -32), 11, Color(1.0, 0.82, 0.65))
+	
+	# Hair
+	draw_arc(Vector2(0, -35), 11, -PI, 0, 16, Color(0.4, 0.25, 0.1), 4.0)
+	
+	# Eyes
+	var eye_x = 4 if facing_direction > 0 else -4
+	draw_circle(Vector2(eye_x, -33), 2.0, Color.BLACK)
+	
+	# Torso
+	draw_rect(Rect2(-8, -22, 16, 16), body_color)
+	
+	# Legs / Walk anim
+	var walk_cycle = sin(anim_frame) * 4.0 if (velocity.x != 0 and is_on_floor()) else 0.0
+	draw_rect(Rect2(-6 + walk_cycle, -6, 4, 10), Color(0.15, 0.15, 0.25))
+	draw_rect(Rect2(2 - walk_cycle, -6, 4, 10), Color(0.15, 0.15, 0.25))
+	
+	# Weapon / Attack swing visual
+	if is_attacking:
+		var swing_offset = Vector2(facing_direction * 22, -18)
+		draw_line(Vector2(0, -18), swing_offset, Color.GOLD, 4.0)
+		draw_circle(swing_offset, 6.0, Color(1.0, 0.9, 0.4, 0.8))

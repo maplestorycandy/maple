@@ -680,3 +680,106 @@ func change_map(map_id: String):
 	emit_signal("map_change_requested", map_id)
 	if MapDatabase.MAPS.has(map_id):
 		broadcast_message("傳送至: %s" % MapDatabase.MAPS[map_id].name, Color(0.4, 0.8, 1.0))
+
+
+# =========================================================================
+# ROGUELIKE SKILL DRAFT & CUSTOM KEYBINDINGS
+# =========================================================================
+func generate_skill_draft_cards() -> Array:
+	var job_skills = player_job_data.get("skills", {})
+	var candidates: Array = []
+	
+	# 1. Active Skill Unlocks & Enhancements
+	for s_key in ["skill_4", "skill_5", "skill_6", "ultimate"]:
+		if job_skills.has(s_key):
+			var s_data = job_skills[s_key]
+			var is_new = not (s_key in unlocked_skills)
+			candidates.append({
+				"id": s_key,
+				"category": "active_skill",
+				"name": ("【新技能解鎖】" if is_new else "【技能覺醒升級】") + s_data.get("name", ""),
+				"rarity": "Legendary" if s_key == "ultimate" else "Epic",
+				"desc": s_data.get("desc", "獲得強大職業主動技能！"),
+				"icon": "⚔️" if "slash" in str(s_data) else ("🏹" if "arrow" in str(s_data) else ("⚡" if "magic" in str(s_data) else "💥")),
+				"skill_key": s_key
+			})
+			
+	# 2. Job-Specific Passives
+	match player_job_id:
+		"warrior":
+			candidates.append({"id": "warrior_combo", "category": "passive", "name": "鬥氣狂熱 ‧ 黑暗神兵", "rarity": "Legendary", "desc": "每次攻擊累積鬥氣，最終傷害乘算提升 +45%！", "icon": "🔥", "buff": {"bonus_damage_mult": 0.45}})
+			candidates.append({"id": "final_attack", "category": "passive", "name": "終極攻擊 (Final Attack)", "rarity": "Epic", "desc": "攻擊時 30% 機率額外追加 280% 巨力重斬！", "icon": "⚔️", "buff": {"final_attack_rate": 0.30}})
+		"magician":
+			candidates.append({"id": "magic_amp", "category": "passive", "name": "元素增幅 ‧ 魔力無限", "rarity": "Legendary", "desc": "全魔法技能傷害 +50%，消耗 MP 減少 20%！", "icon": "🔮", "buff": {"magic_atk_mult": 0.50, "mp_cost_reduction": 0.20}})
+			candidates.append({"id": "magic_drain", "category": "passive", "name": "魔力吸取 ‧ 永恆治癒", "rarity": "Epic", "desc": "每次命中敵人吸收造成傷害 12% 轉化為生命與魔力！", "icon": "✨", "buff": {"life_steal": 0.12}})
+		"bowman":
+			candidates.append({"id": "sharp_eyes", "category": "passive", "name": "會心之眼 (Sharp Eyes)", "rarity": "Legendary", "desc": "暴擊率 +30%，暴擊傷害乘算提升 +70%！", "icon": "🎯", "buff": {"crit_rate": 0.30, "crit_dmg_mult": 0.70}})
+			candidates.append({"id": "wind_walker", "category": "passive", "name": "風靈使者 ‧ 極速神箭", "rarity": "Epic", "desc": "射速提升 35%，所有技能冷卻縮減 30%！", "icon": "🍃", "buff": {"cooldown_reduction": 0.30}})
+		"thief":
+			candidates.append({"id": "shadow_partner_passive", "category": "passive", "name": "影之夥伴 ‧ 雙重暗殺", "rarity": "Legendary", "desc": "影分身常駐召喚！全攻擊額外造成 100% 獨立真實傷害！", "icon": "👤", "buff": {"shadow_partner_active": true}})
+			candidates.append({"id": "deadly_poison", "category": "passive", "name": "致命劇毒 ‧ 刺客信條", "rarity": "Epic", "desc": "暴擊率 +25%，每次攻擊附帶劇毒持續扣血！", "icon": "🗡️", "buff": {"crit_rate": 0.25, "poison_touch": true}})
+		"pirate":
+			candidates.append({"id": "pirate_supercharge", "category": "passive", "name": "超負荷充能 ‧ 鋼鐵之軀", "rarity": "Legendary", "desc": "物理攻擊力 +40%，受到傷害減免 35%！", "icon": "⚓", "buff": {"watk_mult": 0.40, "damage_reduction": 0.35}})
+			candidates.append({"id": "battleship_support", "category": "passive", "name": "海賊大砲 ‧ 全自動火力", "rarity": "Epic", "desc": "戰艦自動每 4 秒向周圍敵人發射 400% 重砲轟炸！", "icon": "💣", "buff": {"auto_cannon": true}})
+
+	# 3. Global Transcendent Buffs
+	candidates.append({"id": "divine_wrath", "category": "passive", "name": "天神下凡 ‧ 萬雷神罰", "rarity": "Legendary", "desc": "每 3.5 秒自動召喚全螢幕天雷轟炸所有怪物 500% 傷害！", "icon": "⚡", "buff": {"auto_lightning": true}})
+	candidates.append({"id": "blood_thirst", "category": "passive", "name": "嗜血狂魔 ‧ 越戰越勇", "rarity": "Epic", "desc": "每次攻擊吸血 8% MaxHP，移動速度 +35%！", "icon": "🩸", "buff": {"life_steal": 0.08, "speed_bonus": 35.0}})
+	candidates.append({"id": "wealth_frenzy", "category": "passive", "name": "黃金財富 ‧ 雙倍掉落", "rarity": "Rare", "desc": "怪物掉落楓幣與稀有裝備機率 +100%！", "icon": "💰", "buff": {"double_drops": true}})
+	candidates.append({"id": "stat_titan", "category": "passive", "name": "泰坦神力 ‧ 全屬性飛升", "rarity": "Epic", "desc": "力量、敏捷、智力、幸運全體直接暴增 +80 點！", "icon": "💎", "buff": {"all_stats": 80}})
+	
+	candidates.shuffle()
+	return candidates.slice(0, 3)
+
+func apply_draft_card(card: Dictionary):
+	var cat = card.get("category", "")
+	var name = card.get("name", "覺醒技能")
+	
+	if cat == "active_skill":
+		var s_key = card.get("skill_key", "")
+		if not (s_key in unlocked_skills):
+			unlocked_skills.append(s_key)
+			emit_signal("active_skills_updated")
+			broadcast_message("🌟 成功覺醒解鎖全新技能：%s！" % name, Color(1.0, 0.85, 0.2))
+		else:
+			var s_data = player_job_data.get("skills", {}).get(s_key, {})
+			s_data["multiplier"] = s_data.get("multiplier", 1.0) * 1.35
+			broadcast_message("⚡ %s 威力提升 +35%！" % name, Color(0.3, 1.0, 0.5))
+	else:
+		drafted_passives.append(card)
+		var buff = card.get("buff", {})
+		for k in buff.keys():
+			if k == "all_stats":
+				stat_str += buff[k]
+				stat_dex += buff[k]
+				stat_int += buff[k]
+				stat_luk += buff[k]
+			elif typeof(buff[k]) == TYPE_FLOAT or typeof(buff[k]) == TYPE_INT:
+				passive_buffs[k] = passive_buffs.get(k, 0.0) + buff[k]
+			else:
+				passive_buffs[k] = buff[k]
+		recalculate_stats()
+		broadcast_message("✨ 成功融合覺醒天賦【%s】！" % name, Color(0.4, 0.9, 1.0))
+
+func rebind_key(action_name: String, key_code: int):
+	custom_keybindings[action_name] = key_code
+	emit_signal("keybindings_changed")
+	save_keybindings()
+
+func get_action_key_name(action_name: String) -> String:
+	var code = custom_keybindings.get(action_name, KEY_Z)
+	return OS.get_keycode_string(code)
+
+func save_keybindings():
+	var cfg = ConfigFile.new()
+	for k in custom_keybindings.keys():
+		cfg.set_value("keybindings", k, custom_keybindings[k])
+	cfg.save("user://keybindings.cfg")
+
+func load_keybindings():
+	var cfg = ConfigFile.new()
+	var err = cfg.load("user://keybindings.cfg")
+	if err == OK:
+		for k in custom_keybindings.keys():
+			if cfg.has_section_key("keybindings", k):
+				custom_keybindings[k] = cfg.get_value("keybindings", k)
