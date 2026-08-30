@@ -3366,11 +3366,13 @@ func render_tabbed_map_browser(selected_region_id: String):
 		{"id": "perion", "name": "🏛️ 勇士之村", "color": Color(1.0, 0.6, 0.2)},
 		{"id": "kerning", "name": "🏙️ 墮落城市", "color": Color(0.4, 0.9, 1.0)},
 		{"id": "sleepywood", "name": "🌋 奇幻村", "color": Color(0.9, 0.4, 1.0)},
-		{"id": "lith_harbor", "name": "⛵ 維多利亞港", "color": Color(0.4, 0.8, 1.0)},
-		{"id": "nautilus", "name": "⚓ 鯨魚號", "color": Color(0.3, 0.8, 1.0)},
 		{"id": "florina", "name": "🏖️ 黃金海岸", "color": Color(1.0, 0.9, 0.3)},
-		{"id": "pq", "name": "👥 組隊任務", "color": Color(0.2, 1.0, 0.8)},
-		{"id": "event", "name": "🏆 全怪特訓場", "color": Color(1.0, 0.3, 0.3)}
+		{"id": "orbis", "name": "☁️ 天空之城", "color": Color(0.4, 0.8, 1.0)},
+		{"id": "elnath", "name": "❄️ 冰原雪域", "color": Color(0.6, 0.85, 1.0)},
+		{"id": "ludibrium", "name": "🧸 玩具城", "color": Color(1.0, 0.7, 0.4)},
+		{"id": "leafre", "name": "🐉 神木村", "color": Color(0.8, 0.5, 0.2)},
+		{"id": "temple", "name": "⏳ 時間神殿", "color": Color(0.7, 0.4, 1.0)},
+		{"id": "special", "name": "🏆 全怪特訓試煉場", "color": Color(1.0, 0.3, 0.3)}
 	]
 	
 	for r in region_tabs:
@@ -3402,25 +3404,29 @@ func render_tabbed_map_browser(selected_region_id: String):
 		
 		match selected_region_id:
 			"perion":
-				is_match = (theme == "perion" or "勇士" in r_name or "石巨人" in m_name or "岩山" in m_name or "峽谷" in m_name or "黑石頭人" in m_name)
+				is_match = (theme == "perion" or "勇士" in r_name or "石巨人" in m_name or "岩山" in m_name) and not ("999" in mid)
 			"ellinia":
-				is_match = (theme == "ellinia" or "魔法森林" in r_name or "大木林" in m_name or "樹林" in m_name or "猴子" in m_name or "巫婆" in m_name)
+				is_match = (theme == "ellinia" or "魔法森林" in r_name or "巫婆" in m_name) and not ("999" in mid) and not ("時間神殿" in r_name)
 			"henesys":
-				is_match = (theme == "henesys" or "弓箭手" in r_name or "肥肥" in m_name or "東部" in m_name or "菇菇" in m_name)
+				is_match = (theme == "henesys" or "弓箭手" in r_name or "肥肥" in m_name or "菇菇" in m_name) and not ("999" in mid) and not ("天空之城" in r_name)
 			"kerning":
-				is_match = (theme in ["kerning", "subway"] or "墮落" in r_name or "地鐵" in m_name or "沼澤" in m_name or "幽靈" in m_name)
+				is_match = (theme in ["kerning", "subway"] or "墮落" in r_name or "地鐵" in m_name or "沼澤" in m_name) and not ("999" in mid) and not ("玩具城" in r_name)
 			"sleepywood":
-				is_match = (theme == "sleepywood" or "奇幻" in r_name or "螞蟻洞" in m_name or "幽靈樹" in m_name or "神殿" in m_name or "龍穴" in m_name)
-			"lith_harbor":
-				is_match = (theme == "lith_harbor" or "維多利亞港" in r_name or "海岸草叢" in m_name or "三叉路" in m_name)
-			"nautilus":
-				is_match = (theme == "nautilus" or "鯨魚號" in r_name or "航海" in m_name or "甲板" in m_name)
+				is_match = (theme == "sleepywood" or "奇幻" in r_name or "螞蟻洞" in m_name or "炎魔" in m_name) and not ("999" in mid)
 			"florina":
-				is_match = (theme == "florina" or "黃金海岸" in r_name or "沙灘" in m_name or "椰子" in m_name or "螃蟹" in m_name)
-			"pq":
-				is_match = ("9910000" in mid or "組隊" in r_name or "組隊" in m_name or "第一次同行" in m_name)
-			"event":
-				is_match = ("活動" in r_name or "9900000" in mid or "特別" in m_name or "特訓" in m_name)
+				is_match = (theme == "florina" or "黃金海岸" in r_name or "沙灘" in m_name)
+			"orbis":
+				is_match = ("天空之城" in r_name or "天空之城" in m_name or "200000000" in mid)
+			"elnath":
+				is_match = ("冰原雪域" in r_name or "冰原雪域" in m_name or "211000000" in mid)
+			"ludibrium":
+				is_match = ("玩具城" in r_name or "玩具城" in m_name or "220000000" in mid)
+			"leafre":
+				is_match = ("神木村" in r_name or "神木村" in m_name or "240000000" in mid)
+			"temple":
+				is_match = ("時間神殿" in r_name or "時間神殿" in m_name or "270000000" in mid)
+			"special":
+				is_match = ("999" in mid or "全怪物" in m_name or "試煉場" in m_name or "首領狂歡" in m_name)
 			_:
 				is_match = (selected_region_id in theme or selected_region_id in r_name)
 				

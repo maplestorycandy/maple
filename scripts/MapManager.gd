@@ -335,10 +335,17 @@ func spawn_wild_monster():
 		return
 		
 	var chosen_mob = mob_list[randi() % mob_list.size()]
+	var chosen_id = chosen_mob.get("id", 0)
 	var m_name = chosen_mob.get("name", "")
-	var found_data = MonsterDatabaseFull.get_monster_by_name(m_name)
-	var chosen_id = found_data.get("id", 1)
-	var is_boss_mob = found_data.get("is_boss", false) or chosen_mob.get("is_boss", false) or found_data.get("level", 1) >= 100
+	var found_data = MonsterDatabaseFull.get_monster_by_id(chosen_id) if chosen_id > 0 else MonsterDatabaseFull.get_monster_by_name(m_name)
+	if found_data.is_empty():
+		found_data = MonsterDatabaseFull.get_monster_by_name(m_name)
+	if found_data.has("id"):
+		chosen_id = found_data["id"]
+	if chosen_id <= 0:
+		chosen_id = 100100
+		
+	var is_boss_mob = chosen_mob.get("is_boss", false) or found_data.get("is_boss", false) or found_data.get("level", 1) >= 100
 		
 	var spawn_x = randf_range(-1350, 1350)
 	var spawn_y = 330.0
