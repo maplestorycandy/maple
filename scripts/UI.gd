@@ -784,86 +784,235 @@ func refresh_pet_bag():
 		
 		pet_list_container.add_child(row)
 
-# Map Selection Fast Travel with full monster slots & drops
+# Interactive Victoria Island Graphic World Map Modal
 func setup_map_selection_list():
-	if not map_list_container:
+	if not is_instance_valid(map_select_modal):
 		return
-	for child in map_list_container.get_children():
+		
+	for child in map_select_modal.get_children():
 		child.queue_free()
 		
-	var maps = MapDatabase.get_map_list()
-	for map_info in maps:
-		var panel = PanelContainer.new()
-		panel.custom_minimum_size = Vector2(360, 110)
+	map_select_modal.custom_minimum_size = Vector2(880, 600)
+	
+	var main_vbox = VBoxContainer.new()
+	main_vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
+	main_vbox.add_theme_constant_override("separation", 6)
+	
+	# Header
+	var header = HBoxContainer.new()
+	var title = Label.new()
+	title.text = "🗺️ 維多利亞島 世界地圖 (點擊圖標即可查看怪物並即刻傳送)"
+	title.add_theme_font_size_override("font_size", 17)
+	title.modulate = Color(1.0, 0.85, 0.2)
+	header.add_child(title)
+	
+	var spacer = Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
+	
+	var close_btn = Button.new()
+	close_btn.text = " ✕ 關閉 "
+	close_btn.pressed.connect(func(): map_select_modal.visible = false)
+	header.add_child(close_btn)
+	main_vbox.add_child(header)
+	
+	# Middle: Graphic World Map Container
+	var map_wrapper = Control.new()
+	map_wrapper.custom_minimum_size = Vector2(840, 460)
+	map_wrapper.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	map_wrapper.clip_contents = true
+	
+	var map_tex = TextureRect.new()
+	var img = Image.load_from_file("res://assets/maps/world_map_interactive.png")
+	if img:
+		map_tex.texture = ImageTexture.create_from_image(img)
+	map_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	map_tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+	map_wrapper.add_child(map_tex)
+	
+	# 8 Major Victoria Island Region Pins
+	var regions = [
+		{
+			"id": "perion",
+			"name": "勇士之村 (Perion)",
+			"icon": "🏛️",
+			"town_map_id": "102000000",
+			"pos": Vector2(340, 40),
+			"level": "Lv. 10 ~ 60",
+			"mobs": "黑木妖、斧木妖、野豬、火肥肥、黑石頭人",
+			"color": Color(1.0, 0.6, 0.2)
+		},
+		{
+			"id": "ellinia",
+			"name": "魔法森林 (Ellinia)",
+			"icon": "🌲",
+			"town_map_id": "101000000",
+			"pos": Vector2(580, 260),
+			"level": "Lv. 8 ~ 55",
+			"mobs": "綠水靈、綠菇菇、天使猴、巫婆",
+			"color": Color(0.3, 1.0, 0.5)
+		},
+		{
+			"id": "henesys",
+			"name": "弓箭手村 (Henesys)",
+			"icon": "🏹",
+			"town_map_id": "100000000",
+			"pos": Vector2(390, 360),
+			"level": "Lv. 1 ~ 45",
+			"mobs": "嫩寶、藍寶、肥肥、緞帶肥肥、黑肥肥、鋼之肥肥",
+			"color": Color(1.0, 0.85, 0.2)
+		},
+		{
+			"id": "kerning",
+			"name": "墮落城市 (Kerning City)",
+			"icon": "🏙️",
+			"town_map_id": "103000000",
+			"pos": Vector2(100, 220),
+			"level": "Lv. 10 ~ 50",
+			"mobs": "三眼章魚、藍水靈、沼澤巨鱷、幽靈",
+			"color": Color(0.4, 0.9, 1.0)
+		},
+		{
+			"id": "sleepywood",
+			"name": "奇幻村 (Sleepywood)",
+			"icon": "🌋",
+			"town_map_id": "105040300",
+			"pos": Vector2(350, 230),
+			"level": "Lv. 20 ~ 100",
+			"mobs": "刺菇菇、殭屍蘑菇、土龍、魔王巴洛古",
+			"color": Color(0.9, 0.4, 1.0)
+		},
+		{
+			"id": "lith_harbor",
+			"name": "維多利亞港 (Lith Harbor)",
+			"icon": "⛵",
+			"town_map_id": "104000000",
+			"pos": Vector2(150, 380),
+			"level": "Lv. 1 ~ 20",
+			"mobs": "嫩寶、藍寶、紅寶",
+			"color": Color(0.4, 0.8, 1.0)
+		},
+		{
+			"id": "nautilus",
+			"name": "鯨魚號 (Nautilus)",
+			"icon": "⚓",
+			"town_map_id": "120000000",
+			"pos": Vector2(620, 380),
+			"level": "Lv. 10 ~ 60",
+			"mobs": "海星、水手肥肥、海怒斯",
+			"color": Color(0.3, 0.8, 1.0)
+		},
+		{
+			"id": "florina",
+			"name": "黃金海岸 (Florina Beach)",
+			"icon": "🏖️",
+			"town_map_id": "110000000",
+			"pos": Vector2(710, 310),
+			"level": "Lv. 35 ~ 50",
+			"mobs": "青螃蟹、紅螃蟹、椰子樹妖",
+			"color": Color(1.0, 0.9, 0.3)
+		}
+	]
+	
+	# Floating Details Drawer on Map
+	var detail_drawer = PanelContainer.new()
+	detail_drawer.custom_minimum_size = Vector2(340, 210)
+	detail_drawer.position = Vector2(250, 120)
+	detail_drawer.visible = false
+	detail_drawer.z_index = 10
+	map_wrapper.add_child(detail_drawer)
+	
+	for reg in regions:
+		var pin_btn = Button.new()
+		pin_btn.text = "%s %s" % [reg.icon, reg.name.split(" ")[0]]
+		pin_btn.position = reg.pos
+		pin_btn.custom_minimum_size = Vector2(110, 32)
+		pin_btn.modulate = reg.color
+		pin_btn.add_theme_font_size_override("font_size", 12)
 		
-		var vbox = VBoxContainer.new()
-		vbox.add_theme_constant_override("separation", 4)
+		var r_data = reg
+		pin_btn.pressed.connect(func():
+			show_region_detail_drawer(detail_drawer, r_data)
+		)
+		map_wrapper.add_child(pin_btn)
 		
-		# Header: Map Name + Region + Town/Field tag
-		var header_hbox = HBoxContainer.new()
-		var title_lbl = Label.new()
-		title_lbl.text = "【%s】" % map_info.name
-		title_lbl.add_theme_font_size_override("font_size", 14)
-		title_lbl.modulate = Color(1.0, 0.85, 0.2) if map_info.is_town else Color(0.4, 0.9, 1.0)
-		header_hbox.add_child(title_lbl)
-		
-		var reg_lbl = Label.new()
-		reg_lbl.text = "(%s)" % map_info.region
-		reg_lbl.add_theme_font_size_override("font_size", 11)
-		reg_lbl.modulate = Color(0.7, 0.8, 0.9)
-		header_hbox.add_child(reg_lbl)
-		
-		vbox.add_child(header_hbox)
-		
-		# Monsters & Spawn Slots
-		var mobs_str = "👾 怪物: "
-		if map_info.monsters.is_empty():
-			mobs_str += "無 (安全城鎮/休息區)"
-		else:
-			var m_parts = []
-			for m in map_info.monsters:
-				m_parts.append("%s Lv.%d [%d槽位]" % [m.name, m.level, m.slots])
-			mobs_str += ", ".join(m_parts)
-			
-		var mob_lbl = Label.new()
-		mob_lbl.text = mobs_str
-		mob_lbl.add_theme_font_size_override("font_size", 11)
-		mob_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		mob_lbl.modulate = Color(1.0, 0.7, 0.6) if not map_info.monsters.is_empty() else Color(0.6, 1.0, 0.6)
-		vbox.add_child(mob_lbl)
-		
-		# NPCs
-		if not map_info.npcs.is_empty():
-			var npc_lbl = Label.new()
-			npc_lbl.text = "👤 NPC: " + ", ".join(map_info.npcs.slice(0, 4)) + (" 等..." if map_info.npcs.size() > 4 else "")
-			npc_lbl.add_theme_font_size_override("font_size", 11)
-			npc_lbl.modulate = Color(0.9, 0.9, 0.6)
-			vbox.add_child(npc_lbl)
-			
-		# Portals
-		if not map_info.normal_portals.is_empty():
-			var p_titles = []
-			for p in map_info.normal_portals.slice(0, 3):
-				p_titles.append(p.title.replace("一般傳送點：", "").replace("前往", ""))
-			var p_lbl = Label.new()
-			p_lbl.text = "🚪 傳送: " + " ➔ ".join(p_titles)
-			p_lbl.add_theme_font_size_override("font_size", 10)
-			p_lbl.modulate = Color(0.5, 0.8, 1.0)
-			vbox.add_child(p_lbl)
-			
-		# Travel Button
-		var travel_btn = Button.new()
-		travel_btn.text = "⚡ 傳送前往【%s】" % map_info.name
-		travel_btn.custom_minimum_size = Vector2(0, 26)
-		var mid = map_info.id
-		travel_btn.pressed.connect(func():
-			Global.change_map(mid)
+	main_vbox.add_child(map_wrapper)
+	
+	# Bottom Quick 8-Town Teleport Bar
+	var btm_hbox = HBoxContainer.new()
+	btm_hbox.add_theme_constant_override("separation", 6)
+	
+	var btm_lbl = Label.new()
+	btm_lbl.text = "⚡ 一鍵直達主城:"
+	btm_lbl.add_theme_font_size_override("font_size", 12)
+	btm_lbl.modulate = Color.GOLD
+	btm_hbox.add_child(btm_lbl)
+	
+	for reg in regions:
+		var town_btn = Button.new()
+		town_btn.text = "%s %s" % [reg.icon, reg.name.split(" ")[0]]
+		town_btn.add_theme_font_size_override("font_size", 11)
+		var t_id = reg.town_map_id
+		town_btn.pressed.connect(func():
+			Global.change_map(t_id)
 			map_select_modal.visible = false
 		)
-		vbox.add_child(travel_btn)
+		btm_hbox.add_child(town_btn)
 		
-		panel.add_child(vbox)
-		map_list_container.add_child(panel)
+	main_vbox.add_child(btm_hbox)
+	map_select_modal.add_child(main_vbox)
+
+func show_region_detail_drawer(drawer: PanelContainer, region_data: Dictionary):
+	drawer.visible = true
+	for c in drawer.get_children():
+		c.queue_free()
+		
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 6)
+	
+	var top_row = HBoxContainer.new()
+	var name_lbl = Label.new()
+	name_lbl.text = "【%s】" % region_data.name
+	name_lbl.add_theme_font_size_override("font_size", 15)
+	name_lbl.modulate = region_data.color
+	top_row.add_child(name_lbl)
+	
+	var sp = Control.new()
+	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top_row.add_child(sp)
+	
+	var close_d_btn = Button.new()
+	close_d_btn.text = "✕"
+	close_d_btn.pressed.connect(func(): drawer.visible = false)
+	top_row.add_child(close_d_btn)
+	vbox.add_child(top_row)
+	
+	var lvl_lbl = Label.new()
+	lvl_lbl.text = "🎯 推薦等級: %s" % region_data.level
+	lvl_lbl.add_theme_font_size_override("font_size", 12)
+	lvl_lbl.modulate = Color(0.4, 0.9, 1.0)
+	vbox.add_child(lvl_lbl)
+	
+	var mob_lbl = Label.new()
+	mob_lbl.text = "👾 代表怪物: %s" % region_data.mobs
+	mob_lbl.add_theme_font_size_override("font_size", 11)
+	mob_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mob_lbl.modulate = Color(1.0, 0.8, 0.6)
+	vbox.add_child(mob_lbl)
+	
+	# Direct Teleport Button
+	var teleport_btn = Button.new()
+	teleport_btn.text = "⚡ 立即傳送前往【%s】" % region_data.name.split(" ")[0]
+	teleport_btn.custom_minimum_size = Vector2(0, 32)
+	teleport_btn.modulate = Color(0.3, 1.0, 0.5)
+	var t_id = region_data.town_map_id
+	teleport_btn.pressed.connect(func():
+		Global.change_map(t_id)
+		map_select_modal.visible = false
+	)
+	vbox.add_child(teleport_btn)
+	
+	drawer.add_child(vbox)
 
 func show_game_over(victory: bool):
 	game_over_modal.visible = true
