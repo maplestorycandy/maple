@@ -86,13 +86,21 @@ func handle_input(delta):
 	if Global.is_game_over:
 		return
 		
-	# Horizontal movement
-	var input_x = Input.get_axis("move_left", "move_right")
-	if input_x != 0:
+	# Horizontal movement (Multi-input: Actions, Keyboard Keys, Touch Buttons)
+	var input_x = 0.0
+	if Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT) or Input.is_physical_key_pressed(KEY_A):
+		input_x -= 1.0
+	if Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT) or Input.is_physical_key_pressed(KEY_D):
+		input_x += 1.0
+	if Global.touch_move_dir != 0.0:
+		input_x = Global.touch_move_dir
+		
+	var target_speed = max(250.0, Global.player_speed)
+	if input_x != 0.0:
 		facing_direction = sign(input_x)
-		velocity.x = input_x * Global.player_speed
+		velocity.x = input_x * target_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, Global.player_speed * 6.0 * delta)
+		velocity.x = move_toward(velocity.x, 0, target_speed * 10.0 * delta)
 		
 	# Jump & Down-jump & Flash Jump
 	if Input.is_action_just_pressed("jump"):

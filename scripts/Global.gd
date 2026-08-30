@@ -55,6 +55,7 @@ var magic_atk: int = 5
 var mastery: float = 0.60
 var base_crit_rate: float = 0.15
 var player_speed: float = 250.0
+var touch_move_dir: float = 0.0
 var meso_gold: int = 500
 
 # Custom Keybinding System

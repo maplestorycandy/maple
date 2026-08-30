@@ -162,9 +162,15 @@ func bind_hold_button(btn: Button, action: String):
 	if not is_instance_valid(btn):
 		return
 	btn.button_down.connect(func():
+		if action == "move_left":
+			Global.touch_move_dir = -1.0
+		elif action == "move_right":
+			Global.touch_move_dir = 1.0
 		Input.action_press(action)
 	)
 	btn.button_up.connect(func():
+		if (action == "move_left" and Global.touch_move_dir < 0.0) or (action == "move_right" and Global.touch_move_dir > 0.0):
+			Global.touch_move_dir = 0.0
 		Input.action_release(action)
 	)
 
