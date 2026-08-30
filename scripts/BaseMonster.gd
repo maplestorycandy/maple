@@ -22,6 +22,7 @@ var is_wave_attacker: bool = false
 var is_boss: bool = false
 var facing_direction: int = 1
 var has_sprite_texture: bool = false
+var monster_avoid: int = 0
 
 # Network interpolation variables
 var target_net_pos: Vector2 = Vector2.ZERO
@@ -51,6 +52,7 @@ func setup(data: Dictionary, target_pos: Vector2 = Vector2.ZERO):
 	monster_id = data.get("id", 1)
 	monster_name = data.get("name", "Monster")
 	monster_level = data.get("level", 1)
+	monster_avoid = data.get("avoid", data.get("eva", int(monster_level * 0.25)))
 	monster_type = data.get("type", "Normal")
 	max_hp = data.get("hp", 100)
 	hp = max_hp
@@ -67,6 +69,7 @@ func setup(data: Dictionary, target_pos: Vector2 = Vector2.ZERO):
 	if is_boss:
 		body_scale = 1.5 if monster_level < 100 else 2.0
 		add_to_group("bosses")
+		Global.report_boss_hp(monster_name, hp, max_hp)
 	else:
 		body_scale = 1.0
 	
@@ -256,12 +259,18 @@ func take_damage_custom(amount: int, is_crit: bool = false, hit_index: int = 0):
 
 func take_damage(amount: int, is_crit: bool = false, hit_index: int = 0):
 	take_damage_custom(amount, is_crit, hit_index)
-	take_damage_custom(amount, is_crit, 0)
 
-func take_damage_authoritative(amount: int, is_crit: bool = false, hit_index: int = 0):
+func take_damage_authoritative(amount: int, is_crit: bool = false, hit_index: int = 0, is_miss: bool = false):
+	if is_miss or amount <= 0:
+		spawn_damage_text(0, false, hit_index, true)
+		return
+		
 	hp -= amount
 	hurt_flash = 1.0
-	spawn_damage_text(amount, is_crit, hit_index)
+	spawn_damage_text(amount, is_crit, hit_index, false)
+	
+	if is_boss:
+		Global.report_boss_hp(monster_name, hp, max_hp)
 	
 	if Global.passive_buffs.get("vampiric_drain", false):
 		var v_heal = int(amount * 0.15)
@@ -271,20 +280,24 @@ func take_damage_authoritative(amount: int, is_crit: bool = false, hit_index: in
 		NetworkManager.rpc("broadcast_mob_hit", net_id, amount, is_crit, hit_index, hp)
 		
 	if hp <= 0:
+		if is_boss:
+			Global.report_boss_died(monster_name)
 		if NetworkManager.is_multiplayer_active and NetworkManager.is_host:
 			NetworkManager.rpc("broadcast_mob_death", net_id, exp_reward, meso_reward)
 		else:
 			die_synchronized(exp_reward, meso_reward)
 
-func spawn_damage_text(amount: int, is_crit: bool, hit_index: int = 0):
+func spawn_damage_text(amount: int, is_crit: bool, hit_index: int = 0, is_miss: bool = false):
 	var dmg_scene = load("res://scenes/skills/DamageNumber.tscn")
 	if dmg_scene:
 		var num = dmg_scene.instantiate()
 		num.global_position = global_position + Vector2(randf_range(-10, 10), -45 * body_scale)
-		num.setup(amount, is_crit, false, false, hit_index)
+		num.setup(amount, is_crit, false, is_miss, hit_index)
 		get_tree().current_scene.add_child.call_deferred(num)
 
 func die_synchronized(exp_amt: int, meso_amt: int):
+	if is_boss:
+		Global.report_boss_died(monster_name)
 	Global.add_exp(exp_amt)
 	Global.meso_gold += meso_amt
 	

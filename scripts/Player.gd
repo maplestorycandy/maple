@@ -178,54 +178,61 @@ func consume_mp(amount: int) -> bool:
 	Global.emit_signal("player_mp_changed", Global.player_mp, Global.player_max_mp)
 	return true
 
+func spawn_skill_visual(effect_type: String, target_pos: Vector2, facing: int = 1, duration: float = 0.55):
+	var eff_scene = load("res://scenes/skills/SkillEffect.tscn")
+	if eff_scene:
+		var eff = eff_scene.instantiate()
+		eff.setup(effect_type, target_pos, facing, duration)
+		get_parent().add_child.call_deferred(eff)
+
 func trigger_custom_action(action_name: String):
-	var skills = Global.player_job_data.get("skills", {})
 	var cd_mult = (1.0 - Global.passive_buffs.get("cooldown_reduction", 0.0))
 	
 	match action_name:
 		"attack":
-			perform_job_skill(skills.get("basic", {}), "basic")
+			var s = Global.get_player_skill_stats("basic")
+			perform_job_skill(s, "basic")
 		"jump":
 			do_jump()
 		"skill_1":
 			if skill_1_cd <= 0:
-				var s = skills.get("skill_1", {})
+				var s = Global.get_player_skill_stats("skill_1")
 				if consume_mp(s.get("mp", 0)):
 					skill_1_cd = s.get("cd", 1.0) * cd_mult
 					perform_job_skill(s, "skill_1")
 		"skill_2":
 			if skill_2_cd <= 0:
-				var s = skills.get("skill_2", {})
+				var s = Global.get_player_skill_stats("skill_2")
 				if consume_mp(s.get("mp", 0)):
 					skill_2_cd = s.get("cd", 1.5) * cd_mult
 					perform_job_skill(s, "skill_2")
 		"skill_3":
 			if skill_3_cd <= 0:
-				var s = skills.get("skill_3", {})
+				var s = Global.get_player_skill_stats("skill_3")
 				if consume_mp(s.get("mp", 0)):
 					skill_3_cd = s.get("cd", 2.0) * cd_mult
 					perform_job_skill(s, "skill_3")
 		"skill_4":
 			if skill_4_cd <= 0 and ("skill_4" in Global.unlocked_skills or Global.player_level >= 10):
-				var s = skills.get("skill_4", {})
+				var s = Global.get_player_skill_stats("skill_4")
 				if consume_mp(s.get("mp", 0)):
 					skill_4_cd = s.get("cd", 3.0) * cd_mult
 					perform_job_skill(s, "skill_4")
 		"skill_5":
 			if skill_5_cd <= 0 and ("skill_5" in Global.unlocked_skills or Global.player_level >= 20):
-				var s = skills.get("skill_5", {})
+				var s = Global.get_player_skill_stats("skill_5")
 				if consume_mp(s.get("mp", 0)):
 					skill_5_cd = s.get("cd", 4.0) * cd_mult
 					perform_job_skill(s, "skill_5")
 		"skill_6":
 			if skill_6_cd <= 0 and ("skill_6" in Global.unlocked_skills or Global.player_level >= 30):
-				var s = skills.get("skill_6", {})
+				var s = Global.get_player_skill_stats("skill_6")
 				if consume_mp(s.get("mp", 0)):
 					skill_6_cd = s.get("cd", 5.0) * cd_mult
 					perform_job_skill(s, "skill_6")
 		"ultimate":
 			if ultimate_cd <= 0 and ("ultimate" in Global.unlocked_skills or Global.player_level >= 40):
-				var s = skills.get("ultimate", {})
+				var s = Global.get_player_skill_stats("ultimate")
 				if consume_mp(s.get("mp", 0)):
 					ultimate_cd = s.get("cd", 10.0) * cd_mult
 					perform_job_skill(s, "ultimate")
@@ -243,19 +250,21 @@ func use_quick_potion(type: String):
 		var item = Global.use_inventory[i]
 		var iname = item.get("name", "")
 		if type == "hp" and ("紅" in iname or "白" in iname or "超級" in iname or "HP" in iname or "水" in iname):
-			Global.use_inventory_item(i)
+			Global.use_consume_item(i)
 			return
 		elif type == "mp" and ("藍" in iname or "超級" in iname or "MP" in iname or "水" in iname):
-			Global.use_inventory_item(i)
+			Global.use_consume_item(i)
 			return
 	Global.broadcast_message("無可用【%s】藥水！" % ("生命 HP" if type == "hp" else "魔力 MP"), Color.SALMON)
 
 func trigger_passive_procs():
 	if Global.passive_buffs.get("auto_lightning", false):
 		execute_screen_magic(5.0, 3)
+		spawn_skill_visual("lightning_storm", global_position, facing_direction, 0.6)
 		Global.broadcast_message("⚡ 天神神罰天雷轟頂！", Color(0.4, 0.9, 1.0))
 	if Global.passive_buffs.get("auto_cannon", false):
 		execute_dragon_strike(4.0, 2)
+		spawn_skill_visual("dragon_strike", global_position + Vector2(facing_direction * 40, -10), facing_direction, 0.6)
 		Global.broadcast_message("💣 戰艦重砲全自動開火！", Color.GOLD)
 
 func perform_job_skill(skill_data: Dictionary, skill_key: String):
@@ -265,69 +274,85 @@ func perform_job_skill(skill_data: Dictionary, skill_key: String):
 	
 	var mult = skill_data.get("multiplier", 1.0)
 	var hits = skill_data.get("hits", 1)
+	var s_type = skill_data.get("type", "melee")
 	var job = Global.player_job_id
+	var cur_lvl = skill_data.get("current_level", 1)
 	
 	if NetworkManager.is_multiplayer_active:
 		rpc("sync_skill_cast", skill_key)
 	
-	Global.broadcast_message("【%s】%s !" % [Global.player_job_data.name, skill_data.get("name", "")], Global.player_job_data.color)
+	Global.broadcast_message("【%s】%s (Lv.%d) !" % [Global.player_job_data.name, skill_data.get("name", ""), cur_lvl], Global.player_job_data.color)
+	
+	# Spawn skill cast visual on player
+	var cast_pos = global_position + Vector2(facing_direction * 35, -20)
+	spawn_skill_visual(s_type, cast_pos, facing_direction, 0.45)
 	
 	match job:
 		"warrior":
 			if skill_key in ["skill_5", "ultimate"]:
-				execute_screen_warrior(mult, hits)
+				execute_screen_warrior(mult, hits, s_type)
 			elif skill_key in ["skill_3", "skill_4", "skill_6"]:
-				execute_melee_cone_damage(mult, hits, 120.0)
+				execute_melee_cone_damage(mult, hits, 130.0, s_type)
 			else:
-				execute_melee_cone_damage(mult, hits, 85.0 if skill_key == "skill_2" else 65.0)
+				execute_melee_cone_damage(mult, hits, 95.0 if skill_key == "skill_2" else 75.0, s_type)
 		"magician":
 			if skill_key in ["skill_4", "skill_5", "ultimate"]:
-				execute_screen_magic(mult, hits)
+				execute_screen_magic(mult, hits, s_type)
 			elif skill_key in ["skill_2", "skill_3", "skill_6"]:
-				execute_lightning_storm(mult, hits)
+				execute_lightning_storm(mult, hits, s_type)
 			else:
-				execute_magic_claw(mult, hits)
+				execute_magic_claw(mult, hits, s_type)
 		"bowman":
 			if skill_key in ["skill_5", "ultimate"]:
-				execute_screen_magic(mult, hits)
+				execute_screen_magic(mult, hits, s_type)
 			else:
-				shoot_arrows(mult, hits, skill_key in ["skill_2", "skill_3", "skill_4", "skill_6"])
+				shoot_arrows(mult, hits, skill_key in ["skill_2", "skill_3", "skill_4", "skill_6"], s_type)
 		"thief":
 			if skill_key in ["skill_3", "skill_4", "skill_6"]:
-				execute_savage_blow(mult, hits)
+				execute_savage_blow(mult, hits, s_type)
 			elif skill_key == "ultimate":
-				execute_screen_magic(mult, hits)
+				execute_screen_magic(mult, hits, s_type)
 			else:
-				shoot_throwing_stars(mult, hits)
+				shoot_throwing_stars(mult, hits, s_type)
 		"pirate":
 			if skill_key in ["skill_5", "skill_6", "ultimate"]:
-				execute_dragon_strike(mult, hits)
+				execute_dragon_strike(mult, hits, s_type)
 			elif skill_key in ["skill_2", "skill_3"]:
-				execute_somersault_kick(mult, hits)
+				execute_somersault_kick(mult, hits, s_type)
 			else:
-				shoot_pirate_bullet(mult, hits)
+				shoot_pirate_bullet(mult, hits, s_type)
+		_:
+			if skill_key in ["skill_5", "skill_6", "ultimate"]:
+				execute_screen_magic(mult, hits, s_type)
+			else:
+				execute_melee_cone_damage(mult, hits, 90.0, s_type)
 
-func execute_melee_cone_damage(multiplier: float, hits: int, radius: float):
+func execute_melee_cone_damage(multiplier: float, hits: int, radius: float, effect_type: String = "power_strike"):
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	var hit_center = global_position + Vector2(facing_direction * 50, -20)
 	
 	for e in enemies:
 		if is_instance_valid(e) and not e.is_queued_for_deletion():
 			if hit_center.distance_to(e.global_position) <= radius or global_position.distance_to(e.global_position) <= (radius + 30.0):
+				spawn_skill_visual(effect_type, e.global_position + Vector2(0, -20), facing_direction, 0.4)
 				apply_multi_hit_damage(e, multiplier, hits)
 
-func execute_screen_warrior(multiplier: float, hits: int):
+func execute_screen_warrior(multiplier: float, hits: int, effect_type: String = "dragon_roar"):
 	var enemies = get_tree().get_nodes_in_group("enemies")
+	spawn_skill_visual(effect_type, global_position + Vector2(0, -30), facing_direction, 0.8)
 	for e in enemies:
 		if is_instance_valid(e) and not e.is_queued_for_deletion():
 			if global_position.distance_to(e.global_position) < 850.0:
+				spawn_skill_visual(effect_type, e.global_position + Vector2(0, -20), facing_direction, 0.4)
 				apply_multi_hit_damage(e, multiplier, hits)
 
-func execute_screen_magic(multiplier: float, hits: int):
+func execute_screen_magic(multiplier: float, hits: int, effect_type: String = "genesis"):
 	var enemies = get_tree().get_nodes_in_group("enemies")
+	spawn_skill_visual(effect_type, global_position + Vector2(0, -40), facing_direction, 0.85)
 	for e in enemies:
 		if is_instance_valid(e) and not e.is_queued_for_deletion():
 			if global_position.distance_to(e.global_position) < 850.0:
+				spawn_skill_visual(effect_type, e.global_position + Vector2(0, -20), facing_direction, 0.5)
 				apply_multi_hit_damage(e, multiplier, hits)
 			
 	var rain_scene = load("res://scenes/skills/HolyRain.tscn")
@@ -336,62 +361,70 @@ func execute_screen_magic(multiplier: float, hits: int):
 		rain.global_position = global_position
 		get_parent().add_child.call_deferred(rain)
 
-func execute_lightning_storm(multiplier: float, hits: int):
+func execute_lightning_storm(multiplier: float, hits: int, effect_type: String = "lightning_storm"):
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for e in enemies:
 		if is_instance_valid(e) and not e.is_queued_for_deletion():
 			if global_position.distance_to(e.global_position) < 500.0:
+				spawn_skill_visual(effect_type, e.global_position + Vector2(0, -25), facing_direction, 0.45)
 				apply_multi_hit_damage(e, multiplier, hits)
 
-func execute_magic_claw(multiplier: float, hits: int):
+func execute_magic_claw(multiplier: float, hits: int, effect_type: String = "magic_claw"):
 	var enemy = find_target_in_direction(350.0)
 	if enemy:
+		spawn_skill_visual(effect_type, enemy.global_position + Vector2(0, -20), facing_direction, 0.45)
 		apply_multi_hit_damage(enemy, multiplier, hits)
 	else:
-		execute_melee_cone_damage(multiplier, hits, 90.0)
+		execute_melee_cone_damage(multiplier, hits, 90.0, effect_type)
 
-func execute_savage_blow(multiplier: float, hits: int):
-	var enemy = find_target_in_direction(220.0)
+func execute_savage_blow(multiplier: float, hits: int, effect_type: String = "savage_blow"):
+	var enemy = find_target_in_direction(240.0)
 	if enemy:
+		spawn_skill_visual(effect_type, enemy.global_position + Vector2(0, -20), facing_direction, 0.5)
 		apply_multi_hit_damage(enemy, multiplier, hits)
 	else:
-		execute_melee_cone_damage(multiplier, hits, 85.0)
+		execute_melee_cone_damage(multiplier, hits, 90.0, effect_type)
 
-func execute_somersault_kick(multiplier: float, hits: int):
-	execute_melee_cone_damage(multiplier, hits, 120.0)
+func execute_somersault_kick(multiplier: float, hits: int, effect_type: String = "aoe_slash"):
+	execute_melee_cone_damage(multiplier, hits, 120.0, effect_type)
 
-func execute_dragon_strike(multiplier: float, hits: int):
+func execute_dragon_strike(multiplier: float, hits: int, effect_type: String = "dragon_strike"):
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for e in enemies:
 		if is_instance_valid(e) and not e.is_queued_for_deletion():
-			if global_position.distance_to(e.global_position) < 400.0:
+			if global_position.distance_to(e.global_position) < 420.0:
+				spawn_skill_visual(effect_type, e.global_position + Vector2(0, -20), facing_direction, 0.5)
 				apply_multi_hit_damage(e, multiplier, hits)
 
-func shoot_arrows(multiplier: float, hits: int, is_spread: bool = false):
+func shoot_arrows(multiplier: float, hits: int, is_spread: bool = false, effect_type: String = "arrow_rain"):
 	var enemy = find_target_in_direction(650.0)
 	if enemy:
+		spawn_skill_visual(effect_type, enemy.global_position + Vector2(0, -20), facing_direction, 0.45)
 		apply_multi_hit_damage(enemy, multiplier, hits)
 		if is_spread:
 			var enemies = get_tree().get_nodes_in_group("enemies")
 			for e in enemies:
 				if e != enemy and is_instance_valid(e) and global_position.distance_to(e.global_position) < 400.0:
+					spawn_skill_visual(effect_type, e.global_position + Vector2(0, -20), facing_direction, 0.4)
 					apply_multi_hit_damage(e, multiplier * 0.8, max(1, hits - 1))
 	else:
-		execute_melee_cone_damage(multiplier, hits, 100.0)
+		execute_melee_cone_damage(multiplier, hits, 100.0, effect_type)
 
-func shoot_throwing_stars(multiplier: float, hits: int):
+func shoot_throwing_stars(multiplier: float, hits: int, effect_type: String = "lucky_seven"):
 	var enemy = find_target_in_direction(550.0)
 	if enemy:
+		spawn_skill_visual(effect_type, enemy.global_position + Vector2(0, -20), facing_direction, 0.45)
 		apply_multi_hit_damage(enemy, multiplier, hits)
 	else:
-		execute_melee_cone_damage(multiplier, hits, 90.0)
+		execute_melee_cone_damage(multiplier, hits, 90.0, effect_type)
 
-func shoot_pirate_bullet(multiplier: float, hits: int):
+func shoot_pirate_bullet(multiplier: float, hits: int, effect_type: String = "power_strike"):
 	var enemy = find_target_in_direction(500.0)
 	if enemy:
+		spawn_skill_visual(effect_type, enemy.global_position + Vector2(0, -20), facing_direction, 0.45)
 		apply_multi_hit_damage(enemy, multiplier, hits)
 	else:
-		execute_melee_cone_damage(multiplier, hits, 90.0)
+		execute_melee_cone_damage(multiplier, hits, 90.0, effect_type)
 
 func find_target_in_direction(max_range: float) -> Node2D:
 	var enemies = get_tree().get_nodes_in_group("enemies")
@@ -408,10 +441,20 @@ func find_target_in_direction(max_range: float) -> Node2D:
 	return closest
 
 func apply_multi_hit_damage(target: Node2D, multiplier: float, hits: int):
+	var is_magic = (Global.player_job_id in ["magician", "mage"])
+	var mob_lvl = target.get("monster_level", 1) if "monster_level" in target else 1
+	var mob_avoid = target.get("monster_avoid", 0) if "monster_avoid" in target else 0
+	
 	for i in range(hits):
 		var timer = get_tree().create_timer(i * 0.07)
 		timer.timeout.connect(func():
 			if is_instance_valid(target) and not target.is_queued_for_deletion():
+				var is_hit = Global.check_attack_hit_against_mob(mob_lvl, mob_avoid, is_magic)
+				if not is_hit:
+					if target.has_method("take_damage"):
+						target.take_damage(0, false, i)
+					return
+					
 				var dmg_info = Global.calculate_player_damage(multiplier)
 				var is_crit = dmg_info.is_crit
 				var dmg_val = dmg_info.damage

@@ -17,9 +17,12 @@ Global="*res://scripts/Global.gd"
 NetworkManager="*res://scripts/NetworkManager.gd"
 JobDatabase="*res://scripts/JobDatabase.gd"
 MonsterDatabaseFull="*res://scripts/MonsterDatabaseFull.gd"
+ItemDatabaseFull="*res://scripts/ItemDatabaseFull.gd"
+EquipmentDatabaseFull="*res://scripts/EquipmentDatabaseFull.gd"
 MapDatabase="*res://scripts/MapDatabase.gd"
 LevelBuffManager="*res://scripts/LevelBuffManager.gd"
 DropItemManager="*res://scripts/DropItemManager.gd"
+ScrollDatabase="*res://scripts/ScrollDatabase.gd"
 
 [display]
 

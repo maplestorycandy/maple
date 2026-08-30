@@ -6,6 +6,10 @@ signal player_mp_changed(current: int, max_mp: int)
 signal player_exp_changed(current: int, max_exp: int, level: int)
 signal player_job_changed(job_data: Dictionary)
 signal player_stats_changed()
+signal player_sp_changed(available_sp: int)
+signal skill_points_allocated(skill_id: String, level: int)
+signal equipment_scrolled(result: Dictionary)
+signal boss_hp_updated(boss_name: String, current_hp: int, max_hp: int, is_alive: bool)
 signal inventory_updated()
 signal equipment_updated()
 signal goddess_hp_changed(current: int, max_hp: int)
@@ -38,11 +42,16 @@ var stat_dex: int = 12
 var stat_int: int = 4
 var stat_luk: int = 4
 var available_ap: int = 0 # 5 AP per level gained
+var available_sp: int = 3 # 3 SP per level gained (Classic Maple SP)
+var player_skill_levels: Dictionary = {} # e.g. {"basic": 1, "skill_1": 1}
 
 # Equipment Bonus Attributes
 var equip_bonus_atk: int = 0
 var equip_bonus_magic_atk: int = 0
 var equip_bonus_def: int = 0
+var equip_bonus_acc: int = 0
+var equip_bonus_magic_acc: int = 0
+var equip_bonus_avoid: int = 0
 var equip_bonus_speed: float = 0.0
 var equip_bonus_str: int = 0
 var equip_bonus_dex: int = 0
@@ -275,13 +284,14 @@ func add_item_to_inventory(category: String, item: Dictionary) -> bool:
 	match category.to_lower():
 		"equip", "equipment":
 			var full_item = build_equipment_stats(item)
-			# Auto-stacking with same item name and slot
-			for existing in equip_inventory:
-				if existing.get("name", "") == full_item.get("name", "") and existing.get("slot", "") == full_item.get("slot", ""):
-					existing["count"] = existing.get("count", 1) + item.get("count", 1)
-					sort_equipment_inventory()
-					emit_signal("inventory_updated")
-					return true
+			# Auto-stacking only for un-scrolled items with same item name and slot
+			if full_item.get("scroll_success_count", 0) == 0 and full_item.get("upgrade_slots_remaining", 7) == full_item.get("upgrade_slots_total", 7):
+				for existing in equip_inventory:
+					if existing.get("name", "") == full_item.get("name", "") and existing.get("slot", "") == full_item.get("slot", "") and existing.get("scroll_success_count", 0) == 0 and existing.get("upgrade_slots_remaining", 7) == existing.get("upgrade_slots_total", 7):
+						existing["count"] = existing.get("count", 1) + item.get("count", 1)
+						sort_equipment_inventory()
+						emit_signal("inventory_updated")
+						return true
 					
 			if equip_inventory.size() < 40:
 				if not full_item.has("count"):
@@ -382,7 +392,192 @@ func build_equipment_stats(base_item: Dictionary) -> Dictionary:
 		if slot == "shoes":
 			item["speed"] = item.get("speed", 5.0 + float(req_lvl) * 0.2)
 			
+	# Initialize Scroll & Upgrade Slot Properties
+	item["upgrade_slots_total"] = item.get("upgrade_slots_total", 7)
+	item["upgrade_slots_remaining"] = item.get("upgrade_slots_remaining", item["upgrade_slots_total"])
+	item["scroll_success_count"] = item.get("scroll_success_count", 0)
+	item["bonus_stats"] = item.get("bonus_stats", {})
+			
 	return item
+
+# =========================================================================
+# MAPLESTORY SCROLL ENHANCEMENT SYSTEM (衝裝系統)
+# =========================================================================
+func apply_scroll_to_equipment(scroll_idx_in_use: int, target_type: String, target_key) -> Dictionary:
+	if scroll_idx_in_use < 0 or scroll_idx_in_use >= use_inventory.size():
+		return {"success": false, "reason": "找不到該卷軸！"}
+		
+	var scroll_item = use_inventory[scroll_idx_in_use]
+	var scroll_data = ScrollDatabase.get_scroll_by_name(scroll_item.get("name", ""))
+	if scroll_data.is_empty():
+		scroll_data = ScrollDatabase.get_scroll(scroll_item.get("id", ""))
+	if scroll_data.is_empty():
+		scroll_data = scroll_item
+		
+	var target_equip: Dictionary = {}
+	if target_type == "equipped":
+		if not equipped_items.has(target_key) or equipped_items[target_key] == null:
+			return {"success": false, "reason": "目標裝備欄為空！"}
+		target_equip = equipped_items[target_key]
+	else:
+		var idx = int(target_key)
+		if idx < 0 or idx >= equip_inventory.size():
+			return {"success": false, "reason": "找不到目標裝備！"}
+		target_equip = equip_inventory[idx]
+		
+	# Check remaining upgrade slots
+	var remaining_slots = target_equip.get("upgrade_slots_remaining", 7)
+	if remaining_slots <= 0:
+		return {"success": false, "reason": "【%s】已無剩餘可升級次數！" % target_equip.get("name", "裝備")}
+		
+	# Check slot compatibility
+	if not ScrollDatabase.is_scroll_compatible_with_equip(scroll_data, target_equip):
+		return {"success": false, "reason": "【%s】無法套用於【%s】！部位不符。" % [scroll_data.get("name", "卷軸"), target_equip.get("name", "裝備")]}
+		
+	# Deduct scroll from use inventory
+	scroll_item["count"] = scroll_item.get("count", 1) - 1
+	if scroll_item["count"] <= 0:
+		use_inventory.remove_at(scroll_idx_in_use)
+	emit_signal("inventory_updated")
+	
+	# Roll Success / Failure
+	var rate = scroll_data.get("rate", 60)
+	var roll = randi_range(1, 100)
+	var is_success = roll <= rate
+	var is_cursed = scroll_data.get("is_cursed", false) or rate in [30, 70]
+	var is_destroyed = false
+	
+	target_equip["upgrade_slots_remaining"] = remaining_slots - 1
+	
+	if is_success:
+		target_equip["scroll_success_count"] = target_equip.get("scroll_success_count", 0) + 1
+		var b_stats = target_equip.get("bonus_stats", {})
+		var scroll_stats = scroll_data.get("stats", {})
+		for k in scroll_stats.keys():
+			var val = scroll_stats[k]
+			b_stats[k] = b_stats.get(k, 0) + val
+			target_equip[k] = target_equip.get(k, 0) + val
+		target_equip["bonus_stats"] = b_stats
+		
+		recalculate_stats()
+		emit_signal("equipment_updated")
+		emit_signal("inventory_updated")
+		emit_signal("player_stats_changed")
+		
+		var succ_cnt = target_equip["scroll_success_count"]
+		var res_dict = {
+			"success": true,
+			"is_destroyed": false,
+			"message": "✨ 衝裝大成功！【%s】強化至 (+%d)！能力值全面提升！" % [target_equip.get("name", "裝備"), succ_cnt],
+			"equip": target_equip,
+			"scroll_name": scroll_data.get("name", "卷軸")
+		}
+		emit_signal("equipment_scrolled", res_dict)
+		broadcast_message("★ 恭喜！【%s】衝裝成功 (+%d)！" % [target_equip.get("name", "裝備"), succ_cnt], Color(1.0, 0.85, 0.2))
+		return res_dict
+	else:
+		# Failure roll
+		if is_cursed and randf() < 0.50:
+			# Cursed destruction
+			is_destroyed = true
+			if target_type == "equipped":
+				equipped_items[target_key] = null
+			else:
+				equip_inventory.remove_at(int(target_key))
+				
+			recalculate_stats()
+			emit_signal("equipment_updated")
+			emit_signal("inventory_updated")
+			emit_signal("player_stats_changed")
+			
+			var res_dict = {
+				"success": false,
+				"is_destroyed": true,
+				"message": "💥 詛咒發作！【%s】在黑暗力量中化為灰燼損毀消失了！" % target_equip.get("name", "裝備"),
+				"equip": {},
+				"scroll_name": scroll_data.get("name", "卷軸")
+			}
+			emit_signal("equipment_scrolled", res_dict)
+			broadcast_message("☠ 詛咒爆裝！【%s】損毀消失！" % target_equip.get("name", "裝備"), Color.RED)
+			return res_dict
+		else:
+			# Normal failure
+			recalculate_stats()
+			emit_signal("equipment_updated")
+			emit_signal("inventory_updated")
+			emit_signal("player_stats_changed")
+			
+			var res_dict = {
+				"success": false,
+				"is_destroyed": false,
+				"message": "💨 強化失敗！卷軸化為一縷灰煙，扣除了 1 次升級次數（剩餘 %d 次）。" % target_equip["upgrade_slots_remaining"],
+				"equip": target_equip,
+				"scroll_name": scroll_data.get("name", "卷軸")
+			}
+			emit_signal("equipment_scrolled", res_dict)
+			broadcast_message("💨 衝裝失敗！【%s】扣除 1 次升級次數。" % target_equip.get("name", "裝備"), Color(0.7, 0.7, 0.7))
+			return res_dict
+
+# =========================================================================
+# BINOMIAL DISTRIBUTION SCROLL PROBABILITY CALCULATOR
+# https://bobogameguides.com/maplestory-classic/guides/scroll-calculator.html
+# =========================================================================
+static func combination(n: int, k: int) -> float:
+	if k < 0 or k > n:
+		return 0.0
+	if k == 0 or k == n:
+		return 1.0
+	k = min(k, n - k)
+	var c = 1.0
+	for i in range(k):
+		c = c * float(n - i) / float(i + 1)
+	return c
+
+static func calculate_scroll_probabilities(total_slots: int, success_rate_pct: float, want_success_count: int, unit_price: int = 0) -> Dictionary:
+	total_slots = clamp(total_slots, 1, 30)
+	var p = clamp(success_rate_pct / 100.0, 0.0, 1.0)
+	want_success_count = clamp(want_success_count, 0, total_slots)
+	
+	var distribution: Array[Dictionary] = []
+	var expected_success: float = float(total_slots) * p
+	var at_least_prob: float = 0.0
+	var max_prob: float = -1.0
+	var mode_k: int = 0
+	
+	for k in range(total_slots + 1):
+		var prob: float = 0.0
+		if p >= 1.0:
+			prob = 1.0 if k == total_slots else 0.0
+		elif p <= 0.0:
+			prob = 1.0 if k == 0 else 0.0
+		else:
+			prob = combination(total_slots, k) * pow(p, k) * pow(1.0 - p, total_slots - k)
+			
+		distribution.append({
+			"k": k,
+			"probability": prob,
+			"pct": prob * 100.0
+		})
+		
+		if prob > max_prob:
+			max_prob = prob
+			mode_k = k
+			
+		if k >= want_success_count:
+			at_least_prob += prob
+			
+	var expected_cost = total_slots * unit_price
+	
+	return {
+		"total_slots": total_slots,
+		"rate_pct": success_rate_pct,
+		"want_k": want_success_count,
+		"expected_success": expected_success,
+		"at_least_prob_pct": at_least_prob * 100.0,
+		"mode_k": mode_k,
+		"expected_cost": expected_cost,
+		"distribution": distribution
+	}
 
 func equip_item(inv_index: int) -> bool:
 	if inv_index < 0 or inv_index >= equip_inventory.size():
@@ -441,14 +636,42 @@ func use_consume_item(inv_index: int) -> bool:
 		
 	var item = use_inventory[inv_index]
 	var item_name = item.get("name", "")
+	var item_id = item.get("id", -1)
 	
-	if "白色" in item_name or "特殊" in item_name:
-		heal_player(150)
-		broadcast_message("★ 使用【%s】: 恢復 150 HP！" % item_name, Color(0.2, 1.0, 0.4))
-	elif "藍色" in item_name:
-		player_mp = min(player_max_mp, player_mp + 80)
+	var official_item = {}
+	if item_id > 0:
+		official_item = ItemDatabaseFull.get_item(item_id)
+	if official_item.is_empty():
+		official_item = ItemDatabaseFull.get_item_by_name(item_name)
+		
+	var hp_heal = official_item.get("hp_heal", 0)
+	var mp_heal = official_item.get("mp_heal", 0)
+	
+	if "超級藥水" in item_name:
+		heal_player(player_max_hp)
+		player_mp = player_max_mp
 		emit_signal("player_mp_changed", player_mp, player_max_mp)
-		broadcast_message("★ 使用【%s】: 恢復 80 MP！" % item_name, Color(0.3, 0.8, 1.0))
+		broadcast_message("🌟 使用【超級藥水】: HP 與 MP 全部完全恢復！", Color.GOLD)
+	elif hp_heal > 0 or mp_heal > 0:
+		if hp_heal > 0:
+			heal_player(hp_heal)
+		if mp_heal > 0:
+			player_mp = min(player_max_mp, player_mp + mp_heal)
+			emit_signal("player_mp_changed", player_mp, player_max_mp)
+		broadcast_message("★ 使用【%s】: 恢復 %d HP / %d MP！" % [item_name, hp_heal, mp_heal], Color(0.2, 1.0, 0.4))
+	elif "白色" in item_name:
+		heal_player(300)
+		broadcast_message("★ 使用【%s】: 恢復 300 HP！" % item_name, Color(0.2, 1.0, 0.4))
+	elif "藍色" in item_name:
+		player_mp = min(player_max_mp, player_mp + 100)
+		emit_signal("player_mp_changed", player_mp, player_max_mp)
+		broadcast_message("★ 使用【%s】: 恢復 100 MP！" % item_name, Color(0.3, 0.8, 1.0))
+	elif "紅色" in item_name:
+		heal_player(50)
+		broadcast_message("★ 使用【%s】: 恢復 50 HP！" % item_name, Color(0.2, 1.0, 0.4))
+	elif "青蘋果" in item_name or "蘋果" in item_name:
+		heal_player(20)
+		broadcast_message("★ 使用【%s】: 恢復 20 HP！" % item_name, Color(0.4, 1.0, 0.5))
 	else:
 		heal_player(100)
 		player_mp = min(player_max_mp, player_mp + 50)
@@ -467,6 +690,9 @@ func recalculate_stats():
 	equip_bonus_atk = 0
 	equip_bonus_magic_atk = 0
 	equip_bonus_def = 0
+	equip_bonus_acc = 0
+	equip_bonus_magic_acc = 0
+	equip_bonus_avoid = 0
 	equip_bonus_speed = 0.0
 	equip_bonus_str = 0
 	equip_bonus_dex = 0
@@ -476,10 +702,13 @@ func recalculate_stats():
 	for slot in equipped_items.keys():
 		var eq = equipped_items[slot]
 		if eq != null:
-			equip_bonus_atk += eq.get("atk", 0)
-			equip_bonus_magic_atk += eq.get("magic_atk", 0)
-			equip_bonus_def += eq.get("def", 0)
-			equip_bonus_speed += eq.get("speed", 0.0)
+			equip_bonus_atk += eq.get("watk", eq.get("atk", 0))
+			equip_bonus_magic_atk += eq.get("matk", eq.get("magic_atk", 0))
+			equip_bonus_def += eq.get("wdef", eq.get("def", 0))
+			equip_bonus_acc += eq.get("acc", eq.get("accuracy", 0))
+			equip_bonus_magic_acc += eq.get("magic_acc", eq.get("magic_accuracy", 0))
+			equip_bonus_avoid += eq.get("avoid", eq.get("eva", 0))
+			equip_bonus_speed += float(eq.get("speed", 0.0))
 			equip_bonus_str += eq.get("str", 0)
 			equip_bonus_dex += eq.get("dex", 0)
 			equip_bonus_int += eq.get("int", 0)
@@ -519,7 +748,64 @@ func recalculate_stats():
 	base_crit_rate = clamp(0.15 + (float(total_luk) * 0.005) + passive_buffs.get("crit_rate_boost", 0.0), 0.15, 0.95)
 
 # =========================================================================
-# JOB & LEVELING SYSTEM
+# MAPLESTORY ACCURACY & HIT RATE FORMULAS (新楓之谷經典版官方命中門檻機制)
+# https://bobogameguides.com/maplestory-classic/tools/accuracy/
+# =========================================================================
+func get_player_physical_accuracy() -> int:
+	var total_dex = stat_dex + equip_bonus_dex
+	var total_luk = stat_luk + equip_bonus_luk
+	return int(float(total_dex) * 0.8 + float(total_luk) * 0.5) + equip_bonus_acc
+
+func get_player_magic_accuracy() -> int:
+	var total_int = stat_int + equip_bonus_int
+	var total_luk = stat_luk + equip_bonus_luk
+	return int(floor(float(total_int) / 10.0) + floor(float(total_luk) / 10.0)) + equip_bonus_magic_acc
+
+func get_player_avoidability() -> int:
+	var total_dex = stat_dex + equip_bonus_dex
+	var total_luk = stat_luk + equip_bonus_luk
+	return int(float(total_luk) * 0.5 + float(total_dex) * 0.25) + equip_bonus_avoid
+
+func calculate_physical_accuracy_threshold(mob_level: int, mob_avoid: int) -> Dictionary:
+	var D = max(0, mob_level - player_level)
+	var threshold = 0
+	if mob_avoid > 0:
+		threshold = int(ceil((55.2 + 2.15 * float(D)) * (float(mob_avoid) / 15.0)))
+	var cur_acc = get_player_physical_accuracy()
+	var gap = max(0, threshold - cur_acc)
+	var hit_rate = 1.0 if (threshold == 0 or cur_acc >= threshold) else clamp(float(cur_acc) / float(max(1, threshold)), 0.05, 0.99)
+	return {
+		"threshold": threshold,
+		"current": cur_acc,
+		"gap": gap,
+		"diff": D,
+		"hit_rate": hit_rate,
+		"is_sufficient": (cur_acc >= threshold or threshold == 0)
+	}
+
+func calculate_magic_accuracy_threshold(mob_level: int, mob_avoid: int) -> Dictionary:
+	var D = max(0, mob_level - player_level)
+	var threshold = int(floor((float(mob_avoid) + 1.0) * (1.0 + 0.04 * float(D))))
+	var cur_acc = get_player_magic_accuracy()
+	var gap = max(0, threshold - cur_acc)
+	var hit_rate = 1.0 if cur_acc >= threshold else clamp(float(cur_acc) / float(max(1, threshold)), 0.05, 0.99)
+	return {
+		"threshold": threshold,
+		"current": cur_acc,
+		"gap": gap,
+		"diff": D,
+		"hit_rate": hit_rate,
+		"is_sufficient": (cur_acc >= threshold)
+	}
+
+func check_attack_hit_against_mob(mob_level: int, mob_avoid: int, is_magic: bool = false) -> bool:
+	var calc = calculate_magic_accuracy_threshold(mob_level, mob_avoid) if is_magic else calculate_physical_accuracy_threshold(mob_level, mob_avoid)
+	if calc.hit_rate >= 1.0:
+		return true
+	return randf() <= calc.hit_rate
+
+# =========================================================================
+# JOB, SP SKILL ALLOCATION & LEVELING SYSTEM
 # =========================================================================
 func set_player_job(job_id: String):
 	if not JobDatabase.JOBS.has(job_id):
@@ -527,6 +813,12 @@ func set_player_job(job_id: String):
 	player_job_id = job_id
 	player_job_data = JobDatabase.JOBS[job_id]
 	
+	# Initialize skill levels for this job if not already present
+	var job_skills = player_job_data.get("skills", {})
+	for s_key in job_skills.keys():
+		if not player_skill_levels.has(s_key):
+			player_skill_levels[s_key] = 1
+			
 	# Update Job Initial Base Attributes
 	var b_stats = player_job_data.get("base_stats", {})
 	stat_str = b_stats.get("str", player_job_data.get("str", 25))
@@ -543,7 +835,86 @@ func set_player_job(job_id: String):
 	emit_signal("player_job_changed", player_job_data)
 	emit_signal("player_hp_changed", player_hp, player_max_hp)
 	emit_signal("player_mp_changed", player_mp, player_max_mp)
+	emit_signal("player_sp_changed", available_sp)
 	emit_signal("player_stats_changed")
+
+func get_skill_level(skill_id: String) -> int:
+	return player_skill_levels.get(skill_id, 1)
+
+func get_player_skill_stats(skill_id: String) -> Dictionary:
+	var lvl = get_skill_level(skill_id)
+	return JobDatabase.get_skill_stats(player_job_id, skill_id, lvl)
+
+func allocate_sp(skill_id: String, amount: int = 1) -> bool:
+	if available_sp < amount:
+		return false
+		
+	var job_skills = player_job_data.get("skills", {})
+	if not job_skills.has(skill_id):
+		return false
+		
+	var s_data = job_skills[skill_id]
+	var max_l = s_data.get("max_lvl", 20)
+	var cur_l = player_skill_levels.get(skill_id, 1)
+	
+	if cur_l >= max_l:
+		broadcast_message("⚠️ 該技能已達最高等級 Lv.%d！" % max_l, Color.SALMON)
+		return false
+		
+	var real_add = min(amount, max_l - cur_l)
+	if real_add <= 0 or available_sp < real_add:
+		return false
+		
+	available_sp -= real_add
+	player_skill_levels[skill_id] = cur_l + real_add
+	
+	emit_signal("player_sp_changed", available_sp)
+	emit_signal("skill_points_allocated", skill_id, player_skill_levels[skill_id])
+	var updated_s = get_player_skill_stats(skill_id)
+	broadcast_message("✨ 【%s】提升至 Lv.%d！傷害倍率: %d%%！" % [s_data.get("name", ""), player_skill_levels[skill_id], int(updated_s.get("multiplier", 1.0) * 100.0)], Color(0.3, 1.0, 0.6))
+	return true
+
+func auto_allocate_sp():
+	if available_sp <= 0:
+		return
+		
+	var job_skills = player_job_data.get("skills", {})
+	# Prioritize skill_1, skill_2, skill_3, ultimate, skill_4, skill_5, skill_6
+	var priority_keys = ["skill_1", "skill_2", "skill_3", "ultimate", "skill_4", "skill_5", "skill_6"]
+	
+	var changed = false
+	while available_sp > 0:
+		var allocated_in_round = false
+		for k in priority_keys:
+			if job_skills.has(k):
+				var max_l = job_skills[k].get("max_lvl", 20)
+				var cur_l = player_skill_levels.get(k, 1)
+				if cur_l < max_l and available_sp > 0:
+					var to_add = min(available_sp, 1)
+					available_sp -= to_add
+					player_skill_levels[k] = cur_l + to_add
+					allocated_in_round = true
+					changed = true
+					if available_sp <= 0:
+						break
+		if not allocated_in_round:
+			break
+			
+	if changed:
+		emit_signal("player_sp_changed", available_sp)
+		broadcast_message("⚡ 智慧配點完成！已為各主動核心技能分配技能點數！", Color.GOLD)
+
+func reset_sp():
+	var job_skills = player_job_data.get("skills", {})
+	var total_refund = 0
+	for k in job_skills.keys():
+		var cur_l = player_skill_levels.get(k, 1)
+		if cur_l > 1:
+			total_refund += (cur_l - 1)
+			player_skill_levels[k] = 1
+	available_sp += total_refund
+	emit_signal("player_sp_changed", available_sp)
+	broadcast_message("🔄 技能點數已重置！已全數歸還 %d 點 SP！" % total_refund, Color.CYAN)
 
 func add_exp(amount: int):
 	var boosted_exp = int(amount * exp_rate_multiplier * passive_buffs.get("exp_gain_mult", 1.0))
@@ -561,49 +932,202 @@ func level_up():
 	player_max_mp += 40
 	player_mp = player_max_mp
 	
-	# Grant 5 AP per level
+	# Grant 5 AP and 3 SP per level (Classic Maple System)
 	available_ap += 5
+	available_sp += 3
 	
 	recalculate_stats()
 	emit_signal("player_exp_changed", player_exp, player_max_exp, player_level)
 	emit_signal("player_hp_changed", player_hp, player_max_hp)
 	emit_signal("player_mp_changed", player_mp, player_max_mp)
+	emit_signal("player_sp_changed", available_sp)
 	emit_signal("player_stats_changed")
-	broadcast_message("🎉 恭喜升級！Lv.%d！獲得 5 點能力值點數 (AP)！" % player_level, Color.GOLD)
+	broadcast_message("🎉 恭喜升級！Lv.%d！獲得 5 點能力值 (AP) 與 3 點技能點數 (SP)！" % player_level, Color.GOLD)
+	
 	# Every 5 levels, trigger 3-Choice Roguelike Skill Draft!
 	if player_level % 5 == 0:
 		var cards = generate_skill_draft_cards()
 		emit_signal("skill_draft_requested", cards)
 
+# =========================================================================
+# BOSS HP MANAGEMENT & REPORTING
+# =========================================================================
+func report_boss_hp(boss_name: String, cur_hp: int, max_hp: int):
+	emit_signal("boss_hp_updated", boss_name, cur_hp, max_hp, cur_hp > 0)
 
+func report_boss_died(boss_name: String):
+	emit_signal("boss_hp_updated", boss_name, 0, 1, false)
+
+# =========================================================================
+# 1.14.6 OFFICIAL WEAPON ATTACK POWER COEFFICIENTS & DAMAGE FORMULAS
+# https://bobogameguides.com/maplestory-classic/tools/attack-power/
+# =========================================================================
+const WEAPON_COEFFICIENTS: Dictionary = {
+	"one_sword": {"name": "單手劍", "main_stat": "str", "sub_stat": "dex", "min_coeff": 4.0, "max_coeff": 4.0, "note": "揮、刺相同"},
+	"one_axe": {"name": "單手斧", "main_stat": "str", "sub_stat": "dex", "min_coeff": 3.2, "max_coeff": 4.4, "note": "刺 3.2；揮 4.4"},
+	"one_blunt": {"name": "單手棍", "main_stat": "str", "sub_stat": "dex", "min_coeff": 3.2, "max_coeff": 4.4, "note": "刺 3.2；揮 4.4"},
+	"dagger_thief": {"name": "短劍（盜賊）", "main_stat": "luk", "sub_stat": "str_dex", "min_coeff": 3.6, "max_coeff": 3.6, "note": "盜賊公式 (STR+DEX)"},
+	"dagger_other": {"name": "短劍（其他職業）", "main_stat": "str", "sub_stat": "dex", "min_coeff": 4.0, "max_coeff": 4.0, "note": "非盜賊公式"},
+	"wand_staff": {"name": "短杖／長杖（物理敲擊）", "main_stat": "str", "sub_stat": "dex", "min_coeff": 3.2, "max_coeff": 4.4, "note": "只算物理敲擊"},
+	"two_sword": {"name": "雙手劍", "main_stat": "str", "sub_stat": "dex", "min_coeff": 4.6, "max_coeff": 4.6, "note": "揮、刺相同"},
+	"two_axe": {"name": "雙手斧", "main_stat": "str", "sub_stat": "dex", "min_coeff": 3.4, "max_coeff": 4.8, "note": "刺 3.4；揮 4.8"},
+	"two_blunt": {"name": "雙手棍", "main_stat": "str", "sub_stat": "dex", "min_coeff": 3.4, "max_coeff": 4.8, "note": "刺 3.4；揮 4.8"},
+	"spear": {"name": "槍", "main_stat": "str", "sub_stat": "dex", "min_coeff": 3.0, "max_coeff": 5.0, "note": "揮 3.0；刺 5.0"},
+	"polearm": {"name": "矛", "main_stat": "str", "sub_stat": "dex", "min_coeff": 3.0, "max_coeff": 5.0, "note": "刺 3.0；揮 5.0"},
+	"bow": {"name": "弓", "main_stat": "dex", "sub_stat": "str", "min_coeff": 3.4, "max_coeff": 3.4, "note": "弓箭手專用"},
+	"crossbow": {"name": "弩", "main_stat": "dex", "sub_stat": "str", "min_coeff": 3.6, "max_coeff": 3.6, "note": "弩弓手專用"},
+	"claw": {"name": "拳套", "main_stat": "luk", "sub_stat": "str_dex", "min_coeff": 3.6, "max_coeff": 3.6, "note": "兩項副屬性 (STR+DEX)"},
+	"knuckle": {"name": "指虎", "main_stat": "str", "sub_stat": "dex", "min_coeff": 4.8, "max_coeff": 4.8, "note": "海盜專用"},
+	"gun": {"name": "火槍", "main_stat": "dex", "sub_stat": "str", "min_coeff": 3.6, "max_coeff": 3.6, "note": "海盜專用"}
+}
+
+func get_current_equipped_weapon_class() -> String:
+	var wp = equipped_items.get("weapon", null)
+	if wp == null:
+		return "two_sword" if player_job_id == "warrior" else ("claw" if player_job_id == "thief" else ("bow" if player_job_id in ["bowman", "archer"] else "one_sword"))
+		
+	var wname = wp.get("name", "").to_lower()
+	var wslot = wp.get("slot", "").to_lower()
+	
+	if "two-handed sword" in wslot or "雙手劍" in wname:
+		return "two_sword"
+	elif "two-handed axe" in wslot or "雙手斧" in wname:
+		return "two_axe"
+	elif "two-handed blunt" in wslot or "雙手棍" in wname or "雙手槌" in wname:
+		return "two_blunt"
+	elif "spear" in wslot or "槍" in wname:
+		return "spear"
+	elif "polearm" in wslot or "矛" in wname:
+		return "polearm"
+	elif "bow" in wslot or "弓" in wname:
+		return "bow"
+	elif "crossbow" in wslot or "弩" in wname:
+		return "crossbow"
+	elif "claw" in wslot or "拳套" in wname or "手甲" in wname:
+		return "claw"
+	elif "knuckle" in wslot or "指虎" in wname:
+		return "knuckle"
+	elif "gun" in wslot or "火槍" in wname or "短槍" in wname:
+		return "gun"
+	elif "dagger" in wslot or "短刀" in wname or "短劍" in wname:
+		return "dagger_thief" if player_job_id in ["thief", "rogue"] else "dagger_other"
+	elif "wand" in wslot or "staff" in wslot or "杖" in wname:
+		return "wand_staff"
+	elif "one-handed axe" in wslot or "單手斧" in wname:
+		return "one_axe"
+	elif "one-handed blunt" in wslot or "單手棍" in wname or "單手槌" in wname:
+		return "one_blunt"
+	else:
+		return "one_sword"
+
+func calculate_weapon_attack_power_range(w_key: String, str_val: int, dex_val: int, luk_val: int, total_watk: int, mastery_pct: float) -> Dictionary:
+	var w_data = WEAPON_COEFFICIENTS.get(w_key, WEAPON_COEFFICIENTS["one_sword"])
+	var main_val: float = 0.0
+	var sub_val: float = 0.0
+	
+	match w_data.main_stat:
+		"str": main_val = float(str_val)
+		"dex": main_val = float(dex_val)
+		"luk": main_val = float(luk_val)
+		
+	match w_data.sub_stat:
+		"str": sub_val = float(str_val)
+		"dex": sub_val = float(dex_val)
+		"str_dex": sub_val = float(str_val + dex_val)
+		
+	var mastery_modifier = 0.9 * (mastery_pct / 100.0)
+	var max_atk = int(floor(((w_data.max_coeff * main_val) + sub_val) * float(total_watk) / 100.0))
+	var min_atk = int(floor(((w_data.min_coeff * main_val * mastery_modifier) + sub_val) * float(total_watk) / 100.0))
+	
+	return {
+		"min_atk": max(1, min_atk),
+		"max_atk": max(1, max_atk),
+		"weapon_name": w_data.name,
+		"main_stat": w_data.main_stat.to_upper(),
+		"sub_stat": w_data.sub_stat.to_upper(),
+		"min_coeff": w_data.min_coeff,
+		"max_coeff": w_data.max_coeff,
+		"mastery_modifier": mastery_modifier
+	}
 
 func calculate_player_damage(skill_multiplier: float = 1.0) -> Dictionary:
-	var base_atk = magic_atk if player_job_id in ["magician", "mage"] else weapon_atk
-	var effective_mastery = clamp(mastery + passive_buffs.get("mastery_boost", 0.0), 0.50, 0.95)
-	var min_atk = int(base_atk * effective_mastery)
-	var max_atk = max(min_atk + 1, base_atk)
-	var raw_damage = randi_range(min_atk, max_atk)
+	var total_str = stat_str + equip_bonus_str
+	var total_dex = stat_dex + equip_bonus_dex
+	var total_int = stat_int + equip_bonus_int
+	var total_luk = stat_luk + equip_bonus_luk
 	
-	# Apply skill multiplier & passive multipliers
-	var total_dmg = float(raw_damage) * skill_multiplier * passive_buffs.get("bonus_damage_mult", 1.0)
+	# Current Mastery: 60% with full mastery skill
+	var mastery_pct = clamp((mastery + passive_buffs.get("mastery_boost", 0.0)) * 100.0, 10.0, 90.0)
 	
-	# Check crit
+	var is_magic_job = (player_job_id in ["magician", "mage"])
+	var min_base: float = 0.0
+	var max_base: float = 0.0
+	
+	if is_magic_job:
+		var matk_val = float(magic_atk)
+		var effective_m = mastery_pct / 100.0
+		max_base = (((float(total_int) * 4.0 + float(total_luk)) / 100.0) * (matk_val * 1.15) + float(weapon_atk)) * 0.85
+		min_base = (((float(total_int) * 4.0 * effective_m + float(total_luk)) / 100.0) * (matk_val * 1.15) + float(weapon_atk)) * 0.85
+	else:
+		var w_class = get_current_equipped_weapon_class()
+		var total_watk = max(10, weapon_atk + equip_bonus_atk)
+		var atk_calc = calculate_weapon_attack_power_range(w_class, total_str, total_dex, total_luk, total_watk, mastery_pct)
+		min_base = float(atk_calc.min_atk)
+		max_base = float(atk_calc.max_atk)
+		
+	# Level bonus base power
+	var lvl_bonus = float(player_level) * 12.0
+	max_base += lvl_bonus
+	min_base += lvl_bonus * (mastery_pct / 100.0)
+	
+	var raw_rolled = randf_range(min_base, max_base)
+	var final_dmg = raw_rolled * skill_multiplier * passive_buffs.get("bonus_damage_mult", 1.0)
+	
+	# Check Crit
 	var is_crit = randf() < base_crit_rate
 	if is_crit:
-		var crit_mult = 1.5 + passive_buffs.get("crit_dmg_mult", 0.0)
-		total_dmg *= crit_mult
+		var crit_mult = randf_range(1.8, 2.4) + passive_buffs.get("crit_dmg_mult", 0.0)
+		final_dmg *= crit_mult
 		
 	return {
-		"damage": max(1, int(total_dmg)),
+		"damage": max(1, int(final_dmg)),
 		"is_crit": is_crit
 	}
 
 func damage_player(amount: int):
 	if is_game_over:
 		return
+		
+	var p = get_tree().get_first_node_in_group("player")
+	# Check Player Dodge / Avoidability based on LUK/DEX
+	var total_luk = stat_luk + equip_bonus_luk
+	var total_dex = stat_dex + equip_bonus_dex
+	var avoid_rate = clamp(0.08 + float(total_luk + total_dex) * 0.0008, 0.08, 0.40)
+	
+	if randf() < avoid_rate:
+		# Player Dodged / Evaded! Spawn Purple MISS
+		if is_instance_valid(p):
+			var dmg_scene = load("res://scenes/skills/DamageNumber.tscn")
+			if dmg_scene:
+				var num = dmg_scene.instantiate()
+				num.global_position = p.global_position + Vector2(randf_range(-10, 10), -45)
+				num.setup(0, false, false, false, 0, true) # is_miss = true
+				get_tree().current_scene.add_child.call_deferred(num)
+		return
+		
 	var net_dmg = max(1, amount - int(equip_bonus_def * 0.4))
 	player_hp = max(0, player_hp - net_dmg)
 	emit_signal("player_hp_changed", player_hp, player_max_hp)
+	
+	# Spawn Authentic Maple Purple Player Hurt Number over player
+	if is_instance_valid(p):
+		p.hurt_flash = 1.0
+		var dmg_scene = load("res://scenes/skills/DamageNumber.tscn")
+		if dmg_scene:
+			var num = dmg_scene.instantiate()
+			num.global_position = p.global_position + Vector2(randf_range(-10, 10), -45)
+			num.setup(net_dmg, false, true, false, 0, false) # is_player_damage = true (Purple)
+			get_tree().current_scene.add_child.call_deferred(num)
 	
 	if player_hp <= 0:
 		broadcast_message("☠ 您已陣亡！5秒後在當前地圖復活...", Color.RED)

@@ -52,6 +52,9 @@ func setup_visuals():
 				req_str = " (Lv.%d)" % item_data.req_lvl
 			label.text = "★ %s%s" % [item_name, req_str]
 			label.modulate = Color(1.0, 0.5, 0.2) # Orange/Gold equipment highlight
+		elif item_type == "scroll":
+			label.text = "📜 %s" % item_name
+			label.modulate = Color(1.0, 0.85, 0.15) # Gold Scroll highlight
 		elif item_type == "consumable":
 			label.text = item_name
 			label.modulate = Color(0.4, 0.9, 1.0)
@@ -124,6 +127,10 @@ func pickup_item(_player: CharacterBody2D):
 		var lvl_str = " (Lv.%d)" % item_data.get("req_lvl", 0) if item_data.get("req_lvl", 0) > 0 else ""
 		Global.add_item_to_inventory("equip", item_data)
 		Global.broadcast_message("🎉 獲得裝備！【%s】%s%s 已放入裝備欄！" % [item_name, lvl_str, job_str], Color.GOLD)
+	elif item_type == "scroll":
+		item_data["type"] = "scroll"
+		Global.add_item_to_inventory("use", item_data)
+		Global.broadcast_message("📜 獲得珍貴卷軸！【%s】已放入消耗欄！" % item_name, Color(1.0, 0.85, 0.2))
 	elif item_type == "consumable":
 		Global.add_item_to_inventory("use", {"name": item_name, "type": "potion", "count": 1})
 		Global.broadcast_message("★ 拾取道具：【%s】x1 已放入消耗欄！" % item_name, Color(0.4, 0.9, 1.0))
@@ -150,6 +157,12 @@ func _draw():
 		draw_circle(Vector2(0, -10 + bounce_y), 12, Color(1.0, 0.8, 0.2, 0.4))
 		draw_rect(Rect2(-8, -18 + bounce_y, 16, 16), Color(1.0, 0.4, 0.1), true)
 		draw_rect(Rect2(-6, -16 + bounce_y, 12, 12), Color(1.0, 0.8, 0.3), true)
+	elif item_type == "scroll":
+		# Golden Parchment Scroll with Red Ribbon
+		draw_circle(Vector2(0, -10 + bounce_y), 11, Color(1.0, 0.85, 0.2, 0.35))
+		draw_rect(Rect2(-8, -16 + bounce_y, 16, 12), Color(0.96, 0.92, 0.78), true) # Parchment Body
+		draw_rect(Rect2(-8, -16 + bounce_y, 16, 12), Color(0.65, 0.5, 0.2), false, 1.5) # Border
+		draw_rect(Rect2(-2, -16 + bounce_y, 4, 12), Color(0.85, 0.15, 0.15), true) # Red Ribbon
 	elif item_type == "consumable":
 		# Potion Bottle
 		draw_circle(Vector2(0, -8 + bounce_y), 8, Color(0.2, 0.6, 1.0))
