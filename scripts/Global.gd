@@ -241,6 +241,12 @@ func sort_equipment_inventory():
 	)
 
 func add_item_to_inventory(category: String, item: Dictionary) -> bool:
+	# Redirect ammo to use inventory
+	var raw_slot = str(item.get("slot", "")).to_lower()
+	var raw_name = str(item.get("name", ""))
+	if raw_slot in ["arrow", "bullet", "throwing-star", "stars"] or "Arrow" in raw_name or "Bullet" in raw_name or "Throwing-Star" in raw_name:
+		category = "use"
+
 	match category.to_lower():
 		"equip", "equipment":
 			var full_item = build_equipment_stats(item)
@@ -291,23 +297,46 @@ func build_equipment_stats(base_item: Dictionary) -> Dictionary:
 	var item = base_item.duplicate()
 	var name = item.get("name", "裝備")
 	var req_lvl = item.get("req_lvl", 1)
+	var raw_slot = str(item.get("slot", "")).to_lower().strip_edges()
 	
-	# Determine slot
-	var slot = "weapon"
-	if "帽" in name or "頭巾" in name or "頭盔" in name or "帽子" in name or "羽冠" in name:
+	var slot = ""
+	
+	# 1. Check raw slot if provided
+	if raw_slot in ["hat", "cap", "helm", "headband", "hood"]:
 		slot = "hat"
-	elif "套服" in name or "長袍" in name or "鎧甲" in name or "戰甲" in name or "衣服" in name or "上衣" in name or "褲" in name or "裙" in name or "袍" in name or "甲" in name:
+	elif raw_slot in ["overall", "top", "bottom", "dress", "robe", "suit", "pants", "skirt", "mail"]:
 		slot = "overall"
-	elif "手套" in name or "護手" in name or "護腕" in name or "指套" in name or "皮手套" in name or "鐵手套" in name:
+	elif raw_slot in ["gloves", "glove", "half-glove", "gauntlet", "wrist"]:
 		slot = "gloves"
-	elif "鞋" in name or "靴" in name or "長靴" in name or "皮靴" in name or "鐵鞋" in name:
+	elif raw_slot in ["shoes", "boots", "slipper", "sandals"]:
 		slot = "shoes"
-	elif "盾" in name or "鍋蓋" in name:
+	elif raw_slot in ["shield"]:
 		slot = "shield"
-	elif "戒" in name or "項鍊" in name or "耳環" in name or "披風" in name or "眼罩" in name or "腰帶" in name or "墜飾" in name:
+	elif raw_slot in ["accessory", "earrings", "ring", "pendant", "cape", "belt", "necklace", "eye"]:
 		slot = "accessory"
-	else:
-		slot = "weapon"
+	elif raw_slot in ["weapon", "sword", "axe", "blunt", "spear", "polearm", "staff", "wand", "bow", "crossbow", "dagger", "claw", "knuckle", "gun", "cannon", "katar", "throwing-star", "bullet", "arrow"]:
+		if raw_slot in ["arrow", "bullet", "throwing-star"]:
+			slot = "accessory"
+		else:
+			slot = "weapon"
+			
+	# 2. Comprehensive keyword matching if slot still undetermined
+	if slot == "":
+		var lname = name.to_lower()
+		if "earring" in lname or "ring" in lname or "pendant" in lname or "cape" in lname or "belt" in lname or "square" in lname or "necklace" in lname or "戒" in name or "項鍊" in name or "耳環" in name or "披風" in name or "眼罩" in name or "腰帶" in name or "墜飾" in name:
+			slot = "accessory"
+		elif "hat" in lname or "helm" in lname or "cap" in lname or "bandana" in lname or "hood" in lname or "circlet" in lname or "beret" in lname or "headband" in lname or "jester" in lname or "skullcap" in lname or "crown" in lname or "wisconsin" in lname or "koif" in lname or "burgernet" in lname or "帽" in name or "頭巾" in name or "頭盔" in name or "羽冠" in name or "冠" in name:
+			slot = "hat"
+		elif "glove" in lname or "gloves" in lname or "halfglove" in lname or "gauntlet" in lname or "savata" in lname or "mesana" in lname or "wolfskin" in lname or "fingerless" in lname or "手套" in name or "護手" in name or "護腕" in name or "指套" in name:
+			slot = "gloves"
+		elif "boot" in lname or "boots" in lname or "shoe" in lname or "shoes" in lname or "sandal" in lname or "sandals" in lname or "slipper" in lname or "gomushin" in lname or "heels" in lname or "krag" in lname or "nitty" in lname or "鞋" in name or "靴" in name or "長靴" in name or "皮靴" in name or "鐵鞋" in name:
+			slot = "shoes"
+		elif "shield" in lname or "lid" in lname or "fence" in lname or "盾" in name or "鍋蓋" in name:
+			slot = "shield"
+		elif "top" in lname or "bottom" in lname or "pant" in lname or "pants" in lname or "skirt" in lname or "robe" in lname or "suit" in lname or "overall" in lname or "mail" in lname or "armor" in lname or "chainmail" in lname or "jean" in lname or "jeans" in lname or "short" in lname or "shorts" in lname or "sweat" in lname or "shirt" in lname or "lagger" in lname or "carribean" in lname or "doros" in lname or "doroness" in lname or "starlight" in lname or "distinction" in lname or "calas" in lname or "china" in lname or "pao" in lname or "arianne" in lname or "avelin" in lname or "lolica" in lname or "nightshift" in lname or "corporal" in lname or "lamelle" in lname or "kendo" in lname or "套服" in name or "長袍" in name or "鎧甲" in name or "戰甲" in name or "衣服" in name or "上衣" in name or "褲" in name or "裙" in name or "袍" in name or "甲" in name:
+			slot = "overall"
+		else:
+			slot = "weapon"
 		
 	item["slot"] = slot
 	

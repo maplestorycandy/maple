@@ -39,7 +39,8 @@ static func spawn_monster_drops(parent: Node, spawn_pos: Vector2, monster_data: 
 			"name": eq_item.get("name", "稀有裝備"),
 			"type": "equipment",
 			"req_lvl": eq_item.get("req_lvl", mob_lvl),
-			"job": eq_item.get("job", "")
+			"job": eq_item.get("job", ""),
+			"slot": eq_item.get("slot", "")
 		}, Vector2(vel_x, randf_range(-200, -150)))
 		
 	# 3. 消耗品 / 藥水 (100% 必定掉落)

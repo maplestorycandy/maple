@@ -863,6 +863,7 @@ func render_tabbed_map_browser(selected_region_id: String):
 		{"id": "lith_harbor", "name": "⛵ 維多利亞港", "color": Color(0.4, 0.8, 1.0)},
 		{"id": "nautilus", "name": "⚓ 鯨魚號", "color": Color(0.3, 0.8, 1.0)},
 		{"id": "florina", "name": "🏖️ 黃金海岸", "color": Color(1.0, 0.9, 0.3)},
+		{"id": "pq", "name": "👥 組隊任務", "color": Color(0.2, 1.0, 0.8)},
 		{"id": "event", "name": "🏆 全怪特訓場", "color": Color(1.0, 0.3, 0.3)}
 	]
 	
@@ -910,6 +911,8 @@ func render_tabbed_map_browser(selected_region_id: String):
 				is_match = (theme == "nautilus" or "鯨魚號" in r_name or "航海" in m_name or "甲板" in m_name)
 			"florina":
 				is_match = (theme == "florina" or "黃金海岸" in r_name or "沙灘" in m_name or "椰子" in m_name or "螃蟹" in m_name)
+			"pq":
+				is_match = ("9910000" in mid or "組隊" in r_name or "組隊" in m_name or "第一次同行" in m_name)
 			"event":
 				is_match = ("活動" in r_name or "9900000" in mid or "特別" in m_name or "特訓" in m_name)
 			_:
