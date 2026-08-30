@@ -83,6 +83,12 @@ func _input(event: InputEvent):
 					trigger_custom_action("skill_2")
 				elif code == KEY_V:
 					trigger_custom_action("skill_3")
+				elif code == KEY_1:
+					trigger_custom_action("potion_hp")
+				elif code == KEY_2:
+					trigger_custom_action("potion_mp")
+				elif code == KEY_R:
+					trigger_custom_action("summon_pet")
 				elif code == KEY_F:
 					trigger_custom_action("ultimate")
 
@@ -205,10 +211,10 @@ func trigger_custom_action(action_name: String):
 		do_jump()
 		return
 	elif action_name == "potion_hp":
-		use_quick_potion("hp")
+		Global.use_quick_hp_potion()
 		return
 	elif action_name == "potion_mp":
-		use_quick_potion("mp")
+		Global.use_quick_mp_potion()
 		return
 	elif action_name == "tame_monster" or action_name == "capture":
 		attempt_tame_nearby_monster()

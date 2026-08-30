@@ -941,13 +941,15 @@ func refresh_inventory_modal():
 	equip_vbox.add_child(eq_title)
 	
 	var slots = [
-		{"key": "weapon", "label": "⚔️ 武器"},
-		{"key": "hat", "label": "👒 頭盔"},
-		{"key": "overall", "label": "🥋 套服"},
-		{"key": "gloves", "label": "🧤 手套"},
-		{"key": "shoes", "label": "👢 鞋子"},
-		{"key": "shield", "label": "🛡️ 盾牌"},
-		{"key": "accessory", "label": "💍 飾品"}
+		{"key": "weapon", "label": "【武器】"},
+		{"key": "hat", "label": "【頭盔】"},
+		{"key": "overall", "label": "【套服/上衣】"},
+		{"key": "bottom", "label": "【褲裙】"},
+		{"key": "gloves", "label": "【手套】"},
+		{"key": "shoes", "label": "【鞋子】"},
+		{"key": "shield", "label": "【盾牌】"},
+		{"key": "cape", "label": "【披風】"},
+		{"key": "accessory", "label": "【飾品】"}
 	]
 	
 	for s in slots:
@@ -957,7 +959,7 @@ func refresh_inventory_modal():
 		
 		var row = HBoxContainer.new()
 		var lbl = Label.new()
-		lbl.custom_minimum_size = Vector2(80, 24)
+		lbl.custom_minimum_size = Vector2(85, 24)
 		lbl.text = slot_label
 		lbl.add_theme_font_size_override("font_size", 12)
 		row.add_child(lbl)
@@ -1046,13 +1048,16 @@ func refresh_inventory_modal():
 				item_list.add_child(emp)
 			else:
 				var slot_labels = {
-					"weapon": "⚔️[武器]",
-					"hat": "👒[頭盔]",
-					"overall": "🥋[衣服]",
-					"gloves": "🧤[手套]",
-					"shoes": "👢[鞋子]",
-					"shield": "🛡️[盾牌]",
-					"accessory": "💍[飾品]"
+					"weapon": "[武器]",
+					"hat": "[頭盔]",
+					"overall": "[套服]",
+					"top": "[上衣]",
+					"bottom": "[褲裙]",
+					"gloves": "[手套]",
+					"shoes": "[鞋子]",
+					"shield": "[盾牌]",
+					"cape": "[披風]",
+					"accessory": "[飾品]"
 				}
 				for i in range(Global.equip_inventory.size()):
 					var eq = Global.equip_inventory[i]
@@ -1061,7 +1066,7 @@ func refresh_inventory_modal():
 					info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 					var job_s = " [%s]" % eq.get("job", "") if eq.get("job", "") != "" else ""
 					var stats_s = "攻+%d 防+%d" % [eq.get("atk", 0), eq.get("def", 0)]
-					var slot_tag = slot_labels.get(eq.get("slot", "weapon"), "⚔️[裝備]")
+					var slot_tag = slot_labels.get(eq.get("slot", "weapon"), "[裝備]")
 					var count_tag = " x%d" % eq.count if eq.get("count", 1) > 1 else ""
 					var succ_cnt = eq.get("scroll_success_count", 0)
 					var plus_str = " (+%d)" % succ_cnt if succ_cnt > 0 else ""
@@ -1104,29 +1109,58 @@ func refresh_inventory_modal():
 					info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 					
 					if is_scroll:
-						info.text = "📜 %s  (數量: %d)" % [u_item.name, u_item.get("count", 1)]
+						info.text = "[卷軸] %s  (數量: %d)" % [u_item.name, u_item.get("count", 1)]
 						info.modulate = Color(1.0, 0.85, 0.2)
 					else:
-						info.text = "🧪 %s  (數量: %d)" % [u_item.name, u_item.get("count", 1)]
+						var is_hp_pot = (u_item.name == Global.quick_hp_potion_name)
+						var is_mp_pot = (u_item.name == Global.quick_mp_potion_name)
+						var pot_tag = ""
+						if is_hp_pot: pot_tag += " [快捷補血(1)]"
+						if is_mp_pot: pot_tag += " [快捷補魔(2)]"
+						info.text = "[藥劑] %s  (數量: %d)%s" % [u_item.name, u_item.get("count", 1), pot_tag]
 						info.modulate = Color(0.4, 0.9, 1.0)
 					info.add_theme_font_size_override("font_size", 12)
 					row.add_child(info)
 					
-					var act_btn = Button.new()
 					var idx = i
 					if is_scroll:
+						var act_btn = Button.new()
 						act_btn.text = "✨ 衝裝"
 						act_btn.modulate = Color(1.0, 0.85, 0.2)
 						act_btn.pressed.connect(func():
 							open_scroll_workshop(idx)
 						)
+						row.add_child(act_btn)
 					else:
-						act_btn.text = "使用"
-						act_btn.pressed.connect(func():
+						var hp_btn = Button.new()
+						hp_btn.text = "設補血(1)"
+						hp_btn.modulate = Color(1.0, 0.4, 0.4)
+						hp_btn.pressed.connect(func():
+							Global.quick_hp_potion_name = u_item.name
+							Global.emit_signal("quick_potions_updated")
+							Global.broadcast_message("🧪 已將【%s】設為快捷鍵 (1) 補血藥劑！" % u_item.name, Color(1.0, 0.5, 0.5))
+							refresh_inventory_modal()
+						)
+						row.add_child(hp_btn)
+						
+						var mp_btn = Button.new()
+						mp_btn.text = "設補魔(2)"
+						mp_btn.modulate = Color(0.4, 0.7, 1.0)
+						mp_btn.pressed.connect(func():
+							Global.quick_mp_potion_name = u_item.name
+							Global.emit_signal("quick_potions_updated")
+							Global.broadcast_message("🧪 已將【%s】設為快捷鍵 (2) 補魔藥劑！" % u_item.name, Color(0.4, 0.8, 1.0))
+							refresh_inventory_modal()
+						)
+						row.add_child(mp_btn)
+						
+						var use_btn = Button.new()
+						use_btn.text = "使用"
+						use_btn.pressed.connect(func():
 							Global.use_consume_item(idx)
 							refresh_inventory_modal()
 						)
-					row.add_child(act_btn)
+						row.add_child(use_btn)
 					item_list.add_child(row)
 					
 		"etc":
@@ -3102,6 +3136,26 @@ func setup_classic_maple_bottom_bar():
 	meso_bottom_label.modulate = Color.GOLD
 	right_hbox.add_child(meso_bottom_label)
 	
+	# Quick Potion 1: 補血 (1)
+	btn_quick_hp_ref = create_classic_bottom_btn("補血(1)", Color(0.85, 0.2, 0.2), Color(0.5, 0.05, 0.05))
+	btn_quick_hp_ref.pressed.connect(func(): Global.use_quick_hp_potion())
+	right_hbox.add_child(btn_quick_hp_ref)
+	
+	# Quick Potion 2: 補魔 (2)
+	btn_quick_mp_ref = create_classic_bottom_btn("補魔(2)", Color(0.2, 0.45, 0.85), Color(0.05, 0.2, 0.5))
+	btn_quick_mp_ref.pressed.connect(func(): Global.use_quick_mp_potion())
+	right_hbox.add_child(btn_quick_mp_ref)
+	
+	# Button: 寵物 (更換寵物背包)
+	var pet_modal_node = get_node_or_null("PetBagModal")
+	var btn_pet = create_classic_bottom_btn("寵物", Color(0.85, 0.35, 0.75), Color(0.5, 0.1, 0.4))
+	btn_pet.pressed.connect(func():
+		refresh_pet_bag()
+		if pet_modal_node:
+			toggle_modal(pet_modal_node)
+	)
+	right_hbox.add_child(btn_pet)
+
 	# Button 1: 裝備 (原購物商城位置)
 	var btn_equip = create_classic_bottom_btn("裝備", Color(0.85, 0.18, 0.18), Color(0.5, 0.05, 0.05))
 	btn_equip.pressed.connect(func(): toggle_modal(inventory_modal))
@@ -3128,12 +3182,29 @@ func setup_classic_maple_bottom_bar():
 	right_hbox.add_child(btn_stat)
 	
 	# Button 6: 熱鍵選項
-	var btn_keys = create_classic_bottom_btn("熱鍵選項", Color(0.12, 0.45, 0.85), Color(0.05, 0.22, 0.5))
+	var btn_keys = create_classic_bottom_btn("熱鍵", Color(0.12, 0.45, 0.85), Color(0.05, 0.22, 0.5))
 	btn_keys.pressed.connect(show_keybinding_modal)
 	right_hbox.add_child(btn_keys)
 	
 	main_hbox.add_child(right_hbox)
 	bottom_bar_node.add_child(main_hbox)
+	
+	Global.quick_potions_updated.connect(update_quick_potion_button_labels)
+	Global.inventory_updated.connect(update_quick_potion_button_labels)
+	update_quick_potion_button_labels()
+
+var btn_quick_hp_ref: Button
+var btn_quick_mp_ref: Button
+
+func update_quick_potion_button_labels():
+	if is_instance_valid(btn_quick_hp_ref):
+		var hp_info = Global.get_quick_hp_potion_info()
+		btn_quick_hp_ref.text = "補血(%d)" % hp_info.count
+		btn_quick_hp_ref.tooltip_text = "快捷鍵 [1] 使用【%s】(剩餘: %d 瓶)" % [hp_info.name, hp_info.count]
+	if is_instance_valid(btn_quick_mp_ref):
+		var mp_info = Global.get_quick_mp_potion_info()
+		btn_quick_mp_ref.text = "補魔(%d)" % mp_info.count
+		btn_quick_mp_ref.tooltip_text = "快捷鍵 [2] 使用【%s】(剩餘: %d 瓶)" % [mp_info.name, mp_info.count]
 
 func create_classic_bottom_btn(btn_text: String, bg_color: Color, border_color: Color) -> Button:
 	var btn = Button.new()

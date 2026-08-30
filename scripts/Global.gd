@@ -110,12 +110,20 @@ var etc_inventory: Array[Dictionary] = []
 var equipped_items: Dictionary = {
 	"weapon": null,
 	"hat": null,
+	"top": null,
+	"bottom": null,
 	"overall": null,
 	"gloves": null,
 	"shoes": null,
 	"shield": null,
+	"cape": null,
 	"accessory": null
 }
+
+# Quick Potion Belt State
+var quick_hp_potion_name: String = "紅色藥水"
+var quick_mp_potion_name: String = "藍色藥水"
+signal quick_potions_updated()
 
 # Goddess Stats
 var goddess_hp: int = 25000
@@ -345,43 +353,76 @@ func build_equipment_stats(base_item: Dictionary) -> Dictionary:
 	var name = item.get("name", "裝備")
 	var req_lvl = item.get("req_lvl", 1)
 	var raw_slot = str(item.get("slot", "")).to_lower().strip_edges()
+	var item_id_str = str(item.get("id", "0"))
 	
 	var slot = ""
 	
-	# 1. Check raw slot if provided
-	if raw_slot in ["hat", "cap", "helm", "headband", "hood"]:
-		slot = "hat"
-	elif raw_slot in ["overall", "top", "bottom", "dress", "robe", "suit", "pants", "skirt", "mail"]:
-		slot = "overall"
-	elif raw_slot in ["gloves", "glove", "half-glove", "gauntlet", "wrist"]:
-		slot = "gloves"
-	elif raw_slot in ["shoes", "boots", "slipper", "sandals"]:
-		slot = "shoes"
-	elif raw_slot in ["shield"]:
+	# 1. Check ID Prefix first for 100% Maple exact categorization
+	if item_id_str.begins_with("110"):
+		slot = "cape"
+	elif item_id_str.begins_with("109"):
 		slot = "shield"
-	elif raw_slot in ["accessory", "earrings", "ring", "pendant", "cape", "belt", "necklace", "eye"]:
+	elif item_id_str.begins_with("101") or item_id_str.begins_with("102") or item_id_str.begins_with("103") or item_id_str.begins_with("111") or item_id_str.begins_with("112") or item_id_str.begins_with("113"):
 		slot = "accessory"
-	elif raw_slot in ["weapon", "sword", "axe", "blunt", "spear", "polearm", "staff", "wand", "bow", "crossbow", "dagger", "claw", "knuckle", "gun", "cannon", "katar", "throwing-star", "bullet", "arrow"]:
-		if raw_slot in ["arrow", "bullet", "throwing-star"]:
+	elif item_id_str.begins_with("100"):
+		slot = "hat"
+	elif item_id_str.begins_with("108"):
+		slot = "gloves"
+	elif item_id_str.begins_with("107"):
+		slot = "shoes"
+	elif item_id_str.begins_with("104"):
+		slot = "top"
+	elif item_id_str.begins_with("106"):
+		slot = "bottom"
+	elif item_id_str.begins_with("105"):
+		slot = "overall"
+	elif item_id_str.begins_with("13") or item_id_str.begins_with("14"):
+		slot = "weapon"
+		
+	# 2. Check raw_slot if not determined
+	if slot == "":
+		if raw_slot in ["cape", "cloak"]:
+			slot = "cape"
+		elif raw_slot in ["shield"]:
+			slot = "shield"
+		elif raw_slot in ["accessory", "earring", "earrings", "ring", "pendant", "belt", "necklace", "eye", "face", "badge"]:
 			slot = "accessory"
-		else:
+		elif raw_slot in ["hat", "cap", "helm", "headband", "hood"]:
+			slot = "hat"
+		elif raw_slot in ["top", "shirt"]:
+			slot = "top"
+		elif raw_slot in ["bottom", "pants", "skirt"]:
+			slot = "bottom"
+		elif raw_slot in ["overall", "dress", "robe", "suit", "mail"]:
+			slot = "overall"
+		elif raw_slot in ["gloves", "glove", "gauntlet", "wrist"]:
+			slot = "gloves"
+		elif raw_slot in ["shoes", "boots", "slipper", "sandals"]:
+			slot = "shoes"
+		elif raw_slot in ["weapon", "one_handed", "two_handed", "sword", "axe", "blunt", "spear", "polearm", "staff", "wand", "bow", "crossbow", "dagger", "claw", "knuckle", "gun", "cannon"]:
 			slot = "weapon"
 			
-	# 2. Comprehensive keyword matching if slot still undetermined
+	# 3. Comprehensive keyword matching
 	if slot == "":
 		var lname = name.to_lower()
-		if "earring" in lname or "ring" in lname or "pendant" in lname or "cape" in lname or "belt" in lname or "square" in lname or "necklace" in lname or "戒" in name or "項鍊" in name or "耳環" in name or "披風" in name or "眼罩" in name or "腰帶" in name or "墜飾" in name:
-			slot = "accessory"
-		elif "hat" in lname or "helm" in lname or "cap" in lname or "bandana" in lname or "hood" in lname or "circlet" in lname or "beret" in lname or "headband" in lname or "jester" in lname or "skullcap" in lname or "crown" in lname or "wisconsin" in lname or "koif" in lname or "burgernet" in lname or "帽" in name or "頭巾" in name or "頭盔" in name or "羽冠" in name or "冠" in name:
-			slot = "hat"
-		elif "glove" in lname or "gloves" in lname or "halfglove" in lname or "gauntlet" in lname or "savata" in lname or "mesana" in lname or "wolfskin" in lname or "fingerless" in lname or "手套" in name or "護手" in name or "護腕" in name or "指套" in name:
-			slot = "gloves"
-		elif "boot" in lname or "boots" in lname or "shoe" in lname or "shoes" in lname or "sandal" in lname or "sandals" in lname or "slipper" in lname or "gomushin" in lname or "heels" in lname or "krag" in lname or "nitty" in lname or "鞋" in name or "靴" in name or "長靴" in name or "皮靴" in name or "鐵鞋" in name:
-			slot = "shoes"
-		elif "shield" in lname or "lid" in lname or "fence" in lname or "盾" in name or "鍋蓋" in name:
+		if "披風" in name or "斗篷" in name or "cape" in lname or "cloak" in lname:
+			slot = "cape"
+		elif "盾" in name or "鍋蓋" in name or "shield" in lname:
 			slot = "shield"
-		elif "top" in lname or "bottom" in lname or "pant" in lname or "pants" in lname or "skirt" in lname or "robe" in lname or "suit" in lname or "overall" in lname or "mail" in lname or "armor" in lname or "chainmail" in lname or "jean" in lname or "jeans" in lname or "short" in lname or "shorts" in lname or "sweat" in lname or "shirt" in lname or "lagger" in lname or "carribean" in lname or "doros" in lname or "doroness" in lname or "starlight" in lname or "distinction" in lname or "calas" in lname or "china" in lname or "pao" in lname or "arianne" in lname or "avelin" in lname or "lolica" in lname or "nightshift" in lname or "corporal" in lname or "lamelle" in lname or "kendo" in lname or "套服" in name or "長袍" in name or "鎧甲" in name or "戰甲" in name or "衣服" in name or "上衣" in name or "褲" in name or "裙" in name or "袍" in name or "甲" in name:
+		elif "耳環" in name or "戒指" in name or "項鍊" in name or "墜飾" in name or "眼罩" in name or "腰帶" in name or "臉飾" in name or "earring" in lname or "ring" in lname or "pendant" in lname:
+			slot = "accessory"
+		elif "帽" in name or "頭巾" in name or "頭盔" in name or "羽冠" in name or "冠" in name or "hat" in lname or "helm" in lname:
+			slot = "hat"
+		elif "手套" in name or "護手" in name or "護腕" in name or "指套" in name or "glove" in lname or "gloves" in lname:
+			slot = "gloves"
+		elif "鞋" in name or "靴" in name or "shoe" in lname or "shoes" in lname or "boot" in lname or "boots" in lname:
+			slot = "shoes"
+		elif "套服" in name or "長袍" in name or "連身" in name or "overall" in lname or "robe" in lname:
 			slot = "overall"
+		elif "褲" in name or "裙" in name or "pants" in lname or "skirt" in lname:
+			slot = "bottom"
+		elif "上衣" in name or "短t" in name or "背心" in name or "鎧甲" in name or "戰甲" in name or "top" in lname:
+			slot = "top"
 		else:
 			slot = "weapon"
 		
@@ -695,7 +736,52 @@ func use_consume_item(inv_index: int) -> bool:
 		use_inventory.remove_at(inv_index)
 		
 	emit_signal("inventory_updated")
+	emit_signal("quick_potions_updated")
 	return true
+
+func get_quick_hp_potion_info() -> Dictionary:
+	var total = 0
+	var found_name = quick_hp_potion_name
+	for it in use_inventory:
+		var iname = it.get("name", "")
+		if iname == quick_hp_potion_name or ("紅" in iname or "白" in iname or "超級" in iname or "HP" in iname or "蘋果" in iname or "水" in iname):
+			total += it.get("count", 1)
+			if found_name == "":
+				found_name = iname
+	return {"name": found_name, "count": total}
+
+func get_quick_mp_potion_info() -> Dictionary:
+	var total = 0
+	var found_name = quick_mp_potion_name
+	for it in use_inventory:
+		var iname = it.get("name", "")
+		if iname == quick_mp_potion_name or ("藍" in iname or "超級" in iname or "MP" in iname or "特水" in iname or "水" in iname):
+			total += it.get("count", 1)
+			if found_name == "":
+				found_name = iname
+	return {"name": found_name, "count": total}
+
+func use_quick_hp_potion() -> bool:
+	for i in range(use_inventory.size()):
+		var it = use_inventory[i]
+		var iname = it.get("name", "")
+		if iname == quick_hp_potion_name or ("紅" in iname or "白" in iname or "超級" in iname or "HP" in iname or "蘋果" in iname or "水" in iname):
+			use_consume_item(i)
+			emit_signal("quick_potions_updated")
+			return true
+	broadcast_message("⚠️ 背包內無可用【補血 HP 藥水】！", Color.SALMON)
+	return false
+
+func use_quick_mp_potion() -> bool:
+	for i in range(use_inventory.size()):
+		var it = use_inventory[i]
+		var iname = it.get("name", "")
+		if iname == quick_mp_potion_name or ("藍" in iname or "超級" in iname or "MP" in iname or "特水" in iname or "水" in iname):
+			use_consume_item(i)
+			emit_signal("quick_potions_updated")
+			return true
+	broadcast_message("⚠️ 背包內無可用【補魔 MP 藥水】！", Color.SALMON)
+	return false
 
 func recalculate_stats():
 	# Reset equipment bonuses
