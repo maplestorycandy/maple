@@ -1187,3 +1187,275 @@ func _on_net_player_update(_id = 0):
 			var p_info = NetworkManager.players[peer_id]
 			txt += "• %s (ID: %d)\n" % [p_info.name, peer_id]
 		party_list_label.text = txt
+
+
+# =========================================================================
+# 🎴 ROGUELIKE 3-CHOICE SKILL DRAFT MODAL (EVERY 5 LEVELS)
+# =========================================================================
+func show_skill_draft_modal(cards: Array):
+	if is_instance_valid(skill_draft_modal):
+		skill_draft_modal.queue_free()
+		
+	skill_draft_modal = PanelContainer.new()
+	skill_draft_modal.custom_minimum_size = Vector2(720, 420)
+	skill_draft_modal.anchors_preset = Control.PRESET_CENTER
+	skill_draft_modal.position = Vector2(100, 70)
+	
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.08, 0.14, 0.96)
+	style.border_width_left = 3
+	style.border_width_right = 3
+	style.border_width_top = 3
+	style.border_width_bottom = 3
+	style.border_color = Color.GOLD
+	style.corner_radius_top_left = 12
+	style.corner_radius_top_right = 12
+	style.corner_radius_bottom_left = 12
+	style.corner_radius_bottom_right = 12
+	skill_draft_modal.add_theme_stylebox_override("panel", style)
+	
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 14)
+	skill_draft_modal.add_child(vbox)
+	
+	# Header
+	var title_lbl = Label.new()
+	title_lbl.text = "🎴 等級達成！請選擇你的覺醒天賦 / 技能卡牌 (3 選 1)"
+	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_lbl.add_theme_font_size_override("font_size", 18)
+	title_lbl.modulate = Color.GOLD
+	vbox.add_child(title_lbl)
+	
+	var sub_lbl = Label.new()
+	sub_lbl.text = "【每 5 級自選強化】包含全新職業技能解鎖、奧義升級、流派被動與超凡全域增益！"
+	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub_lbl.add_theme_font_size_override("font_size", 12)
+	sub_lbl.modulate = Color(0.8, 0.9, 1.0)
+	vbox.add_child(sub_lbl)
+	
+	# 3 Cards Container
+	var card_row = HBoxContainer.new()
+	card_row.add_theme_constant_override("separation", 16)
+	card_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_child(card_row)
+	
+	for c in cards:
+		var card_panel = PanelContainer.new()
+		card_panel.custom_minimum_size = Vector2(210, 270)
+		
+		var c_style = StyleBoxFlat.new()
+		var rarity = c.get("rarity", "Epic")
+		var b_color = Color.GOLD if rarity == "Legendary" else (Color(0.8, 0.4, 1.0) if rarity == "Epic" else Color(0.3, 0.7, 1.0))
+		c_style.bg_color = Color(0.12, 0.14, 0.22, 0.95)
+		c_style.border_width_left = 2
+		c_style.border_width_right = 2
+		c_style.border_width_top = 2
+		c_style.border_width_bottom = 2
+		c_style.border_color = b_color
+		c_style.corner_radius_top_left = 8
+		c_style.corner_radius_top_right = 8
+		c_style.corner_radius_bottom_left = 8
+		c_style.corner_radius_bottom_right = 8
+		card_panel.add_theme_stylebox_override("panel", c_style)
+		
+		var c_vbox = VBoxContainer.new()
+		c_vbox.add_theme_constant_override("separation", 8)
+		card_panel.add_child(c_vbox)
+		
+		# Rarity Badge
+		var badge = Label.new()
+		badge.text = "★ %s 卡牌" % rarity
+		badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		badge.add_theme_font_size_override("font_size", 11)
+		badge.modulate = b_color
+		c_vbox.add_child(badge)
+		
+		# Icon
+		var icon_lbl = Label.new()
+		icon_lbl.text = c.get("icon", "⚔️")
+		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		icon_lbl.add_theme_font_size_override("font_size", 36)
+		c_vbox.add_child(icon_lbl)
+		
+		# Name
+		var name_lbl = Label.new()
+		name_lbl.text = c.get("name", "覺醒技能")
+		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name_lbl.add_theme_font_size_override("font_size", 13)
+		name_lbl.modulate = Color.WHITE
+		name_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		c_vbox.add_child(name_lbl)
+		
+		# Description
+		var desc_lbl = Label.new()
+		desc_lbl.text = c.get("desc", "")
+		desc_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		desc_lbl.add_theme_font_size_override("font_size", 11)
+		desc_lbl.modulate = Color(0.85, 0.85, 0.85)
+		desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		desc_lbl.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		c_vbox.add_child(desc_lbl)
+		
+		# Select Button
+		var sel_btn = Button.new()
+		sel_btn.text = "✨ 覺醒選擇"
+		sel_btn.custom_minimum_size = Vector2(0, 32)
+		sel_btn.modulate = b_color
+		var captured_card = c
+		sel_btn.pressed.connect(func():
+			Global.apply_draft_card(captured_card)
+			if is_instance_valid(skill_draft_modal):
+				skill_draft_modal.visible = false
+				skill_draft_modal.queue_free()
+		)
+		c_vbox.add_child(sel_btn)
+		
+		card_row.add_child(card_panel)
+		
+	add_child(skill_draft_modal)
+
+# =========================================================================
+# ⌨️ CUSTOM KEYBINDINGS SETTINGS MODAL
+# =========================================================================
+func show_keybinding_modal():
+	if not is_instance_valid(keybinding_modal):
+		keybinding_modal = PanelContainer.new()
+		keybinding_modal.custom_minimum_size = Vector2(620, 520)
+		keybinding_modal.anchors_preset = Control.PRESET_CENTER
+		keybinding_modal.position = Vector2(160, 40)
+		
+		var style = StyleBoxFlat.new()
+		style.bg_color = Color(0.08, 0.1, 0.16, 0.96)
+		style.border_width_left = 3
+		style.border_width_right = 3
+		style.border_width_top = 3
+		style.border_width_bottom = 3
+		style.border_color = Color(0.3, 0.8, 1.0)
+		style.corner_radius_top_left = 10
+		style.corner_radius_top_right = 10
+		style.corner_radius_bottom_left = 10
+		style.corner_radius_bottom_right = 10
+		keybinding_modal.add_theme_stylebox_override("panel", style)
+		add_child(keybinding_modal)
+		
+	refresh_keybinding_modal()
+	keybinding_modal.visible = true
+
+func refresh_keybinding_modal():
+	if not is_instance_valid(keybinding_modal):
+		return
+		
+	for child in keybinding_modal.get_children():
+		child.queue_free()
+		
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 8)
+	keybinding_modal.add_child(vbox)
+	
+	# Header Row
+	var head_row = HBoxContainer.new()
+	var title = Label.new()
+	title.text = "⌨️ 自定義按鍵與技能配置 (Custom Keybindings)"
+	title.add_theme_font_size_override("font_size", 16)
+	title.modulate = Color(0.3, 0.8, 1.0)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head_row.add_child(title)
+	
+	var close_btn = Button.new()
+	close_btn.text = "✕ 關閉"
+	close_btn.pressed.connect(func(): keybinding_modal.visible = false)
+	head_row.add_child(close_btn)
+	vbox.add_child(head_row)
+	
+	var hint = Label.new()
+	hint.text = "點擊任意按鍵按鈕後，按下鍵盤上的新按鍵即可完成自定義綁定！"
+	hint.modulate = Color(0.7, 0.85, 1.0)
+	hint.add_theme_font_size_override("font_size", 11)
+	vbox.add_child(hint)
+	
+	# Scroll area with actions
+	var scroll = ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(580, 400)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var action_list = VBoxContainer.new()
+	action_list.add_theme_constant_override("separation", 6)
+	action_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(action_list)
+	vbox.add_child(scroll)
+	
+	var action_defs = [
+		{"id": "attack", "name": "🗡️ 普通攻擊 (Basic Attack)", "desc": "揮砍/射箭/魔法彈/投標"},
+		{"id": "jump", "name": "🚀 跳躍 / 二段跳 (Jump)", "desc": "跳躍與空中二段跳"},
+		{"id": "skill_1", "name": "⚡ 技能 1", "desc": "職業一階核心主力技能"},
+		{"id": "skill_2", "name": "💥 技能 2", "desc": "範圍攻擊 / 突進位移"},
+		{"id": "skill_3", "name": "🌪️ 技能 3", "desc": "多段爆發 / 廣域轟炸"},
+		{"id": "skill_4", "name": "🔥 技能 4", "desc": "高階職業覺醒技"},
+		{"id": "skill_5", "name": "🌟 技能 5", "desc": "超大範圍召喚/神獸技"},
+		{"id": "skill_6", "name": "👑 技能 6", "desc": "終極連殺/機關槍掃射"},
+		{"id": "ultimate", "name": "🌌 全螢幕終極奧義", "desc": "全螢幕毀滅性絕殺"},
+		{"id": "potion_hp", "name": "💊 快速喝生命藥水 (HP)", "desc": "秒喝紅水/白水/超級藥水"},
+		{"id": "potion_mp", "name": "🧪 快速喝魔力藥水 (MP)", "desc": "秒喝藍水/超級藥水"},
+		{"id": "tame_monster", "name": "🐾 捕捉附近怪物為寵物", "desc": "捕捉殘血怪物"},
+		{"id": "summon_pet", "name": "🐕 召喚 / 召回寵物", "desc": "寵物出戰切換"}
+	]
+	
+	for a in action_defs:
+		var act_id = a.id
+		var row = HBoxContainer.new()
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		
+		var name_lbl = Label.new()
+		name_lbl.text = a.name
+		name_lbl.custom_minimum_size = Vector2(240, 26)
+		name_lbl.add_theme_font_size_override("font_size", 13)
+		name_lbl.modulate = Color.WHITE
+		row.add_child(name_lbl)
+		
+		var desc_lbl = Label.new()
+		desc_lbl.text = a.desc
+		desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		desc_lbl.add_theme_font_size_override("font_size", 11)
+		desc_lbl.modulate = Color(0.6, 0.7, 0.8)
+		row.add_child(desc_lbl)
+		
+		var key_btn = Button.new()
+		var key_str = Global.get_action_key_name(act_id)
+		key_btn.text = "【 %s 】" % (key_str if currently_rebinding_action != act_id else "請按鍵盤...")
+		key_btn.custom_minimum_size = Vector2(130, 28)
+		key_btn.modulate = Color.GOLD if currently_rebinding_action == act_id else Color(0.4, 0.9, 1.0)
+		
+		key_btn.pressed.connect(func():
+			currently_rebinding_action = act_id
+			refresh_keybinding_modal()
+		)
+		row.add_child(key_btn)
+		
+		action_list.add_child(row)
+		
+	# Footer row: Reset to defaults
+	var foot = HBoxContainer.new()
+	var reset_btn = Button.new()
+	reset_btn.text = "🔄 恢復預設鍵位 (Reset to Defaults)"
+	reset_btn.pressed.connect(func():
+		Global.custom_keybindings = {
+			"attack": KEY_Z, "jump": KEY_SPACE,
+			"skill_1": KEY_X, "skill_2": KEY_C, "skill_3": KEY_V,
+			"skill_4": KEY_B, "skill_5": KEY_N, "skill_6": KEY_M,
+			"ultimate": KEY_F, "tame_monster": KEY_E, "summon_pet": KEY_R,
+			"potion_hp": KEY_1, "potion_mp": KEY_2
+		}
+		Global.save_keybindings()
+		refresh_keybinding_modal()
+		Global.broadcast_message("按鍵已恢復為經典預設配置！", Color.GREEN)
+	)
+	foot.add_child(reset_btn)
+	vbox.add_child(foot)
+
+func _input(event: InputEvent):
+	if currently_rebinding_action != "" and event is InputEventKey and event.pressed and not event.echo:
+		var code_val = event.physical_keycode if event.physical_keycode != 0 else event.keycode
+		Global.rebind_key(currently_rebinding_action, code_val)
+		Global.broadcast_message("成功將【%s】綁定至按鍵【%s】！" % [currently_rebinding_action, OS.get_keycode_string(code_val)], Color.GOLD)
+		currently_rebinding_action = ""
+		refresh_keybinding_modal()
+		get_viewport().set_input_as_handled()
