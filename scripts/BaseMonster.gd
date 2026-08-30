@@ -341,40 +341,67 @@ func _draw():
 			var shell_col = Color(0.3, 0.6, 0.9) if "藍寶" in monster_name else (Color(0.9, 0.3, 0.3) if "紅寶" in monster_name else Color(0.4, 0.8, 0.4))
 			draw_circle(Vector2(-6 * facing_direction * squish_x, base_y), 12 * body_scale * squish_x, shell_col)
 			draw_circle(Vector2(4 * facing_direction * squish_x, base_y + 4), 8 * body_scale * squish_y, Color(0.9, 0.85, 0.7))
-			# Eye tentacles
 			draw_line(Vector2(6 * facing_direction, base_y), Vector2(10 * facing_direction, base_y - 8), Color(0.9, 0.85, 0.7), 2.5)
 			draw_circle(Vector2(10 * facing_direction, base_y - 8), 2.5, Color.BLACK)
 		elif "Slime" in monster_type or "水靈" in monster_name:
 			# Slime wobble
 			draw_circle(Vector2(0, base_y), 15 * body_scale * squish_x, col)
-			# Shiny gleam
 			draw_circle(Vector2(-4 * facing_direction, base_y - 5), 4 * body_scale, Color(1, 1, 1, 0.6))
-			# Eyes
 			draw_circle(Vector2(4 * facing_direction, base_y - 2), 2.5 * body_scale, Color.BLACK)
 			draw_circle(Vector2(9 * facing_direction, base_y - 2), 2.5 * body_scale, Color.BLACK)
 		elif "Mushroom" in monster_type or "菇" in monster_name:
-			# Stem
+			# Mushroom Cap & Stem
 			draw_rect(Rect2(-7 * body_scale * squish_x, base_y, 14 * body_scale * squish_x, 14 * body_scale), Color(0.95, 0.9, 0.8), true)
-			# Cap
 			draw_circle(Vector2(0, base_y - 4), 16 * body_scale * squish_x, col)
-			# Cap white spots
 			draw_circle(Vector2(-6, base_y - 8), 3.5 * body_scale, Color.WHITE)
 			draw_circle(Vector2(6, base_y - 8), 3.5 * body_scale, Color.WHITE)
-			# Eyes
 			draw_circle(Vector2(3 * facing_direction, base_y + 4), 2.2 * body_scale, Color.BLACK)
 		elif "Pig" in monster_type or "肥肥" in monster_name or "豬" in monster_name:
-			# Pig body
+			# Pig body & Snout
 			draw_circle(Vector2(0, base_y), 16 * body_scale * squish_x, col)
-			# Snout
 			draw_circle(Vector2(12 * facing_direction, base_y + 2), 6 * body_scale, Color(0.95, 0.7, 0.75))
 			draw_circle(Vector2(13 * facing_direction, base_y + 2), 1.8 * body_scale, Color.BLACK)
-			# Eye
 			draw_circle(Vector2(6 * facing_direction, base_y - 4), 2.8 * body_scale, Color.BLACK)
-			# Ribbon
 			if "緞帶" in monster_name:
 				draw_circle(Vector2(-4, base_y - 12), 4 * body_scale, Color.RED)
+		elif "木妖" in monster_name or "Stump" in monster_name:
+			# Tree Stump with waving branch
+			draw_rect(Rect2(-10 * body_scale * squish_x, base_y - 12, 20 * body_scale * squish_x, 26 * body_scale), Color(0.45, 0.28, 0.15), true)
+			draw_line(Vector2(0, base_y - 12), Vector2(8 * facing_direction, base_y - 20 + sin(anim_frame * 3.0) * 4.0), Color(0.3, 0.7, 0.2), 3.0)
+			draw_circle(Vector2(4 * facing_direction, base_y - 2), 2.5 * body_scale, Color.WHITE)
+			draw_circle(Vector2(5 * facing_direction, base_y - 2), 1.5 * body_scale, Color.BLACK)
+		elif "石巨人" in monster_name or "Golem" in monster_name:
+			# Stone Golem heavy rock body
+			draw_rect(Rect2(-14 * body_scale * squish_x, base_y - 14, 28 * body_scale * squish_x, 30 * body_scale), Color(0.4, 0.45, 0.5), true)
+			draw_circle(Vector2(5 * facing_direction, base_y - 4), 3.5 * body_scale, Color.GOLD)
+			draw_rect(Rect2(-8 * body_scale, base_y + 14, 6 * body_scale, 6 * body_scale), Color(0.3, 0.35, 0.4), true)
+			draw_rect(Rect2(2 * body_scale, base_y + 14, 6 * body_scale, 6 * body_scale), Color(0.3, 0.35, 0.4), true)
+		elif "章魚" in monster_name or "Octopus" in monster_name:
+			# Octopus with 4 waving tentacles
+			draw_circle(Vector2(0, base_y - 6), 15 * body_scale * squish_x, Color(0.85, 0.4, 0.2))
+			for t_i in range(4):
+				var tent_x = -9 + t_i * 6
+				var wave = sin(anim_frame * 3.0 + t_i) * 5.0
+				draw_line(Vector2(tent_x, base_y + 4), Vector2(tent_x + wave, base_y + 14), Color(0.85, 0.4, 0.2), 3.0)
+			draw_circle(Vector2(4 * facing_direction, base_y - 6), 2.5 * body_scale, Color.WHITE)
+			draw_circle(Vector2(5 * facing_direction, base_y - 6), 1.5 * body_scale, Color.BLACK)
+		elif "幽靈" in monster_name or "Wraith" in monster_name:
+			# Floating spooky ghost
+			var wave = sin(anim_frame * 3.0) * 4.0
+			draw_circle(Vector2(0, base_y - 6), 14 * body_scale * squish_x, Color(0.7, 0.8, 1.0, 0.8))
+			draw_line(Vector2(-6, base_y + 4), Vector2(-8 + wave, base_y + 16), Color(0.7, 0.8, 1.0, 0.6), 4.0)
+			draw_line(Vector2(6, base_y + 4), Vector2(8 - wave, base_y + 16), Color(0.7, 0.8, 1.0, 0.6), 4.0)
+			draw_circle(Vector2(4 * facing_direction, base_y - 6), 3.0 * body_scale, Color(1, 0.2, 0.2))
+		elif "龍" in monster_name or "Drake" in monster_name or "巴洛古" in monster_name or "Balrog" in monster_name:
+			# Dragon / Drake / Boss Winged Form
+			draw_circle(Vector2(0, base_y), 18 * body_scale * squish_x, col)
+			# Flapping wings
+			var wing_y = sin(anim_frame * 4.0) * 8.0
+			draw_line(Vector2(-6 * facing_direction, base_y - 8), Vector2(-18 * facing_direction, base_y - 20 + wing_y), Color(0.2, 0.2, 0.3), 4.0)
+			draw_circle(Vector2(10 * facing_direction, base_y - 4), 3.5 * body_scale, Color.YELLOW)
+			draw_circle(Vector2(11 * facing_direction, base_y - 4), 1.5 * body_scale, Color.BLACK)
 		else:
-			# Universal Organic creature
+			# Universal Animated Organic Monster
 			draw_circle(Vector2(0, base_y), 16 * body_scale * squish_x, col)
 			draw_circle(Vector2(6 * facing_direction * squish_x, base_y - 3), 3.5 * body_scale, Color.BLACK)
 			draw_circle(Vector2(7 * facing_direction * squish_x, base_y - 4), 1.2 * body_scale, Color.WHITE)

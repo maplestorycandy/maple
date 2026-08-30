@@ -19,9 +19,10 @@ func _process(_delta):
 	if Input.is_key_pressed(KEY_F2) and not is_wave_active and not is_spawning and not Global.is_game_over:
 		start_wave_from_host(current_wave)
 
-func _on_global_wave_changed(wave_num: int, _max_wave: int):
-	current_wave = wave_num
+func _on_global_wave_changed(wave: int, _max_w: int):
+	current_wave = wave
 
+# Host Authoritative Wave Triggering
 func start_wave_from_host(wave_num: int):
 	if NetworkManager.is_multiplayer_active:
 		if NetworkManager.is_host:
