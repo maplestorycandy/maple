@@ -70,7 +70,7 @@ func load_map(map_id: String):
 		
 	# Update background sky gradient atmosphere
 	if background_rect:
-		background_rect.color = map_info.bg_bottom_color
+		background_rect.color = map_info.get("bg_bottom_color", Color(0.4, 0.7, 0.95))
 		
 	# Setup Portals
 	setup_map_portals(map_info)
@@ -326,19 +326,18 @@ func spawn_wild_monster():
 	if mob_list.is_empty():
 		return
 		
-	var total_slots = 0
-	for m in mob_list:
-		total_slots += m.get("slots", 1)
+	var chosen_mob = mob_list[randi() % mob_list.size()]
+	var chosen_id = 0
+	if chosen_mob.has("mob_id"):
+		chosen_id = int(chosen_mob.mob_id)
+	elif chosen_mob.has("id"):
+		chosen_id = int(chosen_mob.id)
+	else:
+		var found_data = MonsterDatabaseFull.get_monster_by_name(chosen_mob.get("name", ""))
+		chosen_id = found_data.get("id", 100100)
 		
-	var roll = randi() % max(1, total_slots)
-	var chosen_id = mob_list[0].mob_id
-	var running_sum = 0
-	for m in mob_list:
-		running_sum += m.get("slots", 1)
-		if roll < running_sum:
-			chosen_id = m.mob_id
-			break
-			
+	var is_boss_mob = chosen_mob.get("is_boss", false) or chosen_mob.get("level", 1) >= 100
+		
 	var spawn_x = randf_range(-1350, 1350)
 	var spawn_y = 330.0
 	
@@ -347,7 +346,7 @@ func spawn_wild_monster():
 		spawn_x = randf_range(chosen_plat.position.x + 20, chosen_plat.position.x + chosen_plat.size.x - 20)
 		spawn_y = chosen_plat.position.y - 5
 		
-	var mob = NetworkManager.spawn_network_monster(chosen_id, Vector2(spawn_x, spawn_y), Vector2.ZERO, false)
+	var mob = NetworkManager.spawn_network_monster(chosen_id, Vector2(spawn_x, spawn_y), Vector2.ZERO, is_boss_mob)
 	if is_instance_valid(mob):
 		active_wild_monsters.append(mob)
 
