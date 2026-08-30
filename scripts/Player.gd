@@ -517,30 +517,78 @@ func _on_pet_unsummoned():
 		Global.active_pet_node = null
 
 func _draw():
-	var body_color = Global.player_job_data.get("color", Color(0.9, 0.3, 0.2))
+	var job_d = Global.player_job_data
+	var body_color = job_d.get("color", Color(0.9, 0.3, 0.2))
 	if hurt_flash > 0.0:
 		body_color = Color.WHITE
 		
-	# Head
-	draw_circle(Vector2(0, -32), 11, Color(1.0, 0.82, 0.65))
+	# 1. Ground Contact Shadow
+	draw_ellipse(Vector2(0, 0), 14, 5, Color(0, 0, 0, 0.35))
 	
-	# Hair
-	draw_arc(Vector2(0, -35), 11, -PI, 0, 16, Color(0.4, 0.25, 0.1), 4.0)
-	
-	# Eyes
-	var eye_x = 4 if facing_direction > 0 else -4
-	draw_circle(Vector2(eye_x, -33), 2.0, Color.BLACK)
-	
-	# Torso
-	draw_rect(Rect2(-8, -22, 16, 16), body_color)
-	
-	# Legs / Walk anim
+	# 2. Legs / Shoes with Walking Cycle
 	var walk_cycle = sin(anim_frame) * 4.0 if (velocity.x != 0 and is_on_floor()) else 0.0
-	draw_rect(Rect2(-6 + walk_cycle, -6, 4, 10), Color(0.15, 0.15, 0.25))
-	draw_rect(Rect2(2 - walk_cycle, -6, 4, 10), Color(0.15, 0.15, 0.25))
+	var leg_color = Color(0.2, 0.22, 0.3)
+	var shoe_color = Color(0.45, 0.28, 0.15)
+	# Left Leg
+	draw_rect(Rect2(-7 + walk_cycle, -9, 5, 8), leg_color)
+	draw_rect(Rect2(-8 + walk_cycle, -3, 7, 4), shoe_color)
+	# Right Leg
+	draw_rect(Rect2(2 - walk_cycle, -9, 5, 8), leg_color)
+	draw_rect(Rect2(1 - walk_cycle, -3, 7, 4), shoe_color)
 	
-	# Weapon / Attack swing visual
+	# 3. Torso / Clothes (with Job Color & Belt)
+	draw_rect(Rect2(-9, -24, 18, 16), body_color)
+	draw_rect(Rect2(-9, -12, 18, 3), Color(0.2, 0.15, 0.1)) # Belt
+	draw_rect(Rect2(-2, -12, 4, 3), Color.GOLD) # Belt Buckle
+	
+	# 4. Arms
+	var arm_swing = -walk_cycle if (velocity.x != 0 and is_on_floor()) else 0.0
+	var arm_x = -11 if facing_direction > 0 else 7
+	draw_circle(Vector2(arm_x + arm_swing, -17), 4.0, Color(1.0, 0.85, 0.72))
+	
+	# 5. Head / Chibi Maple Face
+	var head_center = Vector2(0, -35)
+	draw_circle(head_center, 13, Color(1.0, 0.86, 0.72)) # Skin
+	
+	# Cheeks blush
+	draw_circle(Vector2(facing_direction * 7, -32), 2.5, Color(1.0, 0.6, 0.6, 0.5))
+	
+	# Maple Eyes
+	var eye_x1 = 2 if facing_direction > 0 else -6
+	var eye_x2 = 7 if facing_direction > 0 else -1
+	draw_circle(Vector2(eye_x1, -35), 2.2, Color(0.1, 0.1, 0.15))
+	draw_circle(Vector2(eye_x2, -35), 2.2, Color(0.1, 0.1, 0.15))
+	# Eye reflection
+	draw_circle(Vector2(eye_x1 + 0.6, -35.8), 0.8, Color.WHITE)
+	draw_circle(Vector2(eye_x2 + 0.6, -35.8), 0.8, Color.WHITE)
+	
+	# Mouth
+	draw_arc(Vector2(facing_direction * 4, -30), 2.0, 0, PI, 8, Color(0.6, 0.2, 0.2), 1.5)
+	
+	# 6. Hair
+	var hair_color = Color(0.45, 0.25, 0.12)
+	draw_arc(Vector2(0, -38), 13, -PI * 0.9, PI * 0.1 if facing_direction > 0 else PI * 1.1, 16, hair_color, 6.0)
+	draw_circle(Vector2(-facing_direction * 6, -42), 6.0, hair_color)
+	draw_circle(Vector2(0, -44), 7.0, hair_color)
+	
+	# 7. Weapon & Attack Swing Visual
+	var wp_pos = Vector2(facing_direction * 10, -16)
 	if is_attacking:
-		var swing_offset = Vector2(facing_direction * 22, -18)
-		draw_line(Vector2(0, -18), swing_offset, Color.GOLD, 4.0)
-		draw_circle(swing_offset, 6.0, Color(1.0, 0.9, 0.4, 0.8))
+		var swing_offset = Vector2(facing_direction * 28, -18)
+		draw_line(Vector2(0, -18), swing_offset, Color.GOLD, 5.0)
+		draw_circle(swing_offset, 8.0, Color(1.0, 0.9, 0.4, 0.9))
+		# Slashing trail
+		draw_arc(Vector2(0, -18), 30, -0.6 * PI, 0.2 * PI, 12, Color(1.0, 0.8, 0.2, 0.6), 3.0)
+	else:
+		# Resting Weapon
+		draw_line(wp_pos, wp_pos + Vector2(facing_direction * 8, 12), Color(0.7, 0.7, 0.8), 3.5)
+		draw_circle(wp_pos, 3.0, Color.GOLD)
+		
+	# 8. Character Name Tag above head
+	var name_str = "%s (Lv.%d)" % [job_d.get("name", "初心者"), Global.player_level]
+	var font = ThemeDB.fallback_font
+	var font_size = 10
+	var text_size = font.get_string_size(name_str, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
+	var tag_rect = Rect2(-text_size.x / 2.0 - 4, -58, text_size.x + 8, 14)
+	draw_rect(tag_rect, Color(0.05, 0.05, 0.1, 0.75), true, 2)
+	draw_string(font, Vector2(-text_size.x / 2.0, -47), name_str, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.YELLOW)

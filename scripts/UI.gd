@@ -163,6 +163,7 @@ func _ready():
 	build_scroll_calc_modal()
 	build_monster_book_modal()
 	build_item_book_modal()
+	build_keybinding_modal()
 	
 	setup_touch_controls()
 	setup_job_selection_list()
@@ -191,37 +192,10 @@ func setup_touch_controls():
 	bind_press_button(tc.get_node_or_null("RightPad/BtnCapture"), "capture")
 	bind_press_button(tc.get_node_or_null("RightPad/BtnPet"), "summon_pet")
 	
-	# Top Quick Menu Buttons
+	# Clean Top Menu Bar (Hide old overlapping bar to give clean view of wave and map)
 	var top_nav = tc.get_node_or_null("TopMenuBar")
 	if top_nav:
-		var b_stats = top_nav.get_node_or_null("BtnStats")
-		if b_stats: b_stats.pressed.connect(func(): toggle_modal(stat_modal))
-		var b_inv = top_nav.get_node_or_null("BtnInventory")
-		if b_inv: b_inv.pressed.connect(func(): toggle_modal(inventory_modal))
-		var b_skill = Button.new()
-		b_skill.text = "📖 技能"
-		b_skill.add_theme_font_size_override("font_size", 12)
-		b_skill.modulate = Color(1.0, 0.85, 0.2)
-		b_skill.pressed.connect(func(): toggle_modal(skill_modal))
-		top_nav.add_child(b_skill)
-		var b_lobby = top_nav.get_node_or_null("BtnLobby")
-		if b_lobby: b_lobby.pressed.connect(func(): toggle_modal(network_modal))
-		var b_job = top_nav.get_node_or_null("BtnJob")
-		if b_job: b_job.pressed.connect(func(): toggle_modal(job_select_modal))
-		var b_map = top_nav.get_node_or_null("BtnMap")
-		if b_map: b_map.pressed.connect(func(): toggle_modal(map_select_modal))
-		var b_bag = top_nav.get_node_or_null("BtnBag")
-		if b_bag: b_bag.pressed.connect(func(): toggle_modal(pet_bag_modal))
-		var b_pause = top_nav.get_node_or_null("BtnPause")
-		if b_pause: b_pause.pressed.connect(toggle_pause)
-		
-		# Keybinding settings button in TopMenuBar
-		var b_keys = Button.new()
-		b_keys.text = "⌨️ 按鍵"
-		b_keys.add_theme_font_size_override("font_size", 12)
-		b_keys.modulate = Color(0.3, 0.9, 1.0)
-		b_keys.pressed.connect(show_keybinding_modal)
-		top_nav.add_child(b_keys)
+		top_nav.visible = false
 
 func bind_hold_button(btn: Button, action: String):
 	if not is_instance_valid(btn):
@@ -291,6 +265,26 @@ func toggle_modal(modal: Control):
 			refresh_inventory_modal()
 		elif modal == skill_modal:
 			refresh_skill_modal()
+		elif modal == keybinding_modal:
+			refresh_keybinding_modal()
+		elif modal == map_select_modal:
+			setup_map_selection_list()
+		elif modal == job_select_modal:
+			setup_job_selection_list()
+		elif modal == pet_bag_modal:
+			refresh_pet_bag_modal()
+		elif modal == monster_book_modal:
+			refresh_monster_book_modal()
+		elif modal == item_book_modal:
+			refresh_item_book_modal()
+		elif modal == scroll_workshop_modal:
+			refresh_scroll_workshop_modal()
+		elif modal == accuracy_modal:
+			refresh_accuracy_modal()
+		elif modal == weapon_attack_modal:
+			refresh_weapon_attack_modal()
+		elif modal == scroll_calc_modal:
+			refresh_scroll_calc_modal()
 
 func close_all_modals():
 	if is_instance_valid(stat_modal): stat_modal.visible = false
@@ -300,6 +294,13 @@ func close_all_modals():
 	if is_instance_valid(job_select_modal): job_select_modal.visible = false
 	if is_instance_valid(map_select_modal): map_select_modal.visible = false
 	if is_instance_valid(pet_bag_modal): pet_bag_modal.visible = false
+	if is_instance_valid(keybinding_modal): keybinding_modal.visible = false
+	if is_instance_valid(scroll_workshop_modal): scroll_workshop_modal.visible = false
+	if is_instance_valid(accuracy_modal): accuracy_modal.visible = false
+	if is_instance_valid(weapon_attack_modal): weapon_attack_modal.visible = false
+	if is_instance_valid(scroll_calc_modal): scroll_calc_modal.visible = false
+	if is_instance_valid(monster_book_modal): monster_book_modal.visible = false
+	if is_instance_valid(item_book_modal): item_book_modal.visible = false
 
 # =========================================================================
 # CHARACTER STATS & AP POINT ALLOCATION MODAL (STR / DEX / INT / LUK / HP / MP)
@@ -3002,10 +3003,10 @@ func setup_classic_maple_bottom_bar():
 	main_hbox.add_child(bars_hbox)
 	
 	# -------------------------------------------------------------
-	# 3. Meso & 4 Classic Maple Buttons (購物商城/拍賣/目錄/熱鍵選項)
+	# 3. Meso & 6 Classic Maple Buttons (裝備/地圖/轉職/技能/屬性/熱鍵選項)
 	# -------------------------------------------------------------
 	var right_hbox = HBoxContainer.new()
-	right_hbox.add_theme_constant_override("separation", 6)
+	right_hbox.add_theme_constant_override("separation", 5)
 	right_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	
 	meso_bottom_label = Label.new()
@@ -3014,22 +3015,32 @@ func setup_classic_maple_bottom_bar():
 	meso_bottom_label.modulate = Color.GOLD
 	right_hbox.add_child(meso_bottom_label)
 	
-	# Button 1: 購物商城 (Cash Shop)
-	var btn_shop = create_classic_bottom_btn("購物商城", Color(0.85, 0.15, 0.15), Color(0.5, 0.05, 0.05))
-	btn_shop.pressed.connect(func(): toggle_modal(inventory_modal))
-	right_hbox.add_child(btn_shop)
+	# Button 1: 裝備 (原購物商城位置)
+	var btn_equip = create_classic_bottom_btn("裝備", Color(0.85, 0.18, 0.18), Color(0.5, 0.05, 0.05))
+	btn_equip.pressed.connect(func(): toggle_modal(inventory_modal))
+	right_hbox.add_child(btn_equip)
 	
-	# Button 2: 拍賣 (Auction)
-	var btn_auction = create_classic_bottom_btn("拍賣", Color(0.18, 0.65, 0.22), Color(0.08, 0.35, 0.1))
-	btn_auction.pressed.connect(func(): toggle_modal(map_select_modal))
-	right_hbox.add_child(btn_auction)
+	# Button 2: 地圖 (原拍賣位置)
+	var btn_map = create_classic_bottom_btn("地圖", Color(0.18, 0.65, 0.22), Color(0.08, 0.35, 0.1))
+	btn_map.pressed.connect(func(): toggle_modal(map_select_modal))
+	right_hbox.add_child(btn_map)
 	
-	# Button 3: 目錄 (Menu)
-	var btn_menu = create_classic_bottom_btn("目錄", Color(0.92, 0.55, 0.05), Color(0.55, 0.3, 0.02))
-	btn_menu.pressed.connect(func(): toggle_modal(job_select_modal))
-	right_hbox.add_child(btn_menu)
+	# Button 3: 轉職 (原目錄位置)
+	var btn_job = create_classic_bottom_btn("轉職", Color(0.92, 0.55, 0.05), Color(0.55, 0.3, 0.02))
+	btn_job.pressed.connect(func(): toggle_modal(job_select_modal))
+	right_hbox.add_child(btn_job)
 	
-	# Button 4: 熱鍵選項 (Key Config)
+	# Button 4: 技能
+	var btn_skill = create_classic_bottom_btn("技能", Color(0.65, 0.25, 0.85), Color(0.4, 0.1, 0.55))
+	btn_skill.pressed.connect(func(): toggle_modal(skill_modal))
+	right_hbox.add_child(btn_skill)
+	
+	# Button 5: 屬性
+	var btn_stat = create_classic_bottom_btn("屬性", Color(0.15, 0.65, 0.75), Color(0.05, 0.35, 0.45))
+	btn_stat.pressed.connect(func(): toggle_modal(stat_modal))
+	right_hbox.add_child(btn_stat)
+	
+	# Button 6: 熱鍵選項
 	var btn_keys = create_classic_bottom_btn("熱鍵選項", Color(0.12, 0.45, 0.85), Color(0.05, 0.22, 0.5))
 	btn_keys.pressed.connect(show_keybinding_modal)
 	right_hbox.add_child(btn_keys)
@@ -3706,29 +3717,33 @@ func show_skill_draft_modal(cards: Array):
 # =========================================================================
 # ⌨️ CUSTOM KEYBINDINGS SETTINGS MODAL
 # =========================================================================
+func build_keybinding_modal():
+	keybinding_modal = PanelContainer.new()
+	keybinding_modal.name = "KeybindingModal"
+	keybinding_modal.custom_minimum_size = Vector2(620, 520)
+	keybinding_modal.set_anchors_preset(Control.PRESET_CENTER)
+	keybinding_modal.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	keybinding_modal.grow_vertical = Control.GROW_DIRECTION_BOTH
+	
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.1, 0.16, 0.96)
+	style.border_width_left = 3
+	style.border_width_right = 3
+	style.border_width_top = 3
+	style.border_width_bottom = 3
+	style.border_color = Color(0.3, 0.8, 1.0)
+	style.corner_radius_top_left = 10
+	style.corner_radius_top_right = 10
+	style.corner_radius_bottom_left = 10
+	style.corner_radius_bottom_right = 10
+	keybinding_modal.add_theme_stylebox_override("panel", style)
+	keybinding_modal.visible = false
+	add_child(keybinding_modal)
+
 func show_keybinding_modal():
 	if not is_instance_valid(keybinding_modal):
-		keybinding_modal = PanelContainer.new()
-		keybinding_modal.custom_minimum_size = Vector2(620, 520)
-		keybinding_modal.anchors_preset = Control.PRESET_CENTER
-		keybinding_modal.position = Vector2(160, 40)
-		
-		var style = StyleBoxFlat.new()
-		style.bg_color = Color(0.08, 0.1, 0.16, 0.96)
-		style.border_width_left = 3
-		style.border_width_right = 3
-		style.border_width_top = 3
-		style.border_width_bottom = 3
-		style.border_color = Color(0.3, 0.8, 1.0)
-		style.corner_radius_top_left = 10
-		style.corner_radius_top_right = 10
-		style.corner_radius_bottom_left = 10
-		style.corner_radius_bottom_right = 10
-		keybinding_modal.add_theme_stylebox_override("panel", style)
-		add_child(keybinding_modal)
-		
-	refresh_keybinding_modal()
-	keybinding_modal.visible = true
+		build_keybinding_modal()
+	toggle_modal(keybinding_modal)
 
 func refresh_keybinding_modal():
 	if not is_instance_valid(keybinding_modal):

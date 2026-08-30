@@ -19,8 +19,10 @@ var current_theme: String = "henesys"
 @onready var background_rect: ColorRect = $BackgroundRect
 
 func _ready():
+	z_index = -5
 	dynamic_platforms_node = Node2D.new()
 	dynamic_platforms_node.name = "DynamicPhysicalPlatforms"
+	dynamic_platforms_node.z_index = -5
 	add_child(dynamic_platforms_node)
 	
 	Global.map_change_requested.connect(load_map)
