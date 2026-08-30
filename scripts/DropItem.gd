@@ -94,22 +94,14 @@ func pickup_item(_player: CharacterBody2D):
 	elif item_type == "equipment":
 		var job_str = " [%s]" % item_data.get("job", "") if item_data.get("job", "") != "" else ""
 		var lvl_str = " (Lv.%d)" % item_data.get("req_lvl", 0) if item_data.get("req_lvl", 0) > 0 else ""
-		Global.broadcast_message("🎉 獲得稀有裝備！【%s】%s%s！" % [item_name, lvl_str, job_str], Color.GOLD)
-		# Small bonus stat boost or meso value
-		Global.meso_gold += max(50, item_data.get("req_lvl", 1) * 25)
+		Global.add_item_to_inventory("equip", item_data)
+		Global.broadcast_message("🎉 獲得裝備！【%s】%s%s 已放入裝備欄！" % [item_name, lvl_str, job_str], Color.GOLD)
 	elif item_type == "consumable":
-		if "白色" in item_name or "特殊" in item_name:
-			Global.heal_player(150)
-			Global.broadcast_message("★ 使用【%s】: 恢復 150 HP！" % item_name, Color(0.2, 1.0, 0.4))
-		elif "藍色" in item_name:
-			Global.player_mp = min(Global.player_max_mp, Global.player_mp + 80)
-			Global.emit_signal("player_mp_changed", Global.player_mp, Global.player_max_mp)
-			Global.broadcast_message("★ 使用【%s】: 恢復 80 MP！" % item_name, Color(0.3, 0.8, 1.0))
-		else:
-			Global.broadcast_message("★ 拾取道具：【%s】！" % item_name, Color(0.4, 0.9, 1.0))
+		Global.add_item_to_inventory("use", {"name": item_name, "type": "potion", "count": 1})
+		Global.broadcast_message("★ 拾取道具：【%s】x1 已放入消耗欄！" % item_name, Color(0.4, 0.9, 1.0))
 	else:
-		Global.broadcast_message("★ 拾取材料戰利品：【%s】！" % item_name, Color(0.8, 0.9, 0.8))
-		Global.meso_gold += 20
+		Global.add_item_to_inventory("etc", {"name": item_name, "type": "material", "count": 1})
+		Global.broadcast_message("★ 拾取材料戰利品：【%s】x1 已放入材料欄！" % item_name, Color(0.8, 0.9, 0.8))
 		
 	# Float up and vanish animation
 	var tw = create_tween()

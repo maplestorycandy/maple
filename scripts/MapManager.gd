@@ -1,4 +1,5 @@
 # MapManager.gd
+# 完美復刻楓之谷經典版各大分區地貌、階梯地勢、圖騰、路燈、樹洞與場景氛圍
 extends Node2D
 
 @export var current_map_id: String = "100000000"
@@ -60,7 +61,7 @@ func load_map(map_id: String):
 	for npc_node in get_tree().get_nodes_in_group("map_npcs"):
 		npc_node.queue_free()
 		
-	# Update background atmosphere
+	# Update background sky gradient atmosphere
 	if background_rect:
 		background_rect.color = map_info.bg_bottom_color
 		
@@ -82,8 +83,8 @@ func setup_map_portals(map_info: Dictionary):
 	var h_portals = map_info.get("hidden_portals", [])
 	
 	var portal_positions = [
-		Vector2(-1400, 380),
-		Vector2(1400, 380),
+		Vector2(-1450, 380),
+		Vector2(1450, 380),
 		Vector2(-800, 240),
 		Vector2(650, 220),
 		Vector2(0, 380)
@@ -172,7 +173,6 @@ func spawn_wild_monster():
 	if mob_list.is_empty():
 		return
 		
-	# Weighted random choice based on authentic spawn slot counts
 	var total_slots = 0
 	for m in mob_list:
 		total_slots += m.get("slots", 1)
@@ -195,44 +195,201 @@ func spawn_wild_monster():
 	if is_instance_valid(mob):
 		active_wild_monsters.append(mob)
 
+# =========================================================================
+# AUTHENTIC TERRAIN RENDERING FOR EACH REGION
+# =========================================================================
 func _draw():
 	if not MapDatabase.MAPS.has(current_map_id):
 		return
 	var map_info = MapDatabase.MAPS[current_map_id]
-	var ground_col = map_info.ground_color
-	var plat_col = map_info.platform_color
+	var theme = map_info.get("terrain_theme", "henesys")
 	
-	# 1. Main Ground Floor
-	draw_rect(Rect2(-1800, 380, 3600, 420), ground_col)
-	draw_rect(Rect2(-1800, 375, 3600, 8), ground_col.lightened(0.2))
+	match theme:
+		"perion":
+			draw_perion_terrain(map_info)
+		"ellinia":
+			draw_ellinia_terrain(map_info)
+		"kerning", "subway":
+			draw_kerning_terrain(map_info)
+		"sleepywood":
+			draw_sleepywood_terrain(map_info)
+		"lith_harbor", "nautilus", "florina":
+			draw_beach_terrain(map_info)
+		_:
+			draw_henesys_terrain(map_info)
+
+# 1. 弓箭手村 (Henesys) - 綠色青草土層、階梯石階、木製路燈、花草岩石
+func draw_henesys_terrain(map_info: Dictionary):
+	var ground_col = Color(0.42, 0.30, 0.16)
+	var grass_col = Color(0.38, 0.78, 0.22)
+	var grass_top = Color(0.55, 0.90, 0.30)
 	
-	# 2. Elevated Floating Maple Platforms
-	var platforms = [
-		Rect2(-800, 240, 260, 22),
-		Rect2(-350, 150, 300, 22),
-		Rect2(150, 180, 280, 22),
-		Rect2(650, 220, 250, 22),
-		Rect2(-1200, 160, 240, 22),
-		Rect2(1100, 140, 240, 22)
+	# Main Ground Floor
+	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), ground_col)
+	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 10)), grass_col)
+	draw_rect(Rect2(Vector2(-1800, 373), Vector2(3600, 4)), grass_top)
+	
+	# Right Stepped Hill / Stairs (as in media_1788064524584.jpg)
+	var steps = [
+		Rect2(Vector2(950, 340), Vector2(120, 40)),
+		Rect2(Vector2(1070, 300), Vector2(120, 80)),
+		Rect2(Vector2(1190, 260), Vector2(120, 120)),
+		Rect2(Vector2(1310, 220), Vector2(350, 160))
 	]
+	for s in steps:
+		draw_rect(s, ground_col)
+		draw_rect(Rect2(Vector2(s.position.x, s.position.y), Vector2(s.size.x, 8)), grass_col)
+		draw_rect(Rect2(Vector2(s.position.x, s.position.y), Vector2(s.size.x, 3)), grass_top)
+		
+	# Floating Island in Center (media_1788064524584.jpg)
+	var island = Rect2(Vector2(-100, 230), Vector2(200, 35))
+	draw_rect(island, ground_col)
+	draw_rect(Rect2(Vector2(island.position.x, island.position.y), Vector2(island.size.x, 7)), grass_col)
+	draw_rect(Rect2(Vector2(island.position.x, island.position.y), Vector2(island.size.x, 3)), grass_top)
 	
+	# Floating Platforms
+	var platforms = [
+		Rect2(Vector2(-800, 240), Vector2(260, 22)),
+		Rect2(Vector2(-400, 150), Vector2(280, 22)),
+		Rect2(Vector2(350, 160), Vector2(260, 22))
+	]
 	for p in platforms:
-		draw_rect(p, plat_col)
-		draw_rect(Rect2(Vector2(p.position.x, p.position.y), Vector2(p.size.x, 6)), plat_col.lightened(0.3))
-		draw_line(Vector2(p.position.x + 20, p.position.y + p.size.y), Vector2(p.position.x + 20, 380), plat_col.darkened(0.3), 3.0)
-		draw_line(Vector2(p.position.x + p.size.x - 20, p.position.y + p.size.y), Vector2(p.position.x + p.size.x - 20, 380), plat_col.darkened(0.3), 3.0)
+		draw_rect(p, ground_col)
+		draw_rect(Rect2(Vector2(p.position.x, p.position.y), Vector2(p.size.x, 6)), grass_col)
+		draw_line(Vector2(p.position.x + 20, p.position.y + p.size.y), Vector2(p.position.x + 20, 380), Color(0.3, 0.2, 0.1), 3.0)
+		draw_line(Vector2(p.position.x + p.size.x - 20, p.position.y + p.size.y), Vector2(p.position.x + p.size.x - 20, 380), Color(0.3, 0.2, 0.1), 3.0)
 		
-	# 3. Portal visual effects (Portal Aura)
-	for p in get_tree().get_nodes_in_group("map_portals"):
-		var p_pos = p.global_position - global_position
-		var is_hidden = p.get_meta("is_hidden", false)
-		var aura_col = Color(0.2, 0.7, 1.0, 0.4) if not is_hidden else Color(1.0, 0.8, 0.2, 0.5)
-		draw_circle(p_pos + Vector2(0, -20), 22.0, aura_col)
-		draw_circle(p_pos + Vector2(0, -20), 14.0, Color(1.0, 1.0, 1.0, 0.6))
+	# Scenery Props: Streetlights, Bushes, Tombstones
+	for lx in [-1200, -700, 200, 800]:
+		# Wooden Streetlight with warm glow
+		draw_rect(Rect2(Vector2(lx, 300), Vector2(8, 75)), Color(0.35, 0.22, 0.12))
+		draw_circle(Vector2(lx + 4, 295), 14.0, Color(1.0, 0.9, 0.4, 0.4))
+		draw_circle(Vector2(lx + 4, 295), 6.0, Color(1.0, 1.0, 0.7))
 		
-	# 4. NPC dummy standing visuals if town
-	if map_info.is_town:
-		for npc in get_tree().get_nodes_in_group("map_npcs"):
-			var npc_pos = npc.global_position - global_position
-			draw_circle(npc_pos + Vector2(0, -18), 12.0, Color(0.95, 0.8, 0.5))
-			draw_rect(Rect2(Vector2(npc_pos.x - 8, npc_pos.y - 12), Vector2(16, 16)), Color(0.3, 0.5, 0.8), true)
+	for bx in [-1050, -500, -50, 450, 1000]:
+		# Bush & wildflowers
+		draw_circle(Vector2(bx, 368), 16.0, grass_col.darkened(0.1))
+		draw_circle(Vector2(bx + 14, 370), 12.0, grass_col)
+		draw_circle(Vector2(bx + 5, 362), 4.0, Color(1.0, 0.9, 0.3))
+
+# 2. 勇士之村 (Perion) - 紅黃砂岩岩壁、木製圖騰柱、風蝕斷崖 (media_1788063697800.png)
+func draw_perion_terrain(_map_info: Dictionary):
+	var rock_col = Color(0.78, 0.52, 0.30)
+	var rock_dark = Color(0.55, 0.34, 0.18)
+	var rock_top = Color(0.92, 0.68, 0.42)
+	
+	# Ground
+	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), rock_dark)
+	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 8)), rock_col)
+	draw_rect(Rect2(Vector2(-1800, 373), Vector2(3600, 3)), rock_top)
+	
+	# Multi-tier Canyon Rock Cliffs
+	var cliffs = [
+		Rect2(Vector2(-1400, 220), Vector2(400, 160)),
+		Rect2(Vector2(-900, 160), Vector2(320, 220)),
+		Rect2(Vector2(200, 180), Vector2(450, 200)),
+		Rect2(Vector2(850, 240), Vector2(400, 140))
+	]
+	for c in cliffs:
+		draw_rect(c, rock_col)
+		draw_rect(Rect2(Vector2(c.position.x, c.position.y), Vector2(c.size.x, 8)), rock_top)
+		# Support Rock Arches
+		draw_line(Vector2(c.position.x + 30, c.position.y + c.size.y), Vector2(c.position.x + 30, 380), rock_dark, 8.0)
+		draw_line(Vector2(c.position.x + c.size.x - 30, c.position.y + c.size.y), Vector2(c.position.x + c.size.x - 30, 380), rock_dark, 8.0)
+		
+	# Native American Totem Poles
+	for tx in [-1100, -300, 500, 1100]:
+		draw_rect(Rect2(Vector2(tx, 270), Vector2(16, 105)), Color(0.4, 0.22, 0.12))
+		draw_circle(Vector2(tx + 8, 265), 12.0, Color(0.85, 0.3, 0.2))
+		draw_line(Vector2(tx - 12, 285), Vector2(tx + 28, 285), Color(0.9, 0.8, 0.2), 4.0)
+
+# 3. 魔法森林 (Ellinia) - 參天巨樹、幽綠樹洞、青苔藤蔓
+func draw_ellinia_terrain(_map_info: Dictionary):
+	var bark_col = Color(0.32, 0.20, 0.12)
+	var leaf_col = Color(0.18, 0.55, 0.28)
+	var leaf_glow = Color(0.30, 0.85, 0.45)
+	
+	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), bark_col)
+	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 10)), leaf_col)
+	
+	# Giant Tree Trunks
+	for gx in [-1300, -500, 350, 1150]:
+		draw_rect(Rect2(Vector2(gx, -400), Vector2(80, 780)), bark_col.darkened(0.2))
+		# Hollow Tree Door
+		draw_circle(Vector2(gx + 40, 330), 22.0, Color(0.08, 0.05, 0.03))
+		# Foliage Canopies
+		draw_circle(Vector2(gx + 40, 180), 70.0, leaf_col)
+		draw_circle(Vector2(gx + 40, 175), 50.0, leaf_glow)
+		
+	# Hanging Wooden Platforms
+	for py in [240, 150]:
+		draw_rect(Rect2(Vector2(-900, py), Vector2(300, 20)), bark_col)
+		draw_rect(Rect2(Vector2(600, py), Vector2(300, 20)), bark_col)
+
+# 4. 墮落城市 & 地鐵 (Kerning City & Subway) - 鋼鐵鷹架、水泥柏油、鐵軌與警示條紋
+func draw_kerning_terrain(_map_info: Dictionary):
+	var asphalt = Color(0.20, 0.20, 0.24)
+	var steel = Color(0.38, 0.40, 0.46)
+	var hazard = Color(0.95, 0.80, 0.10)
+	
+	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), asphalt)
+	# Subway Tracks
+	draw_line(Vector2(-1800, 376), Vector2(1800, 376), steel.lightened(0.3), 3.0)
+	draw_line(Vector2(-1800, 379), Vector2(1800, 379), steel.lightened(0.3), 3.0)
+	
+	# Scaffolding Girders
+	for kx in [-1100, -300, 500, 1200]:
+		draw_rect(Rect2(Vector2(kx, 140), Vector2(280, 18)), steel)
+		draw_line(Vector2(kx + 20, 158), Vector2(kx + 20, 380), steel, 5.0)
+		draw_line(Vector2(kx + 260, 158), Vector2(kx + 260, 380), steel, 5.0)
+		# Cross Bracing
+		draw_line(Vector2(kx + 20, 158), Vector2(kx + 260, 380), steel.darkened(0.2), 2.0)
+		draw_line(Vector2(kx + 260, 158), Vector2(kx + 20, 380), steel.darkened(0.2), 2.0)
+		# Warning Stripes
+		draw_rect(Rect2(Vector2(kx + 100, 142), Vector2(80, 14)), hazard)
+
+# 5. 奇幻村 (Sleepywood) - 幽暗洞窟鐘乳石、骷髏祭壇、紫晶結晶
+func draw_sleepywood_terrain(_map_info: Dictionary):
+	var cave_rock = Color(0.18, 0.14, 0.22)
+	var stalactite_col = Color(0.32, 0.25, 0.38)
+	var crystal_glow = Color(0.85, 0.35, 1.0, 0.6)
+	
+	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), cave_rock)
+	
+	# Hanging Stalactites from ceiling
+	for sx in [-1300, -900, -400, 100, 650, 1150]:
+		var poly = PackedVector2Array([
+			Vector2(sx - 25, -200),
+			Vector2(sx + 25, -200),
+			Vector2(sx, 50)
+		])
+		draw_colored_polygon(poly, stalactite_col)
+		
+	# Cavern Stone Platforms
+	var cave_plats = [
+		Rect2(Vector2(-800, 220), Vector2(320, 24)),
+		Rect2(Vector2(250, 180), Vector2(340, 24))
+	]
+	for cp in cave_plats:
+		draw_rect(cp, cave_rock.lightened(0.2))
+		# Glowing Purple Crystals
+		draw_circle(Vector2(cp.position.x + 30, cp.position.y - 8), 10.0, crystal_glow)
+		draw_circle(Vector2(cp.position.x + cp.size.x - 30, cp.position.y - 8), 10.0, crystal_glow)
+
+# 6. 維多利亞港 / 鯨魚號 / 黃金海岸 (Beach & Harbor) - 蔚藍海灣沙灘、鯨魚號龍骨
+func draw_beach_terrain(_map_info: Dictionary):
+	var sand = Color(0.88, 0.82, 0.55)
+	var wood_pier = Color(0.55, 0.38, 0.22)
+	var sea_blue = Color(0.2, 0.6, 0.9)
+	
+	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), sand)
+	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 8)), sand.lightened(0.1))
+	
+	# Pier Wooden Planks
+	for px in [-1200, -400, 400, 1100]:
+		draw_rect(Rect2(Vector2(px, 250), Vector2(260, 22)), wood_pier)
+		draw_line(Vector2(px + 20, 272), Vector2(px + 20, 380), wood_pier.darkened(0.3), 6.0)
+		draw_line(Vector2(px + 240, 272), Vector2(px + 240, 380), wood_pier.darkened(0.3), 6.0)
+		# Palm Trees
+		draw_line(Vector2(px + 130, 250), Vector2(px + 140, 150), Color(0.4, 0.25, 0.15), 10.0)
+		draw_circle(Vector2(px + 140, 140), 35.0, Color(0.2, 0.7, 0.3))

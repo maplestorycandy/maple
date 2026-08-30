@@ -27,10 +27,9 @@ extends CanvasLayer
 @onready var chat_input: LineEdit = $HUD/ChatContainer/InputRow/ChatInput
 @onready var chat_log: RichTextLabel = $HUD/ChatContainer/ChatLog
 
-# Pause & Ready UI
+# Pause & Modals
 @onready var pause_modal: Control = $PauseModal
 @onready var start_wave_btn: Button = $HUD/TopBar/StartWaveButton
-
 @onready var buff_modal: Control = $BuffSelectionModal
 @onready var buff_container: HBoxContainer = $BuffSelectionModal/CardContainer
 @onready var pet_bag_modal: Control = $PetBagModal
@@ -39,6 +38,11 @@ extends CanvasLayer
 @onready var map_list_container: GridContainer = $MapSelectModal/ScrollContainer/MapGrid
 @onready var game_over_modal: Control = $GameOverModal
 @onready var game_over_title: Label = $GameOverModal/TitleLabel
+
+# Dynamic AP Stat Modal & Inventory/Equip Modal
+var stat_modal: Control
+var inventory_modal: Control
+var current_inv_tab: String = "equip"
 
 var broadcast_tween: Tween
 var restart_timer_tween: Tween
@@ -64,6 +68,9 @@ func _ready():
 	Global.player_mp_changed.connect(update_player_mp)
 	Global.player_exp_changed.connect(update_player_exp)
 	Global.player_job_changed.connect(update_player_job_display)
+	Global.player_stats_changed.connect(refresh_stat_modal)
+	Global.inventory_updated.connect(refresh_inventory_modal)
+	Global.equipment_updated.connect(refresh_inventory_modal)
 	Global.goddess_hp_changed.connect(update_goddess_hp)
 	Global.wave_changed.connect(update_wave)
 	Global.message_broadcast.connect(show_broadcast_message)
@@ -88,6 +95,10 @@ func _ready():
 	update_player_job_display(Global.player_job_data)
 	update_goddess_hp(Global.goddess_hp, Global.goddess_max_hp)
 	update_wave(Global.current_wave, Global.MAX_WAVES)
+	
+	# Build dynamic AP and Inventory modals
+	build_stat_modal()
+	build_inventory_modal()
 	
 	setup_touch_controls()
 	setup_job_selection_list()
@@ -117,6 +128,10 @@ func setup_touch_controls():
 	# Top Quick Menu Buttons
 	var top_nav = tc.get_node_or_null("TopMenuBar")
 	if top_nav:
+		var b_stats = top_nav.get_node_or_null("BtnStats")
+		if b_stats: b_stats.pressed.connect(func(): toggle_modal(stat_modal))
+		var b_inv = top_nav.get_node_or_null("BtnInventory")
+		if b_inv: b_inv.pressed.connect(func(): toggle_modal(inventory_modal))
 		var b_lobby = top_nav.get_node_or_null("BtnLobby")
 		if b_lobby: b_lobby.pressed.connect(func(): toggle_modal(network_modal))
 		var b_job = top_nav.get_node_or_null("BtnJob")
@@ -154,187 +169,521 @@ func _process(_delta):
 	if map_name_label and MapDatabase.MAPS.has(Global.current_map_id):
 		map_name_label.text = MapDatabase.MAPS[Global.current_map_id].name
 
+func _unhandled_input(event: InputEvent):
+	if event is InputEventKey and event.is_pressed() and not event.is_echo():
+		if chat_input and chat_input.has_focus():
+			return
+			
+		match event.keycode:
+			KEY_C, KEY_S:
+				toggle_modal(stat_modal)
+			KEY_I, KEY_E:
+				toggle_modal(inventory_modal)
+			KEY_M:
+				toggle_modal(map_select_modal)
+			KEY_J:
+				toggle_modal(job_select_modal)
+			KEY_P:
+				toggle_modal(pet_bag_modal)
+			KEY_N:
+				toggle_modal(network_modal)
+			KEY_ESCAPE:
+				close_all_modals()
+
+func toggle_modal(modal: Control):
+	if not is_instance_valid(modal):
+		return
+	var target_vis = not modal.visible
+	close_all_modals()
+	modal.visible = target_vis
+	if modal.visible:
+		if modal == stat_modal:
+			refresh_stat_modal()
+		elif modal == inventory_modal:
+			refresh_inventory_modal()
+
+func close_all_modals():
+	if is_instance_valid(stat_modal): stat_modal.visible = false
+	if is_instance_valid(inventory_modal): inventory_modal.visible = false
+	if is_instance_valid(network_modal): network_modal.visible = false
+	if is_instance_valid(job_select_modal): job_select_modal.visible = false
+	if is_instance_valid(map_select_modal): map_select_modal.visible = false
+	if is_instance_valid(pet_bag_modal): pet_bag_modal.visible = false
+
+# =========================================================================
+# CHARACTER STATS & AP POINT ALLOCATION MODAL (STR / DEX / INT / LUK / HP / MP)
+# =========================================================================
+func build_stat_modal():
+	stat_modal = PanelContainer.new()
+	stat_modal.name = "StatModal"
+	stat_modal.custom_minimum_size = Vector2(480, 520)
+	stat_modal.set_anchors_preset(Control.PRESET_CENTER)
+	stat_modal.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	stat_modal.grow_vertical = Control.GROW_DIRECTION_BOTH
+	stat_modal.visible = false
+	add_child(stat_modal)
+
+func refresh_stat_modal():
+	if not is_instance_valid(stat_modal):
+		return
+		
+	for c in stat_modal.get_children():
+		c.queue_free()
+		
+	var main_vbox = VBoxContainer.new()
+	main_vbox.add_theme_constant_override("separation", 8)
+	
+	# Header
+	var header = HBoxContainer.new()
+	var title = Label.new()
+	title.text = "📊 角色屬性與能力值點數 (AP)"
+	title.add_theme_font_size_override("font_size", 18)
+	title.modulate = Color(1.0, 0.85, 0.2)
+	header.add_child(title)
+	
+	var spacer = Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
+	
+	var close_btn = Button.new()
+	close_btn.text = " ✕ "
+	close_btn.pressed.connect(func(): stat_modal.visible = false)
+	header.add_child(close_btn)
+	main_vbox.add_child(header)
+	
+	# Job & Level Banner
+	var job_name = Global.player_job_data.get("name", "新手")
+	var info_lbl = Label.new()
+	info_lbl.text = "Lv.%d  職業: 【%s】  |  HP: %d/%d  |  MP: %d/%d" % [Global.player_level, job_name, Global.player_hp, Global.player_max_hp, Global.player_mp, Global.player_max_mp]
+	info_lbl.add_theme_font_size_override("font_size", 13)
+	info_lbl.modulate = Color(0.4, 0.9, 1.0)
+	main_vbox.add_child(info_lbl)
+	
+	# Available AP Row
+	var ap_hbox = HBoxContainer.new()
+	var ap_lbl = Label.new()
+	ap_lbl.text = "⚡ 剩餘能力點數 (AP):  %d 點" % Global.available_ap
+	ap_lbl.add_theme_font_size_override("font_size", 15)
+	ap_lbl.modulate = Color(1.0, 0.5, 0.2) if Global.available_ap > 0 else Color.GRAY
+	ap_hbox.add_child(ap_lbl)
+	
+	var auto_ap_btn = Button.new()
+	auto_ap_btn.text = "⚡ 一鍵推薦配點"
+	auto_ap_btn.disabled = (Global.available_ap <= 0)
+	auto_ap_btn.pressed.connect(func():
+		Global.auto_allocate_ap()
+		refresh_stat_modal()
+	)
+	ap_hbox.add_child(auto_ap_btn)
+	main_vbox.add_child(ap_hbox)
+	
+	# Attribute Grid (STR, DEX, INT, LUK, HP, MP)
+	var stat_grid = GridContainer.new()
+	stat_grid.columns = 4
+	stat_grid.add_theme_constant_override("h_separation", 12)
+	stat_grid.add_theme_constant_override("v_separation", 6)
+	
+	add_stat_row(stat_grid, "力量 (STR)", Global.stat_str, Global.equip_bonus_str, "str")
+	add_stat_row(stat_grid, "敏捷 (DEX)", Global.stat_dex, Global.equip_bonus_dex, "dex")
+	add_stat_row(stat_grid, "智力 (INT)", Global.stat_int, Global.equip_bonus_int, "int")
+	add_stat_row(stat_grid, "幸運 (LUK)", Global.stat_luk, Global.equip_bonus_luk, "luk")
+	add_stat_row(stat_grid, "生命值 (HP)", Global.player_max_hp, 0, "hp")
+	add_stat_row(stat_grid, "魔力值 (MP)", Global.player_max_mp, 0, "mp")
+	
+	main_vbox.add_child(stat_grid)
+	
+	var sep = HSeparator.new()
+	main_vbox.add_child(sep)
+	
+	# Combat Stats Summary
+	var combat_title = Label.new()
+	combat_title.text = "⚔️ 實時戰鬥數值面板 (已實裝裝備與屬性加成)"
+	combat_title.add_theme_font_size_override("font_size", 13)
+	combat_title.modulate = Color(0.9, 0.9, 0.6)
+	main_vbox.add_child(combat_title)
+	
+	var c_grid = GridContainer.new()
+	c_grid.columns = 2
+	c_grid.add_theme_constant_override("h_separation", 20)
+	c_grid.add_theme_constant_override("v_separation", 4)
+	
+	add_combat_stat_label(c_grid, "物理攻擊力: %d (裝備 +%d)" % [Global.weapon_atk, Global.equip_bonus_atk])
+	add_combat_stat_label(c_grid, "魔法攻擊力: %d (裝備 +%d)" % [Global.magic_atk, Global.equip_bonus_magic_atk])
+	add_combat_stat_label(c_grid, "物理防禦力: %d" % Global.equip_bonus_def)
+	add_combat_stat_label(c_grid, "暴擊機率: %.1f%%" % (Global.base_crit_rate * 100.0))
+	add_combat_stat_label(c_grid, "移動速度: %.0f (裝備 +%.0f)" % [Global.player_speed, Global.equip_bonus_speed])
+	add_combat_stat_label(c_grid, "持有楓幣: %d 楓幣" % Global.meso_gold)
+	
+	main_vbox.add_child(c_grid)
+	stat_modal.add_child(main_vbox)
+
+func add_stat_row(grid: GridContainer, label_text: String, base_val: int, bonus_val: int, stat_key: String):
+	var name_lbl = Label.new()
+	name_lbl.text = label_text
+	grid.add_child(name_lbl)
+	
+	var val_lbl = Label.new()
+	if bonus_val > 0:
+		val_lbl.text = "%d (+%d)" % [base_val + bonus_val, bonus_val]
+		val_lbl.modulate = Color(0.3, 1.0, 0.5)
+	else:
+		val_lbl.text = "%d" % base_val
+	grid.add_child(val_lbl)
+	
+	var btn_add1 = Button.new()
+	btn_add1.text = "+1"
+	btn_add1.custom_minimum_size = Vector2(36, 26)
+	btn_add1.disabled = (Global.available_ap < 1)
+	btn_add1.pressed.connect(func():
+		Global.allocate_ap(stat_key, 1)
+		refresh_stat_modal()
+	)
+	grid.add_child(btn_add1)
+	
+	var btn_add5 = Button.new()
+	btn_add5.text = "+5"
+	btn_add5.custom_minimum_size = Vector2(36, 26)
+	btn_add5.disabled = (Global.available_ap < 5)
+	btn_add5.pressed.connect(func():
+		Global.allocate_ap(stat_key, 5)
+		refresh_stat_modal()
+	)
+	grid.add_child(btn_add5)
+
+func add_combat_stat_label(grid: GridContainer, text: String):
+	var lbl = Label.new()
+	lbl.text = text
+	lbl.add_theme_font_size_override("font_size", 12)
+	grid.add_child(lbl)
+
+# =========================================================================
+# INVENTORY & EQUIPMENT SLOTS MODAL
+# =========================================================================
+func build_inventory_modal():
+	inventory_modal = PanelContainer.new()
+	inventory_modal.name = "InventoryModal"
+	inventory_modal.custom_minimum_size = Vector2(780, 520)
+	inventory_modal.set_anchors_preset(Control.PRESET_CENTER)
+	inventory_modal.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	inventory_modal.grow_vertical = Control.GROW_DIRECTION_BOTH
+	inventory_modal.visible = false
+	add_child(inventory_modal)
+
+func refresh_inventory_modal():
+	if not is_instance_valid(inventory_modal):
+		return
+		
+	for c in inventory_modal.get_children():
+		c.queue_free()
+		
+	var main_vbox = VBoxContainer.new()
+	main_vbox.add_theme_constant_override("separation", 6)
+	
+	# Header
+	var header = HBoxContainer.new()
+	var title = Label.new()
+	title.text = "🎒 角色裝備欄 與 背包道具欄"
+	title.add_theme_font_size_override("font_size", 18)
+	title.modulate = Color(1.0, 0.85, 0.2)
+	header.add_child(title)
+	
+	var spacer = Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
+	
+	var close_btn = Button.new()
+	close_btn.text = " ✕ "
+	close_btn.pressed.connect(func(): inventory_modal.visible = false)
+	header.add_child(close_btn)
+	main_vbox.add_child(header)
+	
+	# Body Split: Left (Equipped Slots) | Right (Inventory Tabs)
+	var body_hbox = HBoxContainer.new()
+	body_hbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_hbox.add_theme_constant_override("separation", 14)
+	
+	# --- LEFT: EQUIPPED SLOTS ---
+	var equip_panel = PanelContainer.new()
+	equip_panel.custom_minimum_size = Vector2(300, 420)
+	
+	var equip_vbox = VBoxContainer.new()
+	var eq_title = Label.new()
+	eq_title.text = "【當前穿戴裝備】(點擊卸下)"
+	eq_title.add_theme_font_size_override("font_size", 13)
+	eq_title.modulate = Color(0.3, 1.0, 0.5)
+	equip_vbox.add_child(eq_title)
+	
+	var slots = [
+		{"key": "weapon", "label": "⚔️ 武器"},
+		{"key": "hat", "label": "👒 頭盔"},
+		{"key": "overall", "label": "🥋 套服"},
+		{"key": "gloves", "label": "🧤 手套"},
+		{"key": "shoes", "label": "👢 鞋子"},
+		{"key": "shield", "label": "🛡️ 盾牌"},
+		{"key": "accessory", "label": "💍 飾品"}
+	]
+	
+	for s in slots:
+		var slot_key = s.key
+		var slot_label = s.label
+		var item = Global.equipped_items.get(slot_key, null)
+		
+		var row = HBoxContainer.new()
+		var lbl = Label.new()
+		lbl.custom_minimum_size = Vector2(80, 24)
+		lbl.text = slot_label
+		lbl.add_theme_font_size_override("font_size", 12)
+		row.add_child(lbl)
+		
+		if item != null:
+			var item_btn = Button.new()
+			item_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			item_btn.text = "%s" % item.name
+			item_btn.modulate = Color(1.0, 0.8, 0.3)
+			item_btn.tooltip_text = "點擊卸下裝備"
+			item_btn.pressed.connect(func():
+				Global.unequip_item(slot_key)
+				refresh_inventory_modal()
+			)
+			row.add_child(item_btn)
+		else:
+			var empty_lbl = Label.new()
+			empty_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			empty_lbl.text = "[無裝備]"
+			empty_lbl.modulate = Color.GRAY
+			empty_lbl.add_theme_font_size_override("font_size", 12)
+			row.add_child(empty_lbl)
+			
+		equip_vbox.add_child(row)
+		
+	# Equipped Stats Bonus Overview
+	var bonus_box = VBoxContainer.new()
+	var b_title = Label.new()
+	b_title.text = "裝備屬性總加成: 攻+%d / 防+%d / 力量+%d / 敏捷+%d" % [Global.equip_bonus_atk, Global.equip_bonus_def, Global.equip_bonus_str, Global.equip_bonus_dex]
+	b_title.add_theme_font_size_override("font_size", 11)
+	b_title.modulate = Color(0.8, 0.9, 1.0)
+	bonus_box.add_child(b_title)
+	equip_vbox.add_child(bonus_box)
+	
+	equip_panel.add_child(equip_vbox)
+	body_hbox.add_child(equip_panel)
+	
+	# --- RIGHT: INVENTORY TABS (Equip, Use, Etc) ---
+	var inv_panel = PanelContainer.new()
+	inv_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inv_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	
+	var inv_vbox = VBoxContainer.new()
+	
+	# Tab Buttons
+	var tab_hbox = HBoxContainer.new()
+	var tab_eq = Button.new()
+	tab_eq.text = "【裝備 (%d/32)】" % Global.equip_inventory.size()
+	tab_eq.pressed.connect(func():
+		current_inv_tab = "equip"
+		refresh_inventory_modal()
+	)
+	tab_hbox.add_child(tab_eq)
+	
+	var tab_use = Button.new()
+	tab_use.text = "【消耗 (%d/32)】" % Global.use_inventory.size()
+	tab_use.pressed.connect(func():
+		current_inv_tab = "use"
+		refresh_inventory_modal()
+	)
+	tab_hbox.add_child(tab_use)
+	
+	var tab_etc = Button.new()
+	tab_etc.text = "【材料 (%d/32)】" % Global.etc_inventory.size()
+	tab_etc.pressed.connect(func():
+		current_inv_tab = "etc"
+		refresh_inventory_modal()
+	)
+	tab_hbox.add_child(tab_etc)
+	inv_vbox.add_child(tab_hbox)
+	
+	# Item Scroll List
+	var scroll = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.custom_minimum_size = Vector2(0, 320)
+	
+	var item_list = VBoxContainer.new()
+	item_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	
+	match current_inv_tab:
+		"equip":
+			if Global.equip_inventory.is_empty():
+				var emp = Label.new()
+				emp.text = "裝備欄為空。打怪可掉落稀有武器與防具！"
+				emp.modulate = Color.GRAY
+				item_list.add_child(emp)
+			else:
+				for i in range(Global.equip_inventory.size()):
+					var eq = Global.equip_inventory[i]
+					var row = HBoxContainer.new()
+					var info = Label.new()
+					info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+					var job_s = " [%s]" % eq.get("job", "") if eq.get("job", "") != "" else ""
+					var stats_s = "攻+%d 防+%d" % [eq.get("atk", 0), eq.get("def", 0)]
+					info.text = "★ %s (Lv.%d%s) | %s" % [eq.name, eq.get("req_lvl", 1), job_s, stats_s]
+					info.add_theme_font_size_override("font_size", 12)
+					row.add_child(info)
+					
+					var eq_btn = Button.new()
+					eq_btn.text = "穿戴"
+					var idx = i
+					eq_btn.pressed.connect(func():
+						Global.equip_item(idx)
+						refresh_inventory_modal()
+					)
+					row.add_child(eq_btn)
+					item_list.add_child(row)
+					
+		"use":
+			if Global.use_inventory.is_empty():
+				var emp = Label.new()
+				emp.text = "消耗欄為空。"
+				emp.modulate = Color.GRAY
+				item_list.add_child(emp)
+			else:
+				for i in range(Global.use_inventory.size()):
+					var u_item = Global.use_inventory[i]
+					var row = HBoxContainer.new()
+					var info = Label.new()
+					info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+					info.text = "🧪 %s  (數量: %d)" % [u_item.name, u_item.get("count", 1)]
+					info.add_theme_font_size_override("font_size", 12)
+					row.add_child(info)
+					
+					var use_btn = Button.new()
+					use_btn.text = "使用"
+					var idx = i
+					use_btn.pressed.connect(func():
+						Global.use_consume_item(idx)
+						refresh_inventory_modal()
+					)
+					row.add_child(use_btn)
+					item_list.add_child(row)
+					
+		"etc":
+			if Global.etc_inventory.is_empty():
+				var emp = Label.new()
+				emp.text = "材料欄為空。"
+				emp.modulate = Color.GRAY
+				item_list.add_child(emp)
+			else:
+				for etc_item in Global.etc_inventory:
+					var row = HBoxContainer.new()
+					var info = Label.new()
+					info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+					info.text = "📦 %s  (數量: %d)" % [etc_item.name, etc_item.get("count", 1)]
+					info.add_theme_font_size_override("font_size", 12)
+					row.add_child(info)
+					item_list.add_child(row)
+					
+	scroll.add_child(item_list)
+	inv_vbox.add_child(scroll)
+	
+	# Bottom Meso bar
+	var meso_box = HBoxContainer.new()
+	var meso_val = Label.new()
+	meso_val.text = "💰 持有楓幣: %d 楓幣" % Global.meso_gold
+	meso_val.add_theme_font_size_override("font_size", 13)
+	meso_val.modulate = Color.GOLD
+	meso_box.add_child(meso_val)
+	inv_vbox.add_child(meso_box)
+	
+	inv_panel.add_child(inv_vbox)
+	body_hbox.add_child(inv_panel)
+	
+	main_vbox.add_child(body_hbox)
+	inventory_modal.add_child(main_vbox)
+
+# =========================================================================
+# OTHER MODALS (Chat, Pause, Buffs, Pets, Maps)
+# =========================================================================
 func _on_chat_gui_input(event: InputEvent):
 	if event is InputEventKey and event.is_pressed() and not event.is_echo():
 		if event.keycode == KEY_ESCAPE:
 			if chat_input:
 				chat_input.text = ""
 				chat_input.release_focus()
-				get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER:
+			if chat_input and chat_input.text.strip_edges() != "":
+				_on_chat_text_submitted(chat_input.text)
 
-func _on_chat_text_submitted(_new_text: String):
-	_on_chat_send_pressed()
-
-func _unhandled_input(event: InputEvent):
-	if not (event is InputEventKey) or not event.is_pressed() or event.is_echo():
-		return
-		
-	var focus_owner = get_viewport().gui_get_focus_owner()
-	if focus_owner is LineEdit or focus_owner is TextEdit:
-		if event.keycode == KEY_ENTER:
-			_on_chat_send_pressed()
-			get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_ESCAPE:
-			focus_owner.release_focus()
-			get_viewport().set_input_as_handled()
-		return
-		
-	if event.keycode == KEY_ESCAPE:
-		if has_any_modal_open():
-			close_all_modals()
-		else:
-			toggle_pause()
-		return
-		
-	if event.keycode == KEY_F1:
-		toggle_pause()
-		return
-		
-	if event.keycode == KEY_N:
-		toggle_modal(network_modal)
-		return
-		
-	if event.keycode == KEY_J:
-		toggle_modal(job_select_modal)
-		return
-		
-	if event.keycode == KEY_M:
-		toggle_modal(map_select_modal)
-		return
-		
-	if event.keycode == KEY_P:
-		toggle_modal(pet_bag_modal)
-		return
-		
-	if event.keycode == KEY_ENTER:
+func _on_chat_text_submitted(new_text: String):
+	var clean_text = new_text.strip_edges()
+	if clean_text.is_empty():
 		if chat_input:
-			chat_input.grab_focus()
-
-func has_any_modal_open() -> bool:
-	return (network_modal and network_modal.visible) or \
-		   (job_select_modal and job_select_modal.visible) or \
-		   (pet_bag_modal and pet_bag_modal.visible) or \
-		   (map_select_modal and map_select_modal.visible) or \
-		   (pause_modal and pause_modal.visible)
-
-func close_all_modals():
-	if network_modal: network_modal.visible = false
-	if job_select_modal: job_select_modal.visible = false
-	if pet_bag_modal: pet_bag_modal.visible = false
-	if map_select_modal: map_select_modal.visible = false
-	if pause_modal and get_tree().paused:
-		resume_game()
-
-func toggle_modal(modal: Control):
-	if not modal:
+			chat_input.release_focus()
 		return
-	var target_vis = not modal.visible
-	close_all_modals()
-	modal.visible = target_vis
+		
+	var sender = NetworkManager.local_player_name if NetworkManager.is_multiplayer_active else "冒險家"
+	NetworkManager.send_chat(clean_text)
+	
+	if chat_input:
+		chat_input.text = ""
+		chat_input.release_focus()
+
+func _on_chat_received(sender: String, message: String):
+	if not chat_log:
+		return
+	var time_str = Time.get_time_string_from_system().substr(0, 5)
+	chat_log.append_text("[color=#88ccff][%s] %s:[/color] %s\n" % [time_str, sender, message])
 
 func toggle_pause():
-	if get_tree().paused:
-		resume_game()
-	else:
-		pause_game()
-
-func pause_game():
-	close_all_modals()
-	get_tree().paused = true
+	get_tree().paused = not get_tree().paused
 	if pause_modal:
-		pause_modal.visible = true
-	Global.broadcast_message("⏸ 遊戲已暫停", Color.YELLOW)
-
-func resume_game():
-	get_tree().paused = false
-	if pause_modal:
-		pause_modal.visible = false
-	Global.broadcast_message("▶ 遊戲繼續！", Color.GREEN)
+		pause_modal.visible = get_tree().paused
 
 func update_player_hp(cur: int, max_val: int):
 	if hp_bar:
 		hp_bar.max_value = max_val
 		hp_bar.value = cur
-		hp_bar.get_node("Label").text = "HP: %d / %d" % [cur, max_val]
+		var lbl = hp_bar.get_node_or_null("Label")
+		if lbl:
+			lbl.text = "HP: %d / %d" % [cur, max_val]
 
 func update_player_mp(cur: int, max_val: int):
 	if mp_bar:
 		mp_bar.max_value = max_val
 		mp_bar.value = cur
-		mp_bar.get_node("Label").text = "MP: %d / %d" % [cur, max_val]
+		var lbl = mp_bar.get_node_or_null("Label")
+		if lbl:
+			lbl.text = "MP: %d / %d" % [cur, max_val]
 
 func update_player_exp(cur: int, max_val: int, lvl: int):
 	if exp_bar:
 		exp_bar.max_value = max_val
 		exp_bar.value = cur
-		var pct = float(cur) / float(max_val) * 100.0
-		exp_bar.get_node("Label").text = "EXP: %d / %d (%.1f%%)" % [cur, max_val, pct]
+		var lbl = exp_bar.get_node_or_null("Label")
+		if lbl:
+			var pct = float(cur) / float(max(1, max_val)) * 100.0
+			lbl.text = "EXP: %d / %d (%.1f%%)" % [cur, max_val, pct]
 	if level_label:
-		level_label.text = "Lv. %d 【%s】" % [lvl, Global.player_job_data.get("name", "勇者")]
+		level_label.text = "Lv. %d" % lvl
 
 func update_player_job_display(job_data: Dictionary):
-	if level_label:
-		level_label.text = "Lv. %d 【%s】" % [Global.player_level, job_data.get("name", "勇者")]
-		level_label.modulate = job_data.get("color", Color.WHITE)
-
-func open_job_selection():
-	toggle_modal(job_select_modal)
-
-func setup_job_selection_list():
-	if not job_card_container:
-		return
-	for child in job_card_container.get_children():
-		child.queue_free()
-		
-	for j_id in ["warrior", "magician", "bowman", "thief", "pirate"]:
-		var j_data = JobDatabase.get_job(j_id)
-		var card = Button.new()
-		card.custom_minimum_size = Vector2(230, 360)
-		var is_cur = (Global.player_job_id == j_id)
-		var mark = "【當前職業】\n" if is_cur else "[點擊轉職]\n"
-		
-		var skill_texts = ""
-		for sk_key in ["skill_1", "skill_2", "skill_3"]:
-			var sk = j_data.skills[sk_key]
-			skill_texts += "• %s\n" % sk.name
-			
-		card.text = "%s\n★ %s ★\n%s\n\n主屬性: %s\nHP:%d  MP:%d\n\n【核心技能】\n%s\n%s" % [
-			mark,
-			j_data.name,
-			j_data.title,
-			j_data.primary_stat,
-			j_data.base_stats.hp,
-			j_data.base_stats.mp,
-			skill_texts,
-			j_data.desc
-		]
-		card.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		card.modulate = j_data.color.lightened(0.2)
-		var sel_id = j_id
-		card.pressed.connect(func():
-			Global.set_player_job(sel_id)
-			job_select_modal.visible = false
-			setup_job_selection_list()
-		)
-		job_card_container.add_child(card)
+	if level_label and not job_data.is_empty():
+		level_label.text = "Lv. %d  [%s]" % [Global.player_level, job_data.get("name", "新手")]
 
 func update_goddess_hp(cur: int, max_val: int):
 	if goddess_hp_bar:
 		goddess_hp_bar.max_value = max_val
 		goddess_hp_bar.value = cur
-		var pct = float(cur) / float(max_val) * 100.0
-		goddess_hp_bar.get_node("Label").text = "女神神聖結界: %d / %d (%.1f%%)" % [cur, max_val, pct]
+		var lbl = goddess_hp_bar.get_node_or_null("Label")
+		if lbl:
+			var pct = float(cur) / float(max(1, max_val)) * 100.0
+			lbl.text = "女神神聖結界: %d / %d (%.1f%%)" % [cur, max_val, pct]
 
-func update_wave(cur_wave: int, max_wave: int):
+func update_wave(cur: int, max_val: int):
 	if wave_label:
-		wave_label.text = "第 %d / %d 波 攻城進攻" % [cur_wave, max_wave]
-	if start_wave_btn:
-		var wave_ctrl = get_tree().current_scene.get_node_or_null("WaveDefenseController")
-		if is_instance_valid(wave_ctrl) and not wave_ctrl.is_wave_active:
-			start_wave_btn.visible = true
-			start_wave_btn.text = "⚔ 點擊開始防守第 %d 波 (按 F2)" % cur_wave
-		else:
-			start_wave_btn.visible = false
+		wave_label.text = "第 %d / %d 波 %s" % [
+			cur, 
+			max_val,
+			"[BOSS 來襲!]" if cur % 5 == 0 else ""
+		]
 
 func _on_start_wave_button_pressed():
 	var wave_ctrl = get_tree().current_scene.get_node_or_null("WaveDefenseController")
@@ -368,75 +717,65 @@ func show_buff_choices(buffs: Array):
 		
 	for buff in buffs:
 		var card = Button.new()
-		card.custom_minimum_size = Vector2(240, 300)
-		card.text = "\n\n★ %s ★\n\n%s\n\n[點擊選取]" % [buff.name, buff.desc]
+		card.custom_minimum_size = Vector2(200, 260)
+		card.text = "【%s】\n\n%s\n\n稀有度: %s" % [buff.name, buff.desc, buff.tier.to_upper()]
 		card.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		
+		match buff.tier:
+			"legendary":
+				card.modulate = Color(1.0, 0.85, 0.2)
+			"epic":
+				card.modulate = Color(0.8, 0.4, 1.0)
+			"rare":
+				card.modulate = Color(0.3, 0.7, 1.0)
+			_:
+				card.modulate = Color(0.8, 1.0, 0.8)
+				
+		var b_id = buff.id
 		card.pressed.connect(func():
-			select_buff(buff)
+			LevelBuffManager.apply_buff(b_id)
+			buff_modal.visible = false
+			get_tree().paused = false
 		)
 		buff_container.add_child(card)
 
-func select_buff(buff: Dictionary):
-	var player = get_tree().get_first_node_in_group("player")
-	LevelBuffManager.apply_selected_buff(buff, player)
-	buff_modal.visible = false
-	get_tree().paused = false
-
-# Pet Bag Modal with Switch & Delete/Release Functions
+# Pet Bag UI
 func refresh_pet_bag():
 	if not pet_list_container:
 		return
 	for child in pet_list_container.get_children():
 		child.queue_free()
 		
-	if Global.pet_inventory.is_empty():
-		var empty_lbl = Label.new()
-		empty_lbl.text = "【背包目前沒有捕獲的寵物夥伴】\n靠近野怪按 E 鍵丟出封印網捕捉！"
-		empty_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		pet_list_container.add_child(empty_lbl)
-		return
-		
 	for i in range(Global.pet_inventory.size()):
 		var pet = Global.pet_inventory[i]
 		var row = HBoxContainer.new()
-		row.add_theme_constant_override("separation", 8)
 		
 		var is_active = (Global.active_pet_data.get("name", "") == pet.name)
-		var status_str = "【出戰中】" if is_active else "[休息中]"
-		
-		# Info Box
-		var info_lbl = Label.new()
-		info_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		info_lbl.text = "%s %s (Lv.%d) | HP:%d 攻:%d 速:%d" % [
-			status_str, pet.name, pet.get("level", 1), pet.hp, pet.atk, pet.speed
+		var info_btn = Button.new()
+		info_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info_btn.text = "%s [%s] - HP: %d | 攻擊: %d" % [
+			"★ " + pet.name if is_active else pet.name,
+			"出戰中" if is_active else "休息中",
+			pet.hp,
+			pet.atk
 		]
 		if is_active:
-			info_lbl.modulate = Color.GREEN
-		row.add_child(info_lbl)
+			info_btn.modulate = Color.GREEN
 		
-		# Action Button (Summon / Dismiss)
-		var act_btn = Button.new()
-		act_btn.custom_minimum_size = Vector2(100, 36)
-		act_btn.text = "召回休息" if is_active else "召喚出戰"
-		if is_active:
-			act_btn.modulate = Color(1.0, 0.8, 0.3)
-		else:
-			act_btn.modulate = Color(0.3, 1.0, 0.5)
-		var idx = i
-		act_btn.pressed.connect(func():
+		var pet_copy = pet
+		info_btn.pressed.connect(func():
 			if is_active:
 				Global.dismiss_active_pet()
 			else:
-				Global.select_active_pet(idx)
+				Global.summon_pet(pet_copy)
 			refresh_pet_bag()
 		)
-		row.add_child(act_btn)
+		row.add_child(info_btn)
 		
-		# Delete / Release Button
 		var del_btn = Button.new()
-		del_btn.custom_minimum_size = Vector2(90, 36)
 		del_btn.text = "🗑 放生"
 		del_btn.modulate = Color(1.0, 0.4, 0.4)
+		var idx = i
 		del_btn.pressed.connect(func():
 			Global.remove_pet_from_inventory(idx)
 			refresh_pet_bag()
@@ -537,100 +876,114 @@ func show_game_over(victory: bool):
 		game_over_title.text = "☠ 守護失敗！女神結界已破碎 ☠\n即將自動重生，重新守護女神！"
 		game_over_title.modulate = Color.RED
 		
-	# Automatic countdown to restart defense (5 seconds)
 	if restart_timer_tween and restart_timer_tween.is_valid():
 		restart_timer_tween.kill()
 		
 	restart_timer_tween = create_tween()
-	for sec in range(5, 0, -1):
-		if restart_btn:
-			restart_btn.text = "🔄 重新守護女神 (%d 秒後自動開始)" % sec
+	var countdown_label = game_over_modal.get_node_or_null("CountdownLabel")
+	if not countdown_label:
+		countdown_label = Label.new()
+		countdown_label.name = "CountdownLabel"
+		countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		countdown_label.position = Vector2(0, 180)
+		countdown_label.size = Vector2(400, 30)
+		countdown_label.add_theme_font_size_override("font_size", 16)
+		countdown_label.modulate = Color.YELLOW
+		game_over_modal.add_child(countdown_label)
+		
+	var seconds_left = 5
+	countdown_label.text = "【%d 秒後自動重新開始守護】" % seconds_left
+	
+	for s in range(5, 0, -1):
+		restart_timer_tween.tween_callback(func():
+			if is_instance_valid(countdown_label):
+				countdown_label.text = "【%d 秒後自動重新開始守護】" % s
+		)
 		restart_timer_tween.tween_interval(1.0)
 		
 	restart_timer_tween.tween_callback(func():
-		if game_over_modal.visible:
-			_on_restart_pressed()
+		_restart_defense_game()
 	)
+	
+	if restart_btn:
+		if not restart_btn.pressed.is_connected(_restart_defense_game):
+			restart_btn.pressed.connect(_restart_defense_game)
 
-func _on_host_room_pressed():
-	var name_txt = host_name_input.text.strip_edges() if host_name_input else "房主勇者"
-	if name_txt == "": name_txt = "房主勇者"
-	var port = int(host_port_input.text) if host_port_input and host_port_input.text.is_valid_int() else 8910
-	NetworkManager.host_game(port, name_txt)
-	update_network_ui()
+func _restart_defense_game():
+	if restart_timer_tween and restart_timer_tween.is_valid():
+		restart_timer_tween.kill()
+	game_over_modal.visible = false
+	
+	Global.reset_game_state()
+	
+	var wave_ctrl = get_tree().current_scene.get_node_or_null("WaveDefenseController")
+	if is_instance_valid(wave_ctrl):
+		wave_ctrl.restart_defense_loop()
 
-func _on_join_room_pressed():
-	var name_txt = join_name_input.text.strip_edges() if join_name_input else "冒險者"
-	if name_txt == "": name_txt = "冒險者"
-	var ip = join_ip_input.text.strip_edges() if join_ip_input and join_ip_input.text != "" else "127.0.0.1"
-	var port = int(join_port_input.text) if join_port_input and join_port_input.text.is_valid_int() else 8910
-	NetworkManager.join_game(ip, port, name_txt)
-	update_network_ui()
-
-func _on_leave_room_pressed():
-	NetworkManager.leave_game()
-	update_network_ui()
-
-func _on_net_player_update(_peer_id = 0, _info = {}):
-	update_network_ui()
+func setup_job_selection_list():
+	if not job_card_container:
+		return
+	for child in job_card_container.get_children():
+		child.queue_free()
+		
+	for job_id in JobDatabase.JOBS.keys():
+		var job = JobDatabase.JOBS[job_id]
+		var card = PanelContainer.new()
+		card.custom_minimum_size = Vector2(160, 240)
+		
+		var vbox = VBoxContainer.new()
+		vbox.add_theme_constant_override("separation", 6)
+		
+		var icon = Label.new()
+		icon.text = "⚔️" if job_id == "warrior" else ("🏹" if job_id == "archer" else ("🔮" if job_id == "mage" else ("🗡️" if job_id == "rogue" else "🔫")))
+		icon.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		icon.add_theme_font_size_override("font_size", 28)
+		vbox.add_child(icon)
+		
+		var name_lbl = Label.new()
+		name_lbl.text = job.get("name", "職業")
+		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name_lbl.modulate = job.get("color", Color.WHITE)
+		name_lbl.add_theme_font_size_override("font_size", 16)
+		vbox.add_child(name_lbl)
+		
+		var desc = Label.new()
+		desc.text = job.get("desc", "")
+		desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		desc.add_theme_font_size_override("font_size", 11)
+		desc.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		vbox.add_child(desc)
+		
+		var select_btn = Button.new()
+		select_btn.text = "選擇轉職"
+		var j_id = job_id
+		select_btn.pressed.connect(func():
+			Global.set_player_job(j_id)
+			job_select_modal.visible = false
+		)
+		vbox.add_child(select_btn)
+		
+		card.add_child(vbox)
+		job_card_container.add_child(card)
 
 func update_network_ui():
 	if not net_status_label:
 		return
 	if NetworkManager.is_multiplayer_active:
 		if NetworkManager.is_host:
-			net_status_label.text = "連線狀態: [房主模式 - 伺服器運行中 Port: 8910]"
-			net_status_label.modulate = Color.GREEN
+			net_status_label.text = "狀態: 房主 (正在主持防禦房間)"
 		else:
-			net_status_label.text = "連線狀態: [隊員模式 - 已連線至房主]"
-			net_status_label.modulate = Color.CYAN
+			net_status_label.text = "狀態: 已連線進房"
+		net_status_label.modulate = Color.GREEN
 	else:
-		net_status_label.text = "連線狀態: [單機離線模式]"
-		net_status_label.modulate = Color.GRAY
-		
+		net_status_label.text = "狀態: 單人離線模式"
+		net_status_label.modulate = Color.WHITE
+
+func _on_net_player_update(_id = 0):
+	update_network_ui()
 	if party_list_label:
-		var txt = "【當前房間在線隊員 (%d 人)】\n" % max(1, NetworkManager.players.size())
-		if NetworkManager.is_multiplayer_active:
-			for pid in NetworkManager.players.keys():
-				var p = NetworkManager.players[pid]
-				var host_mark = " (房主)" if pid == 1 else ""
-				txt += "• [%s] Lv.%d %s%s\n" % [p.get("job_id", "warrior"), p.get("level", 1), p.get("name", "勇者"), host_mark]
-		else:
-			txt += "• [單人] Lv.%d %s (您)\n" % [Global.player_level, Global.player_job_data.name]
+		var txt = "隊伍成員:\n"
+		for peer_id in NetworkManager.players.keys():
+			var p_info = NetworkManager.players[peer_id]
+			txt += "• %s (ID: %d)\n" % [p_info.name, peer_id]
 		party_list_label.text = txt
-
-func _on_chat_send_pressed():
-	if not chat_input:
-		return
-	var msg = chat_input.text.strip_edges()
-	chat_input.text = ""
-	chat_input.release_focus()
-	
-	if msg == "":
-		return
-	
-	if NetworkManager.is_multiplayer_active:
-		NetworkManager.rpc("broadcast_chat", NetworkManager.local_player_name, msg, "cyan")
-	else:
-		Global.broadcast_message("[您]: %s" % msg, Color(0.3, 0.9, 1.0))
-		_on_chat_received("您", msg, Color(0.3, 0.9, 1.0))
-
-func _on_chat_received(sender: String, msg: String, col: Color):
-	if chat_log:
-		chat_log.append_text("[color=#%s]★ [%s]: %s[/color]\n" % [col.to_html(false), sender, msg])
-
-func _on_restart_pressed():
-	if restart_timer_tween and restart_timer_tween.is_valid():
-		restart_timer_tween.kill()
-		
-	get_tree().paused = false
-	if game_over_modal:
-		game_over_modal.visible = false
-	if pause_modal:
-		pause_modal.visible = false
-		
-	Global.reset_game_state()
-	
-	var wave_ctrl = get_tree().current_scene.get_node_or_null("WaveDefenseController")
-	if is_instance_valid(wave_ctrl):
-		wave_ctrl.restart_defense_loop()

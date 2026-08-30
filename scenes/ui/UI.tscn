@@ -125,6 +125,18 @@ offset_right = 400.0
 offset_bottom = 50.0
 theme_override_constants/separation = 6
 
+[node name="BtnStats" type="Button" parent="HUD/TouchControls/TopMenuBar"]
+custom_minimum_size = Vector2(70, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 1, 0.5, 1)
+text = "📊 屬性"
+
+[node name="BtnInventory" type="Button" parent="HUD/TouchControls/TopMenuBar"]
+custom_minimum_size = Vector2(70, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+text = "🎒 裝備"
+
 [node name="BtnLobby" type="Button" parent="HUD/TouchControls/TopMenuBar"]
 custom_minimum_size = Vector2(70, 36)
 layout_mode = 2
@@ -145,7 +157,7 @@ text = "🗺️ 地圖"
 [node name="BtnBag" type="Button" parent="HUD/TouchControls/TopMenuBar"]
 custom_minimum_size = Vector2(70, 36)
 layout_mode = 2
-text = "🎒 寵物"
+text = "🐾 寵物"
 
 [node name="BtnPause" type="Button" parent="HUD/TouchControls/TopMenuBar"]
 custom_minimum_size = Vector2(70, 36)
