@@ -25,7 +25,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "傑伊",
       "克里夏",
@@ -111,7 +130,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "瑪亞"
     ],
@@ -250,7 +288,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [],
     "normal_portals": [
       {
@@ -288,7 +345,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "比休斯",
       "科爾"
@@ -337,7 +413,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克爾",
       "山姆"
@@ -378,7 +473,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "倉庫李老闆",
       "慧菈",
@@ -442,7 +556,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "寵物訓練師巴特斯",
       "寵物訓練師巴羅德",
@@ -500,7 +633,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "凱茜"
     ],
@@ -1442,7 +1594,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [],
     "normal_portals": [
       {
@@ -1959,7 +2130,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "五星級計程車",
       "倉庫管理員朴先生",
@@ -2025,7 +2215,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "漢斯"
     ],
@@ -2408,7 +2617,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "潔淨的樹根"
     ],
@@ -2595,7 +2823,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "洛尼"
     ],
@@ -3600,7 +3847,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100131,
+        "name": "黑木妖",
+        "level": 8,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 100132,
+        "name": "斧木妖",
+        "level": 17,
+        "spawn_slots": 14
+      },
+      {
+        "mob_id": 2130103,
+        "name": "野豬",
+        "level": 25,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "修安",
       "官方名稱未取得的 NPC",
@@ -4758,7 +5024,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100131,
+        "name": "黑木妖",
+        "level": 8,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 100132,
+        "name": "斧木妖",
+        "level": 17,
+        "spawn_slots": 14
+      },
+      {
+        "mob_id": 2130103,
+        "name": "野豬",
+        "level": 25,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "倉庫王老闆",
       "加加",
@@ -4824,7 +5109,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "官方名稱未取得的 NPC"
     ],
@@ -6645,7 +6949,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100130,
+        "name": "三眼章魚",
+        "level": 12,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 2130100,
+        "name": "藍水靈",
+        "level": 20,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3130101,
+        "name": "沼澤巨鱷",
+        "level": 45,
+        "spawn_slots": 14
+      }
+    ],
     "npcs": [
       "伊卡路斯",
       "休咪",
@@ -6732,7 +7055,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100130,
+        "name": "三眼章魚",
+        "level": 12,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 2130100,
+        "name": "藍水靈",
+        "level": 20,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3130101,
+        "name": "沼澤巨鱷",
+        "level": 45,
+        "spawn_slots": 14
+      }
+    ],
     "npcs": [
       "達克魯"
     ],
@@ -6772,7 +7114,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -6808,7 +7169,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -6844,7 +7224,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -6880,7 +7279,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -7025,7 +7443,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "娜拉"
     ],
@@ -8560,7 +8997,26 @@
       0.35,
       0.3
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2130100,
+        "name": "小幽靈",
+        "level": 28,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 3130100,
+        "name": "大幽靈",
+        "level": 48,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 4130100,
+        "name": "惡魔水靈",
+        "level": 55,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "出口"
     ],
@@ -8640,7 +9096,26 @@
       0.35,
       0.3
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2130100,
+        "name": "小幽靈",
+        "level": 28,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 3130100,
+        "name": "大幽靈",
+        "level": 48,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 4130100,
+        "name": "惡魔水靈",
+        "level": 55,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "出口"
     ],
@@ -8726,7 +9201,26 @@
       0.35,
       0.3
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2130100,
+        "name": "小幽靈",
+        "level": 28,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 3130100,
+        "name": "大幽靈",
+        "level": 48,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 4130100,
+        "name": "惡魔水靈",
+        "level": 55,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "出口"
     ],
@@ -8795,7 +9289,26 @@
       0.35,
       0.3
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2130100,
+        "name": "小幽靈",
+        "level": 28,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 3130100,
+        "name": "大幽靈",
+        "level": 48,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 4130100,
+        "name": "惡魔水靈",
+        "level": 55,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "出口"
     ],
@@ -8892,7 +9405,26 @@
       0.35,
       0.3
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2130100,
+        "name": "小幽靈",
+        "level": 28,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 3130100,
+        "name": "大幽靈",
+        "level": 48,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 4130100,
+        "name": "惡魔水靈",
+        "level": 55,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "出口"
     ],
@@ -8936,7 +9468,26 @@
       0.35,
       0.3
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2130100,
+        "name": "小幽靈",
+        "level": 28,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 3130100,
+        "name": "大幽靈",
+        "level": 48,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 4130100,
+        "name": "惡魔水靈",
+        "level": 55,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "出口"
     ],
@@ -8976,7 +9527,26 @@
       0.35,
       0.3
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2130100,
+        "name": "小幽靈",
+        "level": 28,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 3130100,
+        "name": "大幽靈",
+        "level": 48,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 4130100,
+        "name": "惡魔水靈",
+        "level": 55,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "出口"
     ],
@@ -9404,7 +9974,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 1110100,
+        "name": "刺菇菇",
+        "level": 22,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2110300,
+        "name": "殭屍蘑菇",
+        "level": 24,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 4130103,
+        "name": "土龍",
+        "level": 50,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "倉庫吳老闆",
       "克利斯拉瑪",
@@ -10930,7 +11519,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "無意義存在者",
       "葛溫"
@@ -11728,7 +12336,26 @@
       0.45,
       0.25
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100101,
+        "name": "海星",
+        "level": 5,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 1210100,
+        "name": "水手肥肥",
+        "level": 12,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210100,
+        "name": "海怒斯",
+        "level": 60,
+        "spawn_slots": 8
+      }
+    ],
     "npcs": [
       "可可",
       "娃娃",
@@ -11794,7 +12421,26 @@
       0.45,
       0.25
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100101,
+        "name": "海星",
+        "level": 5,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 1210100,
+        "name": "水手肥肥",
+        "level": 12,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210100,
+        "name": "海怒斯",
+        "level": 60,
+        "spawn_slots": 8
+      }
+    ],
     "npcs": [
       "傑克",
       "垃圾桶",
@@ -11837,7 +12483,26 @@
       0.45,
       0.25
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100101,
+        "name": "海星",
+        "level": 5,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 1210100,
+        "name": "水手肥肥",
+        "level": 12,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210100,
+        "name": "海怒斯",
+        "level": 60,
+        "spawn_slots": 8
+      }
+    ],
     "npcs": [
       "守財奴",
       "巴勒圖",
@@ -11898,7 +12563,26 @@
       0.45,
       0.25
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100101,
+        "name": "海星",
+        "level": 5,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 1210100,
+        "name": "水手肥肥",
+        "level": 12,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210100,
+        "name": "海怒斯",
+        "level": 60,
+        "spawn_slots": 8
+      }
+    ],
     "npcs": [
       "黑巴克"
     ],
@@ -11938,7 +12622,26 @@
       0.45,
       0.25
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100101,
+        "name": "海星",
+        "level": 5,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 1210100,
+        "name": "水手肥肥",
+        "level": 12,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210100,
+        "name": "海怒斯",
+        "level": 60,
+        "spawn_slots": 8
+      }
+    ],
     "npcs": [
       "寶妮",
       "查理斯",
@@ -11984,7 +12687,26 @@
       0.45,
       0.25
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100101,
+        "name": "海星",
+        "level": 5,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 1210100,
+        "name": "水手肥肥",
+        "level": 12,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210100,
+        "name": "海怒斯",
+        "level": 60,
+        "spawn_slots": 8
+      }
+    ],
     "npcs": [
       "布希",
       "發光石"
@@ -12025,7 +12747,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "海拉格",
       "蕾雅",
@@ -12422,7 +13163,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "卡伊琳"
     ],
@@ -12457,7 +13217,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "卡伊琳"
     ],
@@ -12492,7 +13271,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "卡伊琳"
     ],
@@ -12527,7 +13325,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "卡伊琳"
     ],
@@ -12562,7 +13379,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "興兒"
     ],
@@ -12597,7 +13433,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "幹員C",
       "達爾利",
@@ -12634,7 +13489,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "達爾米"
     ],
@@ -12682,7 +13556,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "達爾米"
     ],
@@ -12717,7 +13610,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "達爾利"
     ],
@@ -12752,7 +13664,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "利普"
     ],
@@ -12792,7 +13723,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "利普"
     ],
@@ -12832,7 +13782,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "魔法圖書館角落"
     ],
@@ -12867,7 +13836,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100131,
+        "name": "黑木妖",
+        "level": 8,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 100132,
+        "name": "斧木妖",
+        "level": 17,
+        "spawn_slots": 14
+      },
+      {
+        "mob_id": 2130103,
+        "name": "野豬",
+        "level": 25,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [
@@ -12909,7 +13897,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100131,
+        "name": "黑木妖",
+        "level": 8,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 100132,
+        "name": "斧木妖",
+        "level": 17,
+        "spawn_slots": 14
+      },
+      {
+        "mob_id": 2130103,
+        "name": "野豬",
+        "level": 25,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [
@@ -12951,7 +13958,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100131,
+        "name": "黑木妖",
+        "level": 8,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 100132,
+        "name": "斧木妖",
+        "level": 17,
+        "spawn_slots": 14
+      },
+      {
+        "mob_id": 2130103,
+        "name": "野豬",
+        "level": 25,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [
@@ -12993,7 +14019,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "守護者之石"
     ],
@@ -13028,7 +14073,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [],
     "normal_portals": [
       {
@@ -13075,7 +14139,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "娜拉"
     ],
@@ -13110,7 +14193,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -13146,7 +14248,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -13182,7 +14303,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -13218,7 +14358,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -13403,7 +14562,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100101,
+        "name": "海星",
+        "level": 5,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 1210100,
+        "name": "水手肥肥",
+        "level": 12,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210100,
+        "name": "海怒斯",
+        "level": 60,
+        "spawn_slots": 8
+      }
+    ],
     "npcs": [
       "乳牛",
       "小乳牛"
@@ -13439,7 +14617,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [],
@@ -13968,7 +15165,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "路易士"
     ],
@@ -14008,7 +15224,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "花簇",
       "路易士"
@@ -14044,7 +15279,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "路易士"
     ],
@@ -14093,7 +15347,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "路易士"
     ],
@@ -14133,7 +15406,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "草藥叢",
       "路易士"
@@ -14186,7 +15478,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "妖精 瑪麗"
     ],
@@ -14449,7 +15760,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "坍塌的石像"
     ],
@@ -14489,7 +15819,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "坍塌的石像",
       "粉紅色花簇"
@@ -14525,7 +15874,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "坍塌的石像"
     ],
@@ -14565,7 +15933,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "坍塌的石像",
       "藍花簇"
@@ -14601,7 +15988,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "坍塌的石像"
     ],
@@ -14641,7 +16047,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "坍塌的石像"
     ],
@@ -14681,7 +16106,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 2110200,
+        "name": "綠水靈",
+        "level": 6,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 2230100,
+        "name": "綠菇菇",
+        "level": 15,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3210200,
+        "name": "天使猴",
+        "level": 37,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "坍塌的石像",
       "白花簇"
@@ -15067,7 +16511,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "弓箭手轉職教官"
     ],
@@ -15102,7 +16565,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "弓箭手轉職教官"
     ],
@@ -15137,7 +16619,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "弓箭手轉職教官"
     ],
@@ -15172,7 +16673,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "法師轉職教官"
     ],
@@ -15207,7 +16727,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "法師轉職教官"
     ],
@@ -15242,7 +16781,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "法師轉職教官"
     ],
@@ -15277,7 +16835,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "劍士轉職教官"
     ],
@@ -15312,7 +16889,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "劍士轉職教官"
     ],
@@ -15347,7 +16943,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "劍士轉職教官"
     ],
@@ -15382,7 +16997,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "盜賊轉職教官"
     ],
@@ -15417,7 +17051,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "盜賊轉職教官"
     ],
@@ -15452,7 +17105,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "盜賊轉職教官"
     ],
@@ -15487,7 +17159,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 14
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "五星級計程車",
       "佩森",
@@ -16075,7 +17766,26 @@
       0.45,
       0.25
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 1210102,
+        "name": "青螃蟹",
+        "level": 35,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 1210103,
+        "name": "紅螃蟹",
+        "level": 40,
+        "spawn_slots": 16
+      },
+      {
+        "mob_id": 3230101,
+        "name": "椰子樹妖",
+        "level": 45,
+        "spawn_slots": 14
+      }
+    ],
     "npcs": [
       "拉爾",
       "拜倫",
@@ -16488,7 +18198,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "官方名稱未取得的 NPC"
     ],
@@ -16533,7 +18262,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "希娜",
       "莎麗"
@@ -16574,7 +18322,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "羅傑"
     ],
@@ -16614,7 +18381,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "妮娜"
     ],
@@ -16658,7 +18444,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "桑"
     ],
@@ -16698,7 +18503,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "彼特",
       "托德"
@@ -17041,7 +18865,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 14
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 12
+      }
+    ],
     "npcs": [
       "官方名稱未取得的 NPC",
       "桑克斯",
@@ -17527,7 +19370,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [
       "瑞恩",
       "皮奧",
@@ -17577,7 +19439,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 20
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 18
+      },
+      {
+        "mob_id": 100102,
+        "name": "紅寶",
+        "level": 4,
+        "spawn_slots": 15
+      }
+    ],
     "npcs": [],
     "normal_portals": [
       {
@@ -17822,7 +19703,26 @@
       0.35,
       0.18
     ],
-    "monsters": [],
+    "monsters": [
+      {
+        "mob_id": 100100,
+        "name": "嫩寶",
+        "level": 1,
+        "spawn_slots": 15
+      },
+      {
+        "mob_id": 100101,
+        "name": "藍寶",
+        "level": 2,
+        "spawn_slots": 12
+      },
+      {
+        "mob_id": 1210100,
+        "name": "肥肥",
+        "level": 7,
+        "spawn_slots": 18
+      }
+    ],
     "npcs": [
       "史庫魯基",
       "富蘭德里",

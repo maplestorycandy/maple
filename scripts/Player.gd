@@ -74,8 +74,9 @@ func handle_input(delta):
 		
 	# Jump & Down-jump & Flash Jump
 	if Input.is_action_just_pressed("jump"):
-		if Input.is_action_pressed("move_down") and is_on_floor():
-			position.y += 3.0
+		if Input.is_action_pressed("move_down") and is_on_floor() and position.y < 370:
+			position.y += 6.0
+			velocity.y = 120.0
 		elif is_on_floor():
 			velocity.y = jump_velocity
 		elif flash_jump_available and Input.is_action_just_pressed("jump"):
