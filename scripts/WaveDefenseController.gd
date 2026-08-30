@@ -73,7 +73,8 @@ func start_wave(wave_num: int):
 	is_spawning = false
 
 func spawn_enemy(monster_id: int, is_boss: bool):
-	if not MonsterDatabaseFull.FULL_DATABASE.has(monster_id):
+	var mob_data = MonsterDatabaseFull.get_monster(monster_id)
+	if mob_data.is_empty():
 		return
 		
 	var spawn_pos = Vector2(1450, 360) # Outer Gate Default

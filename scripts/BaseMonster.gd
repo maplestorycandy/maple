@@ -90,13 +90,18 @@ func setup_visuals():
 	# Attempt loading authentic sprite texture
 	has_sprite_texture = false
 	if sprite and sprite_path != "":
+		var tex = null
 		if ResourceLoader.exists(sprite_path):
-			var tex = load(sprite_path)
-			if tex:
-				sprite.texture = tex
-				has_sprite_texture = true
-				sprite.scale = Vector2(body_scale, body_scale)
-				sprite.visible = true
+			tex = load(sprite_path)
+		if not tex:
+			var img = Image.load_from_file(sprite_path)
+			if img:
+				tex = ImageTexture.create_from_image(img)
+		if tex:
+			sprite.texture = tex
+			has_sprite_texture = true
+			sprite.scale = Vector2(body_scale, body_scale)
+			sprite.visible = true
 	
 	if not has_sprite_texture and sprite:
 		sprite.visible = false
