@@ -1464,10 +1464,14 @@ static func get_monster(m_id: int) -> Dictionary:
 
 static func get_monster_by_name(m_name: String) -> Dictionary:
 	var clean = m_name.strip_edges()
+	clean = clean.replace("生怪檔位", "").replace("生怪檔", "").replace("出沒", "").replace("生怪", "").replace("[", "").replace("]", "").strip_edges()
 	if BY_NAME.has(clean):
 		return BY_NAME[clean]
 	for k in BY_NAME.keys():
-		if clean in k or k in clean:
+		if clean == k:
+			return BY_NAME[k]
+	for k in BY_NAME.keys():
+		if clean != "" and (clean in k or k in clean):
 			return BY_NAME[k]
 	return MONSTERS[0] if not MONSTERS.is_empty() else {}
 
