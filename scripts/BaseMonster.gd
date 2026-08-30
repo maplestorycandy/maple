@@ -90,21 +90,38 @@ func setup_visuals():
 		else:
 			name_label.modulate = Color(0.9, 0.95, 1.0)
 			
-	# Attempt loading authentic sprite texture
+	# Attempt loading authentic sprite texture from assets/monsters/
 	has_sprite_texture = false
-	if sprite and sprite_path != "":
-		var tex = null
-		if ResourceLoader.exists(sprite_path):
-			tex = load(sprite_path)
-		if not tex:
-			var img = Image.load_from_file(sprite_path)
-			if img:
-				tex = ImageTexture.create_from_image(img)
+	var paths_to_try: Array[String] = []
+	if sprite_path != "":
+		paths_to_try.append(sprite_path)
+	paths_to_try.append("res://assets/monsters/%d.png" % monster_id)
+	paths_to_try.append("res://assets/monsters/%07d.png" % monster_id)
+	paths_to_try.append("res://assets/monsters/%s.png" % str(monster_id))
+	
+	if sprite:
+		var tex: Texture2D = null
+		for p in paths_to_try:
+			if ResourceLoader.exists(p):
+				tex = load(p)
+				if tex:
+					break
+			if not tex and FileAccess.file_exists(p):
+				var img = Image.load_from_file(p)
+				if img:
+					tex = ImageTexture.create_from_image(img)
+					if tex:
+						break
 		if tex:
 			sprite.texture = tex
 			has_sprite_texture = true
 			sprite.scale = Vector2(body_scale, body_scale)
 			sprite.visible = true
+			sprite.flip_h = (facing_direction < 0)
+			# Auto-adjust name label height according to sprite size
+			var spr_h = tex.get_height()
+			if name_label:
+				name_label.position.y = -spr_h * body_scale - 16
 	
 	if not has_sprite_texture and sprite:
 		sprite.visible = false

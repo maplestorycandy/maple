@@ -346,12 +346,63 @@ static func get_monster_by_id(mob_id: int) -> Dictionary:
 			_mob_map[m.id] = m
 	return _mob_map.get(mob_id, {})
 
+static func get_monster(mob_id: int) -> Dictionary:
+	return get_monster_by_id(mob_id)
+
 static func get_monster_by_name(mob_name: String) -> Dictionary:
+	var clean_name = mob_name.replace("槽位", "").strip_edges()
 	for m in MONSTERS:
-		if m.name == mob_name:
+		if m.name == clean_name:
 			return m
-	return {}
+	# Fuzzy match
+	for m in MONSTERS:
+		if m.name.find(clean_name) != -1 or clean_name.find(m.name) != -1:
+			return m
+	return get_monster_by_id(100100) # Default to 嫩寶
 
 static func get_monster_drops(mob_id: int) -> Array:
 	var mob = get_monster_by_id(mob_id)
 	return mob.get("drops", [])
+
+static func get_wave_data(wave_num: int) -> Dictionary:
+	var wave_table = {
+		1: {"monster_id": 100100, "count": 12}, # 嫩寶
+		2: {"monster_id": 100101, "count": 15}, # 藍寶
+		3: {"monster_id": 130101, "count": 18}, # 紅寶
+		4: {"monster_id": 120100, "count": 20}, # 菇菇仔
+		5: {"monster_id": 210100, "count": 22, "boss_id": 1210100}, # 綠水靈 + 肥肥
+		6: {"monster_id": 130100, "count": 22}, # 木妖
+		7: {"monster_id": 1210100, "count": 25}, # 肥肥
+		8: {"monster_id": 1210102, "count": 28}, # 菇菇寶貝
+		9: {"monster_id": 1210101, "count": 30}, # 緞帶肥肥
+		10: {"monster_id": 1110101, "count": 32, "boss_id": 2220000}, # 黑木妖 + 菇菇王
+		11: {"monster_id": 1120100, "count": 32}, # 三眼章魚
+		12: {"monster_id": 1110100, "count": 35}, # 綠菇菇
+		13: {"monster_id": 1210103, "count": 35}, # 藍水靈
+		14: {"monster_id": 1130100, "count": 38}, # 斧木妖
+		15: {"monster_id": 1140100, "count": 40, "boss_id": 2220100}, # 發芽木妖 + 藍菇菇
+		16: {"monster_id": 2220100, "count": 40}, # 藍菇菇
+		17: {"monster_id": 2110200, "count": 42}, # 刺菇菇
+		18: {"monster_id": 2230101, "count": 45}, # 殭屍菇菇
+		19: {"monster_id": 2130100, "count": 48}, # 黑斧木妖
+		20: {"monster_id": 2300100, "count": 50, "boss_id": 2220000}, # 蝙蝠 + 菇菇王
+		25: {"monster_id": 2230108, "count": 50, "boss_id": 8220003}, # 海膽 + Boss
+		30: {"monster_id": 2230110, "count": 55, "boss_id": 8220004}, # 木面怪人 + Boss
+		35: {"monster_id": 2100105, "count": 60, "boss_id": 8510000}, # 沙漠蛇 + Boss
+		40: {"monster_id": 8190002, "count": 65, "boss_id": 8800002}, # 幼龍保護者 + 殘暴炎魔
+		45: {"monster_id": 8200007, "count": 70, "boss_id": 8500002}, # 悔恨的守護兵 + 鬧鐘
+		50: {"monster_id": 8200010, "count": 80, "boss_id": 8810018}  # 忘卻的神官 + 暗黑龍王
+	}
+	if wave_table.has(wave_num):
+		return wave_table[wave_num]
+		
+	# Fallback smooth scaling for in-between waves
+	var base_idx = clamp((wave_num - 1) * (MONSTERS.size() - 1) / 50, 0, MONSTERS.size() - 1)
+	var mob = MONSTERS[base_idx]
+	var data = {
+		"monster_id": mob.id,
+		"count": 15 + wave_num
+	}
+	if wave_num % 5 == 0:
+		data["boss_id"] = 8800002 if wave_num >= 40 else 2220000
+	return data
