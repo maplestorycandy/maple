@@ -491,25 +491,25 @@ func trigger_custom_action(action_name: String):
 					skill_3_cd = s.get("cd", 2.0) * cd_mult
 					perform_job_skill(s, "skill_3")
 		"skill_4":
-			if skill_4_cd <= 0 and ("skill_4" in Global.unlocked_skills or player_level >= 10):
+			if skill_4_cd <= 0 and ("skill_4" in Global.unlocked_skills or Global.player_level >= 10):
 				var s = skills.get("skill_4", {})
 				if consume_mp(s.get("mp", 0)):
 					skill_4_cd = s.get("cd", 3.0) * cd_mult
 					perform_job_skill(s, "skill_4")
 		"skill_5":
-			if skill_5_cd <= 0 and ("skill_5" in Global.unlocked_skills or player_level >= 20):
+			if skill_5_cd <= 0 and ("skill_5" in Global.unlocked_skills or Global.player_level >= 20):
 				var s = skills.get("skill_5", {})
 				if consume_mp(s.get("mp", 0)):
 					skill_5_cd = s.get("cd", 4.0) * cd_mult
 					perform_job_skill(s, "skill_5")
 		"skill_6":
-			if skill_6_cd <= 0 and ("skill_6" in Global.unlocked_skills or player_level >= 30):
+			if skill_6_cd <= 0 and ("skill_6" in Global.unlocked_skills or Global.player_level >= 30):
 				var s = skills.get("skill_6", {})
 				if consume_mp(s.get("mp", 0)):
 					skill_6_cd = s.get("cd", 5.0) * cd_mult
 					perform_job_skill(s, "skill_6")
 		"ultimate":
-			if ultimate_cd <= 0 and ("ultimate" in Global.unlocked_skills or player_level >= 40):
+			if ultimate_cd <= 0 and ("ultimate" in Global.unlocked_skills or Global.player_level >= 40):
 				var s = skills.get("ultimate", {})
 				if consume_mp(s.get("mp", 0)):
 					ultimate_cd = s.get("cd", 10.0) * cd_mult
