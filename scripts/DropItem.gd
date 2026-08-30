@@ -1,4 +1,5 @@
 # DropItem.gd
+# 經典楓之谷掉落物 (支援 3 秒全圖自動吸物、寵物自動拾取、自動分類堆疊與千分號排版)
 extends CharacterBody2D
 
 @export var item_name: String = "道具"
@@ -8,7 +9,7 @@ extends CharacterBody2D
 
 var bounce_count: int = 0
 var max_bounces: int = 2
-var pickup_delay: float = 0.1 # Instant responsive pickup
+var pickup_delay: float = 0.05 # Fast pickup
 var alive_timer: float = 0.0
 var max_lifetime: float = 60.0 # Disappears after 60s
 var is_picked_up: bool = false
@@ -68,25 +69,51 @@ func _physics_process(delta):
 		queue_free()
 		return
 		
-	if not is_on_floor():
-		velocity.y += 650.0 * delta
-	else:
-		if bounce_count < max_bounces:
-			bounce_count += 1
-			velocity.y = -100.0 / bounce_count
-			velocity.x *= 0.6
-		else:
-			velocity.x = move_toward(velocity.x, 0, 300.0 * delta)
-			
-	move_and_slide()
+	var player = get_tree().get_first_node_in_group("player")
+	var pet = Global.active_pet_node if is_instance_valid(Global.active_pet_node) else null
 	
-	# Check Player Pickup
-	if alive_timer >= pickup_delay and not is_picked_up:
-		var player = get_tree().get_first_node_in_group("player")
-		if is_instance_valid(player) and global_position.distance_to(player.global_position) < 38.0:
-			pickup_item(player)
+	# Determine target for Auto-Vacuum Magnet effect (Player or Pet)
+	var target_char: CharacterBody2D = null
+	if is_instance_valid(player):
+		target_char = player
+	if is_instance_valid(pet) and is_instance_valid(player):
+		if global_position.distance_to(pet.global_position) < global_position.distance_to(player.global_position):
+			target_char = pet
+			
+	# Auto-Vacuum Magnet (After 3.0s, OR if pet is summoned, OR if player within 90px)
+	var is_magnet_active = false
+	if is_instance_valid(target_char) and alive_timer >= 0.15:
+		var dist_to_target = global_position.distance_to(target_char.global_position)
+		if alive_timer >= 3.0 or is_instance_valid(pet) or dist_to_target < 90.0:
+			is_magnet_active = true
+			var speed_magnet = clamp(480.0 + (alive_timer - 2.0) * 180.0, 480.0, 1100.0)
+			global_position = global_position.move_toward(target_char.global_position + Vector2(0, -10), speed_magnet * delta)
+			velocity = Vector2.ZERO
+			
+			if dist_to_target < 55.0 and not is_picked_up:
+				pickup_item(player if is_instance_valid(player) else target_char)
+				return
+				
+	if not is_magnet_active:
+		if not is_on_floor():
+			velocity.y += 650.0 * delta
+		else:
+			if bounce_count < max_bounces:
+				bounce_count += 1
+				velocity.y = -100.0 / bounce_count
+				velocity.x *= 0.6
+			else:
+				velocity.x = move_toward(velocity.x, 0, 300.0 * delta)
+		move_and_slide()
+		
+		# Check Player Pickup
+		if alive_timer >= pickup_delay and not is_picked_up and is_instance_valid(player):
+			if global_position.distance_to(player.global_position) < 55.0:
+				pickup_item(player)
 
 func pickup_item(_player: CharacterBody2D):
+	if is_picked_up:
+		return
 	is_picked_up = true
 	
 	if item_type == "meso":
@@ -106,8 +133,8 @@ func pickup_item(_player: CharacterBody2D):
 		
 	# Float up and vanish animation
 	var tw = create_tween()
-	tw.tween_property(self, "position:y", position.y - 30, 0.25)
-	tw.parallel().tween_property(self, "modulate:a", 0.0, 0.25)
+	tw.tween_property(self, "position:y", position.y - 30, 0.2)
+	tw.parallel().tween_property(self, "modulate:a", 0.0, 0.2)
 	tw.tween_callback(queue_free)
 
 func _draw():

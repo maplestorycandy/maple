@@ -516,10 +516,19 @@ func refresh_inventory_modal():
 		"equip":
 			if Global.equip_inventory.is_empty():
 				var emp = Label.new()
-				emp.text = "裝備欄為空。打怪可掉落稀有武器與防具！"
+				emp.text = "裝備欄為空。擊殺怪物與BOSS會必定掉落豐富神裝！"
 				emp.modulate = Color.GRAY
 				item_list.add_child(emp)
 			else:
+				var slot_labels = {
+					"weapon": "⚔️[武器]",
+					"hat": "👒[頭盔]",
+					"overall": "🥋[衣服]",
+					"gloves": "🧤[手套]",
+					"shoes": "👢[鞋子]",
+					"shield": "🛡️[盾牌]",
+					"accessory": "💍[飾品]"
+				}
 				for i in range(Global.equip_inventory.size()):
 					var eq = Global.equip_inventory[i]
 					var row = HBoxContainer.new()
@@ -527,8 +536,15 @@ func refresh_inventory_modal():
 					info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 					var job_s = " [%s]" % eq.get("job", "") if eq.get("job", "") != "" else ""
 					var stats_s = "攻+%d 防+%d" % [eq.get("atk", 0), eq.get("def", 0)]
-					info.text = "★ %s (Lv.%d%s) | %s" % [eq.name, eq.get("req_lvl", 1), job_s, stats_s]
+					var slot_tag = slot_labels.get(eq.get("slot", "weapon"), "⚔️[裝備]")
+					var count_tag = " x%d" % eq.count if eq.get("count", 1) > 1 else ""
+					
+					info.text = "%s %s%s (Lv.%d%s) | %s" % [slot_tag, eq.name, count_tag, eq.get("req_lvl", 1), job_s, stats_s]
 					info.add_theme_font_size_override("font_size", 12)
+					if eq.get("req_lvl", 1) > Global.player_level:
+						info.modulate = Color(1.0, 0.4, 0.4) # Red for high level requirement
+					else:
+						info.modulate = Color(1.0, 0.9, 0.6) # Gold/Cream for wearable
 					row.add_child(info)
 					
 					var eq_btn = Button.new()

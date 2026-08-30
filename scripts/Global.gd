@@ -214,16 +214,49 @@ func auto_allocate_ap():
 		
 	broadcast_message("⚡ 自動配點完成！已為【%s】分配最佳屬性！" % player_job_data.get("name", "職業"), Color.GOLD)
 
+const SLOT_PRIORITY: Dictionary = {
+	"weapon": 0,
+	"hat": 1,
+	"overall": 2,
+	"gloves": 3,
+	"shoes": 4,
+	"shield": 5,
+	"accessory": 6
+}
+
 # =========================================================================
-# INVENTORY & EQUIPMENT MANAGEMENT
+# INVENTORY & EQUIPMENT MANAGEMENT (AUTO-SORT & STACKING)
 # =========================================================================
-func add_item_to_inventory(category: String, item: Dictionary):
+func sort_equipment_inventory():
+	equip_inventory.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var slot_a = SLOT_PRIORITY.get(a.get("slot", "weapon"), 99)
+		var slot_b = SLOT_PRIORITY.get(b.get("slot", "weapon"), 99)
+		if slot_a != slot_b:
+			return slot_a < slot_b
+		var lvl_a = a.get("req_lvl", 1)
+		var lvl_b = b.get("req_lvl", 1)
+		if lvl_a != lvl_b:
+			return lvl_a < lvl_b
+		return a.get("name", "") < b.get("name", "")
+	)
+
+func add_item_to_inventory(category: String, item: Dictionary) -> bool:
 	match category.to_lower():
 		"equip", "equipment":
-			if equip_inventory.size() < 32:
-				# Generate authentic equipment attributes if not set
-				var full_item = build_equipment_stats(item)
+			var full_item = build_equipment_stats(item)
+			# Auto-stacking with same item name and slot
+			for existing in equip_inventory:
+				if existing.get("name", "") == full_item.get("name", "") and existing.get("slot", "") == full_item.get("slot", ""):
+					existing["count"] = existing.get("count", 1) + item.get("count", 1)
+					sort_equipment_inventory()
+					emit_signal("inventory_updated")
+					return true
+					
+			if equip_inventory.size() < 40:
+				if not full_item.has("count"):
+					full_item["count"] = 1
 				equip_inventory.append(full_item)
+				sort_equipment_inventory()
 				emit_signal("inventory_updated")
 				return true
 		"use", "consumable":
@@ -232,7 +265,7 @@ func add_item_to_inventory(category: String, item: Dictionary):
 					existing.count = existing.get("count", 1) + item.get("count", 1)
 					emit_signal("inventory_updated")
 					return true
-			if use_inventory.size() < 32:
+			if use_inventory.size() < 40:
 				var new_item = item.duplicate()
 				if not new_item.has("count"):
 					new_item["count"] = 1
@@ -245,7 +278,7 @@ func add_item_to_inventory(category: String, item: Dictionary):
 					existing.count = existing.get("count", 1) + item.get("count", 1)
 					emit_signal("inventory_updated")
 					return true
-			if etc_inventory.size() < 32:
+			if etc_inventory.size() < 40:
 				var new_item = item.duplicate()
 				if not new_item.has("count"):
 					new_item["count"] = 1
@@ -263,17 +296,15 @@ func build_equipment_stats(base_item: Dictionary) -> Dictionary:
 	var slot = "weapon"
 	if "帽" in name or "頭巾" in name or "頭盔" in name:
 		slot = "hat"
-	elif "服" in name or "衣" in name or "袍" in name:
+	elif "服" in name or "衣" in name or "袍" in name or "甲" in name or "褲" in name or "裙" in name:
 		slot = "overall"
-	elif "褲" in name or "裙" in name:
-		slot = "overall"
-	elif "手套" in name or "護腕" in name:
+	elif "手套" in name or "護腕" in name or "拳套" in name and not ("手甲" in name or "爪" in name):
 		slot = "gloves"
 	elif "鞋" in name or "靴" in name:
 		slot = "shoes"
 	elif "盾" in name:
 		slot = "shield"
-	elif "戒" in name or "項鍊" in name or "耳環" in name or "披風" in name:
+	elif "戒" in name or "項鍊" in name or "耳環" in name or "披風" in name or "眼罩" in name:
 		slot = "accessory"
 	else:
 		slot = "weapon"
@@ -287,7 +318,7 @@ func build_equipment_stats(base_item: Dictionary) -> Dictionary:
 		item["str"] = item.get("str", int(req_lvl * 0.15))
 		item["dex"] = item.get("dex", int(req_lvl * 0.15))
 		item["int"] = item.get("int", int(req_lvl * 0.15) if "杖" in name else 0)
-		item["luk"] = item.get("luk", int(req_lvl * 0.15) if "短刀" in name or "拳套" in name else 0)
+		item["luk"] = item.get("luk", int(req_lvl * 0.15) if "短刀" in name or "手甲" in name else 0)
 	else:
 		item["def"] = item.get("def", int(8 + req_lvl * 1.2))
 		item["str"] = item.get("str", max(1, int(req_lvl * 0.1)))
@@ -310,40 +341,44 @@ func equip_item(inv_index: int) -> bool:
 		return false
 		
 	var slot = item.get("slot", "weapon")
+	var cur_count = item.get("count", 1)
+	var single_item = item.duplicate()
+	single_item["count"] = 1
 	
-	# Remove item from inventory
-	equip_inventory.remove_at(inv_index)
+	# Decrement stack count or remove
+	if cur_count > 1:
+		item["count"] = cur_count - 1
+	else:
+		equip_inventory.remove_at(inv_index)
 	
 	# If slot already has equipped item, swap back to inventory
 	if equipped_items[slot] != null:
-		equip_inventory.append(equipped_items[slot])
+		add_item_to_inventory("equip", equipped_items[slot])
 		
-	equipped_items[slot] = item
+	equipped_items[slot] = single_item
 	
+	sort_equipment_inventory()
 	recalculate_stats()
 	emit_signal("inventory_updated")
 	emit_signal("equipment_updated")
 	emit_signal("player_stats_changed")
-	broadcast_message("⚔️ 已穿戴【%s】！屬性已即時實裝！" % item.name, Color(0.3, 1.0, 0.5))
+	broadcast_message("⚔️ 已穿戴【%s】！屬性已即時實裝！" % single_item.name, Color(0.3, 1.0, 0.5))
 	return true
 
 func unequip_item(slot: String) -> bool:
 	if not equipped_items.has(slot) or equipped_items[slot] == null:
 		return false
 		
-	if equip_inventory.size() >= 32:
-		broadcast_message("❌ 背包空間已滿，無法卸下裝備！", Color.RED)
-		return false
-		
 	var item = equipped_items[slot]
 	equipped_items[slot] = null
-	equip_inventory.append(item)
+	add_item_to_inventory("equip", item)
 	
+	sort_equipment_inventory()
 	recalculate_stats()
 	emit_signal("inventory_updated")
 	emit_signal("equipment_updated")
 	emit_signal("player_stats_changed")
-	broadcast_message("已卸下【%s】放入背包！" % item.name, Color.YELLOW)
+	broadcast_message("卸下裝備【%s】。" % item.name, Color.WHITE)
 	return true
 
 func use_consume_item(inv_index: int) -> bool:

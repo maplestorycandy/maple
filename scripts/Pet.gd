@@ -107,7 +107,19 @@ func _physics_process(delta):
 		velocity = Vector2.ZERO
 		return
 		
-	# Find closest enemy to assist attack
+	# 1. First Priority: Auto Pick up drop items on ground
+	var nearest_drop = find_nearest_drop_item(500.0)
+	if is_instance_valid(nearest_drop):
+		var dir_to_drop = sign(nearest_drop.global_position.x - global_position.x)
+		if dir_to_drop != 0:
+			facing_direction = int(dir_to_drop)
+		velocity.x = dir_to_drop * speed * 1.2
+		if is_on_floor() and (is_on_wall() or nearest_drop.global_position.y < global_position.y - 30):
+			velocity.y = -350.0
+		move_and_slide()
+		return
+		
+	# 2. Second Priority: Attack nearby enemies
 	var nearest_enemy = find_nearest_enemy(320.0)
 	
 	if is_instance_valid(nearest_enemy):
@@ -138,6 +150,18 @@ func _physics_process(delta):
 		velocity.y = -360.0
 		
 	move_and_slide()
+
+func find_nearest_drop_item(max_dist: float) -> Node2D:
+	var drops = get_tree().get_nodes_in_group("drop_items")
+	var closest: Node2D = null
+	var closest_dist = max_dist
+	for d in drops:
+		if is_instance_valid(d) and not d.is_queued_for_deletion():
+			var dist = global_position.distance_to(d.global_position)
+			if dist < closest_dist:
+				closest_dist = dist
+				closest = d
+	return closest
 
 func find_nearest_enemy(max_dist: float) -> Node2D:
 	var enemies = get_tree().get_nodes_in_group("enemies")
