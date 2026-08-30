@@ -25,56 +25,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "傑伊",
       "克里夏",
@@ -132,7 +83,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000000"
   },
   "100000001": {
     "map_id": "100000001",
@@ -160,56 +112,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "瑪亞"
     ],
@@ -221,7 +124,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000001"
   },
   "100000003": {
     "map_id": "100000003",
@@ -269,7 +173,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000003"
   },
   "100000004": {
     "map_id": "100000004",
@@ -318,7 +223,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000004"
   },
   "100000006": {
     "map_id": "100000006",
@@ -346,56 +252,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [
       {
@@ -405,7 +262,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000006"
   },
   "100000100": {
     "map_id": "100000100",
@@ -433,56 +291,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "比休斯",
       "科爾"
@@ -503,7 +312,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000100"
   },
   "100000101": {
     "map_id": "100000101",
@@ -531,56 +341,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "克爾",
       "山姆"
@@ -593,7 +354,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000101"
   },
   "100000200": {
     "map_id": "100000200",
@@ -621,56 +383,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "倉庫李老闆",
       "慧菈",
@@ -706,7 +419,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000200"
   },
   "100000202": {
     "map_id": "100000202",
@@ -734,56 +448,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "寵物訓練師巴特斯",
       "寵物訓練師巴羅德",
@@ -813,7 +478,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000202"
   },
   "100000203": {
     "map_id": "100000203",
@@ -841,56 +507,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "凱茜"
     ],
@@ -931,7 +548,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000203"
   },
   "100010000": {
     "map_id": "100010000",
@@ -1007,7 +625,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100010000"
   },
   "100020000": {
     "map_id": "100020000",
@@ -1062,7 +681,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100020000"
   },
   "100030000": {
     "map_id": "100030000",
@@ -1163,7 +783,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100030000"
   },
   "100030001": {
     "map_id": "100030001",
@@ -1222,7 +843,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100030001"
   },
   "104020000": {
     "map_id": "104020000",
@@ -1338,7 +960,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "104020000"
   },
   "104030000": {
     "map_id": "104030000",
@@ -1416,7 +1039,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "104030000"
   },
   "104030001": {
     "map_id": "104030001",
@@ -1470,7 +1094,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "104030001"
   },
   "104040000": {
     "map_id": "104040000",
@@ -1550,7 +1175,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "104040000"
   },
   "104040001": {
     "map_id": "104040001",
@@ -1624,7 +1250,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "104040001"
   },
   "104040002": {
     "map_id": "104040002",
@@ -1693,7 +1320,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "104040002"
   },
   "910060000": {
     "map_id": "910060000",
@@ -1744,7 +1372,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910060000"
   },
   "910060100": {
     "map_id": "910060100",
@@ -1772,56 +1401,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [
       {
@@ -1831,7 +1411,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910060100"
   },
   "100040000": {
     "map_id": "100040000",
@@ -1882,7 +1463,7 @@
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -1901,7 +1482,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040000"
   },
   "100040001": {
     "map_id": "100040001",
@@ -1949,7 +1531,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040001"
   },
   "100040002": {
     "map_id": "100040002",
@@ -2002,7 +1585,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040002"
   },
   "100040003": {
     "map_id": "100040003",
@@ -2051,7 +1635,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040003"
   },
   "100040004": {
     "map_id": "100040004",
@@ -2082,7 +1667,7 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
@@ -2114,7 +1699,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040004"
   },
   "100040100": {
     "map_id": "100040100",
@@ -2229,7 +1815,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040100"
   },
   "100050000": {
     "map_id": "100050000",
@@ -2290,7 +1877,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100050000"
   },
   "101000000": {
     "map_id": "101000000",
@@ -2318,23 +1906,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "五星級計程車",
       "倉庫管理員朴先生",
@@ -2372,7 +1944,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101000000"
   },
   "101000003": {
     "map_id": "101000003",
@@ -2400,23 +1973,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "漢斯"
     ],
@@ -2428,7 +1985,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101000003"
   },
   "101010000": {
     "map_id": "101010000",
@@ -2469,7 +2027,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -2486,7 +2044,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101010000"
   },
   "101010100": {
     "map_id": "101010100",
@@ -2527,7 +2086,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -2573,7 +2132,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101010100"
   },
   "101010101": {
     "map_id": "101010101",
@@ -2671,7 +2231,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101010101"
   },
   "101010102": {
     "map_id": "101010102",
@@ -2759,7 +2320,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101010102"
   },
   "101010103": {
     "map_id": "101010103",
@@ -2787,44 +2349,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "刺菇菇",
-        "level": 22
-      },
-      {
-        "name": "小猴子",
-        "level": 37
-      },
-      {
-        "name": "天使猴",
-        "level": 44
-      },
-      {
-        "name": "殭屍猴",
-        "level": 48
-      },
-      {
-        "name": "猴王",
-        "level": 50
-      },
-      {
-        "name": "巫婆",
-        "level": 52
-      },
-      {
-        "name": "幽靈木妖",
-        "level": 50
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "潔淨的樹根"
     ],
@@ -2836,7 +2361,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101010103"
   },
   "101020000": {
     "map_id": "101020000",
@@ -2877,7 +2403,7 @@
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
@@ -2979,7 +2505,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020000"
   },
   "101020001": {
     "map_id": "101020001",
@@ -3007,23 +2534,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "洛尼"
     ],
@@ -3047,7 +2558,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020001"
   },
   "101020002": {
     "map_id": "101020002",
@@ -3083,7 +2595,7 @@
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       }
     ],
@@ -3100,7 +2612,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020002"
   },
   "101020003": {
     "map_id": "101020003",
@@ -3131,7 +2644,7 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
@@ -3158,7 +2671,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020003"
   },
   "101020004": {
     "map_id": "101020004",
@@ -3193,7 +2707,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -3211,7 +2725,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020004"
   },
   "101020005": {
     "map_id": "101020005",
@@ -3247,11 +2762,11 @@
       },
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -3265,7 +2780,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020005"
   },
   "101020006": {
     "map_id": "101020006",
@@ -3301,7 +2817,7 @@
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
@@ -3319,7 +2835,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020006"
   },
   "101020007": {
     "map_id": "101020007",
@@ -3372,7 +2889,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020007"
   },
   "101020008": {
     "map_id": "101020008",
@@ -3408,7 +2926,7 @@
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
@@ -3430,7 +2948,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020008"
   },
   "101020009": {
     "map_id": "101020009",
@@ -3478,7 +2997,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020009"
   },
   "101020010": {
     "map_id": "101020010",
@@ -3522,7 +3042,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "101020010"
   },
   "910120000": {
     "map_id": "910120000",
@@ -3558,7 +3079,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -3573,7 +3094,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910120000"
   },
   "910220000": {
     "map_id": "910220000",
@@ -3609,7 +3131,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -3624,7 +3146,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910220000"
   },
   "101030000": {
     "map_id": "101030000",
@@ -3665,17 +3188,17 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
@@ -3720,7 +3243,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030000"
   },
   "101030100": {
     "map_id": "101030100",
@@ -3750,7 +3274,7 @@
     ],
     "monsters": [
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
@@ -3761,12 +3285,12 @@
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
@@ -3792,7 +3316,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030100"
   },
   "101030101": {
     "map_id": "101030101",
@@ -3823,11 +3348,11 @@
     "monsters": [
       {
         "name": "黑斧木妖",
-        "level": 19,
+        "level": 22,
         "spawn_slots": 10
       },
       {
-        "name": "木面怪人",
+        "name": "木面怪人槽位",
         "level": 23,
         "spawn_slots": 10
       }
@@ -3845,7 +3370,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030101"
   },
   "101030102": {
     "map_id": "101030102",
@@ -3875,18 +3401,18 @@
     ],
     "monsters": [
       {
-        "name": "木面怪人",
+        "name": "木面怪人槽位",
         "level": 23,
         "spawn_slots": 10
       },
       {
-        "name": "石面怪人",
+        "name": "石面怪人槽位",
         "level": 24,
         "spawn_slots": 10
       },
       {
         "name": "黑斧木妖",
-        "level": 19,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -3903,7 +3429,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030102"
   },
   "101030103": {
     "map_id": "101030103",
@@ -3933,12 +3460,12 @@
     ],
     "monsters": [
       {
-        "name": "石面怪人",
+        "name": "石面怪人槽位",
         "level": 24,
         "spawn_slots": 10
       },
       {
-        "name": "木面怪人",
+        "name": "木面怪人槽位",
         "level": 23,
         "spawn_slots": 10
       }
@@ -3956,7 +3483,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030103"
   },
   "101030104": {
     "map_id": "101030104",
@@ -3984,18 +3512,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "黑木妖",
-        "level": 8,
-        "spawn_slots": 10
-      },
-      {
-        "name": "斧木妖",
-        "level": 17,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "修安",
       "官方名稱未取得的 NPC",
@@ -4014,7 +3531,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030104"
   },
   "101030105": {
     "map_id": "101030105",
@@ -4044,12 +3562,12 @@
     ],
     "monsters": [
       {
-        "name": "骷髏犬",
+        "name": "骷髏犬槽位",
         "level": 44,
         "spawn_slots": 10
       },
       {
-        "name": "木乃伊犬",
+        "name": "木乃伊犬槽位",
         "level": 47,
         "spawn_slots": 10
       }
@@ -4067,7 +3585,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030105"
   },
   "101030106": {
     "map_id": "101030106",
@@ -4097,17 +3616,17 @@
     ],
     "monsters": [
       {
-        "name": "骷髏犬",
+        "name": "骷髏犬槽位",
         "level": 44,
         "spawn_slots": 10
       },
       {
-        "name": "木乃伊犬",
+        "name": "木乃伊犬槽位",
         "level": 47,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏士兵",
+        "name": "骷髏士兵槽位",
         "level": 57,
         "spawn_slots": 10
       }
@@ -4134,7 +3653,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030106"
   },
   "101030107": {
     "map_id": "101030107",
@@ -4164,17 +3684,17 @@
     ],
     "monsters": [
       {
-        "name": "木乃伊犬",
+        "name": "木乃伊犬槽位",
         "level": 47,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏犬",
+        "name": "骷髏犬槽位",
         "level": 44,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏士兵",
+        "name": "骷髏士兵槽位",
         "level": 57,
         "spawn_slots": 10
       }
@@ -4209,7 +3729,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030107"
   },
   "101030108": {
     "map_id": "101030108",
@@ -4239,12 +3760,12 @@
     ],
     "monsters": [
       {
-        "name": "骷髏士官",
+        "name": "骷髏士官槽位",
         "level": 63,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏指揮官",
+        "name": "骷髏指揮官槽位",
         "level": 73,
         "spawn_slots": 10
       }
@@ -4271,7 +3792,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030108"
   },
   "101030109": {
     "map_id": "101030109",
@@ -4301,12 +3823,12 @@
     ],
     "monsters": [
       {
-        "name": "骷髏指揮官",
+        "name": "骷髏指揮官槽位",
         "level": 73,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏士官",
+        "name": "骷髏士官槽位",
         "level": 63,
         "spawn_slots": 10
       }
@@ -4320,7 +3842,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030109"
   },
   "101030110": {
     "map_id": "101030110",
@@ -4350,12 +3873,12 @@
     ],
     "monsters": [
       {
-        "name": "骷髏士兵",
+        "name": "骷髏士兵槽位",
         "level": 57,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏士官",
+        "name": "骷髏士官槽位",
         "level": 63,
         "spawn_slots": 10
       }
@@ -4373,7 +3896,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101030110"
   },
   "101030111": {
     "map_id": "101030111",
@@ -4403,12 +3927,12 @@
     ],
     "monsters": [
       {
-        "name": "骷髏士兵",
+        "name": "骷髏士兵槽位",
         "level": 57,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏士官",
+        "name": "骷髏士官槽位",
         "level": 63,
         "spawn_slots": 10
       }
@@ -4426,7 +3950,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101030111"
   },
   "101030112": {
     "map_id": "101030112",
@@ -4456,12 +3981,12 @@
     ],
     "monsters": [
       {
-        "name": "骷髏士官",
+        "name": "骷髏士官槽位",
         "level": 63,
         "spawn_slots": 10
       },
       {
-        "name": "骷髏士兵",
+        "name": "骷髏士兵槽位",
         "level": 57,
         "spawn_slots": 10
       }
@@ -4479,7 +4004,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101030112"
   },
   "101030200": {
     "map_id": "101030200",
@@ -4520,16 +4046,16 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
@@ -4540,7 +4066,7 @@
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       }
     ],
@@ -4557,7 +4083,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030200"
   },
   "101030300": {
     "map_id": "101030300",
@@ -4608,7 +4135,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -4625,7 +4152,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030300"
   },
   "101030400": {
     "map_id": "101030400",
@@ -4661,7 +4189,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
@@ -4687,7 +4215,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030400"
   },
   "101030401": {
     "map_id": "101030401",
@@ -4718,7 +4247,7 @@
     "monsters": [
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
@@ -4742,7 +4271,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030401"
   },
   "101030402": {
     "map_id": "101030402",
@@ -4773,12 +4303,12 @@
     "monsters": [
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -4797,7 +4327,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030402"
   },
   "101030403": {
     "map_id": "101030403",
@@ -4828,11 +4359,11 @@
     "monsters": [
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       }
@@ -4850,7 +4381,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030403"
   },
   "101030404": {
     "map_id": "101030404",
@@ -4880,13 +4412,13 @@
     ],
     "monsters": [
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -4903,7 +4435,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030404"
   },
   "101030405": {
     "map_id": "101030405",
@@ -4933,13 +4466,13 @@
     ],
     "monsters": [
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       }
     ],
@@ -4956,7 +4489,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030405"
   },
   "101030406": {
     "map_id": "101030406",
@@ -4987,7 +4521,7 @@
     "monsters": [
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       }
     ],
@@ -5000,7 +4534,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101030406"
   },
   "101040000": {
     "map_id": "101040000",
@@ -5051,12 +4586,12 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -5075,7 +4610,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "101040000"
   },
   "102000000": {
     "map_id": "102000000",
@@ -5103,18 +4639,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "黑木妖",
-        "level": 8,
-        "spawn_slots": 10
-      },
-      {
-        "name": "斧木妖",
-        "level": 17,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "倉庫王老闆",
       "加加",
@@ -5152,7 +4677,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "102000000"
   },
   "102000004": {
     "map_id": "102000004",
@@ -5180,63 +4706,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "官方名稱未取得的 NPC"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "102000004"
   },
   "102010000": {
     "map_id": "102010000",
@@ -5277,7 +4755,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
@@ -5287,11 +4765,11 @@
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       }
@@ -5344,7 +4822,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "102010000"
   },
   "102020000": {
     "map_id": "102020000",
@@ -5385,7 +4864,7 @@
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -5406,7 +4885,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "102020000"
   },
   "102020100": {
     "map_id": "102020100",
@@ -5447,12 +4927,12 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -5469,7 +4949,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "102020100"
   },
   "102020200": {
     "map_id": "102020200",
@@ -5514,18 +4995,18 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -5542,7 +5023,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "102020200"
   },
   "102020300": {
     "map_id": "102020300",
@@ -5573,22 +5055,22 @@
     "monsters": [
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -5603,7 +5085,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "102020300"
   },
   "102030000": {
     "map_id": "102030000",
@@ -5634,7 +5117,7 @@
     "monsters": [
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
@@ -5654,7 +5137,7 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
@@ -5690,7 +5173,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "102030000"
   },
   "106000000": {
     "map_id": "106000000",
@@ -5725,18 +5209,18 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       },
       {
@@ -5751,7 +5235,7 @@
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -5773,7 +5257,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000000"
   },
   "106000100": {
     "map_id": "106000100",
@@ -5804,22 +5289,22 @@
     "monsters": [
       {
         "name": "黑木妖",
-        "level": 17,
-        "spawn_slots": 10
-      },
-      {
-        "name": "刺菇菇",
         "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "刺菇菇",
+        "level": 22,
+        "spawn_slots": 10
+      },
+      {
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       },
       {
@@ -5846,7 +5331,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000100"
   },
   "106000101": {
     "map_id": "106000101",
@@ -5881,7 +5367,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       }
@@ -5899,7 +5385,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000101"
   },
   "106000110": {
     "map_id": "106000110",
@@ -5934,7 +5421,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       }
@@ -5952,7 +5439,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000110"
   },
   "106000120": {
     "map_id": "106000120",
@@ -5987,7 +5475,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       }
@@ -6005,7 +5493,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000120"
   },
   "106000130": {
     "map_id": "106000130",
@@ -6040,12 +5529,12 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -6063,7 +5552,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000130"
   },
   "106000140": {
     "map_id": "106000140",
@@ -6098,12 +5588,12 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -6117,7 +5607,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000140"
   },
   "106000200": {
     "map_id": "106000200",
@@ -6148,17 +5639,17 @@
     "monsters": [
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
@@ -6168,7 +5659,7 @@
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       }
     ],
@@ -6185,7 +5676,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000200"
   },
   "106000300": {
     "map_id": "106000300",
@@ -6215,18 +5707,18 @@
     ],
     "monsters": [
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       },
       {
@@ -6250,7 +5742,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "106000300"
   },
   "106010000": {
     "map_id": "106010000",
@@ -6340,7 +5833,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106010000"
   },
   "106010100": {
     "map_id": "106010100",
@@ -6385,7 +5879,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
@@ -6395,7 +5889,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "石巨人",
+        "name": "石巨人槽位",
         "level": 55,
         "spawn_slots": 10
       }
@@ -6420,7 +5914,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106010100"
   },
   "106010102": {
     "map_id": "106010102",
@@ -6455,12 +5950,12 @@
         "spawn_slots": 10
       },
       {
-        "name": "石巨人",
+        "name": "石巨人槽位",
         "level": 55,
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -6491,7 +5986,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "106010102"
   },
   "106010103": {
     "map_id": "106010103",
@@ -6521,7 +6017,7 @@
     ],
     "monsters": [
       {
-        "name": "石巨人",
+        "name": "石巨人槽位",
         "level": 55,
         "spawn_slots": 10
       },
@@ -6531,12 +6027,12 @@
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -6550,7 +6046,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "106010103"
   },
   "106010104": {
     "map_id": "106010104",
@@ -6580,7 +6077,7 @@
     ],
     "monsters": [
       {
-        "name": "石巨人",
+        "name": "石巨人槽位",
         "level": 55,
         "spawn_slots": 10
       },
@@ -6590,12 +6087,12 @@
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -6609,7 +6106,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "106010104"
   },
   "106010105": {
     "map_id": "106010105",
@@ -6639,7 +6137,7 @@
     ],
     "monsters": [
       {
-        "name": "黑曜石巨人",
+        "name": "黑曜石巨人槽位",
         "level": 58,
         "spawn_slots": 10
       },
@@ -6649,7 +6147,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -6663,7 +6161,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "106010105"
   },
   "106010106": {
     "map_id": "106010106",
@@ -6693,7 +6192,7 @@
     ],
     "monsters": [
       {
-        "name": "混種石巨人",
+        "name": "混種石巨人槽位",
         "level": 59,
         "spawn_slots": 10
       },
@@ -6703,7 +6202,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -6717,7 +6216,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "106010106"
   },
   "102040000": {
     "map_id": "102040000",
@@ -6752,7 +6252,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -6773,7 +6273,7 @@
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       }
     ],
@@ -6805,7 +6305,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "102040000"
   },
   "102050000": {
     "map_id": "102050000",
@@ -6845,7 +6346,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -6861,16 +6362,16 @@
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       }
@@ -6913,7 +6414,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "102050000"
   },
   "103000000": {
     "map_id": "103000000",
@@ -6941,23 +6443,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "三眼章魚",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍水靈",
-        "level": 20,
-        "spawn_slots": 10
-      },
-      {
-        "name": "沼澤巨鱷",
-        "level": 45,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "伊卡路斯",
       "休咪",
@@ -7016,7 +6502,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "103000000"
   },
   "103000003": {
     "map_id": "103000003",
@@ -7044,23 +6531,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "三眼章魚",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍水靈",
-        "level": 20,
-        "spawn_slots": 10
-      },
-      {
-        "name": "沼澤巨鱷",
-        "level": 45,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "達克魯"
     ],
@@ -7072,11 +6543,12 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "103000003"
   },
   "103000800": {
     "map_id": "103000800",
-    "name": "組隊訓練場&lt;1階段&gt;",
+    "name": "組隊訓練場<1階段>",
     "street": "維多利亞",
     "region": "維多利亞 墮落城市",
     "image": "res://assets/maps/103000800.png",
@@ -7102,52 +6574,12 @@
     ],
     "monsters": [
       {
-        "name": "嫩寶",
-        "level": 1
+        "name": "沼澤巨鱷",
+        "level": 25
       },
       {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
+        "name": "青蛇",
+        "level": 21
       }
     ],
     "npcs": [
@@ -7156,12 +6588,13 @@
     ],
     "normal_portals": [],
     "hidden_portals": [],
-    "is_town": true,
-    "terrain_theme": "henesys"
+    "is_town": false,
+    "terrain_theme": "henesys",
+    "id": "103000800"
   },
   "103000801": {
     "map_id": "103000801",
-    "name": "組隊訓練場&lt;2階段&gt;",
+    "name": "組隊訓練場<2階段>",
     "street": "維多利亞",
     "region": "維多利亞 墮落城市",
     "image": "res://assets/maps/103000801.png",
@@ -7187,52 +6620,12 @@
     ],
     "monsters": [
       {
-        "name": "嫩寶",
-        "level": 1
+        "name": "三眼章魚",
+        "level": 12
       },
       {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
+        "name": "青蛇",
+        "level": 21
       }
     ],
     "npcs": [
@@ -7241,12 +6634,13 @@
     ],
     "normal_portals": [],
     "hidden_portals": [],
-    "is_town": true,
-    "terrain_theme": "henesys"
+    "is_town": false,
+    "terrain_theme": "henesys",
+    "id": "103000801"
   },
   "103000802": {
     "map_id": "103000802",
-    "name": "組隊訓練場&lt;3階段&gt;",
+    "name": "組隊訓練場<3階段>",
     "street": "維多利亞",
     "region": "維多利亞 墮落城市",
     "image": "res://assets/maps/103000802.png",
@@ -7272,52 +6666,8 @@
     ],
     "monsters": [
       {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
+        "name": "小幽靈",
+        "level": 35
       }
     ],
     "npcs": [
@@ -7326,12 +6676,13 @@
     ],
     "normal_portals": [],
     "hidden_portals": [],
-    "is_town": true,
-    "terrain_theme": "henesys"
+    "is_town": false,
+    "terrain_theme": "henesys",
+    "id": "103000802"
   },
   "103000803": {
     "map_id": "103000803",
-    "name": "組隊訓練場&lt;4階段&gt;",
+    "name": "組隊訓練場<4階段>",
     "street": "維多利亞",
     "region": "維多利亞 墮落城市",
     "image": "res://assets/maps/103000803.png",
@@ -7357,52 +6708,12 @@
     ],
     "monsters": [
       {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
         "name": "綠水靈",
         "level": 6
       },
       {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
+        "name": "藍水靈",
         "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
       }
     ],
     "npcs": [
@@ -7411,12 +6722,13 @@
     ],
     "normal_portals": [],
     "hidden_portals": [],
-    "is_town": true,
-    "terrain_theme": "henesys"
+    "is_town": false,
+    "terrain_theme": "henesys",
+    "id": "103000803"
   },
   "103000804": {
     "map_id": "103000804",
-    "name": "組隊訓練場&lt;最後階段&gt;",
+    "name": "組隊訓練場<最後階段>",
     "street": "維多利亞",
     "region": "維多利亞 墮落城市",
     "image": "res://assets/maps/103000804.png",
@@ -7443,8 +6755,11 @@
     "monsters": [
       {
         "name": "超級綠水靈",
-        "level": 40,
-        "spawn_slots": 10
+        "level": 40
+      },
+      {
+        "name": "綠水靈",
+        "level": 6
       }
     ],
     "npcs": [
@@ -7471,11 +6786,12 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "103000804"
   },
   "103000805": {
     "map_id": "103000805",
-    "name": "組隊訓練場&lt;獎金地點&gt;",
+    "name": "組隊訓練場<獎金地點>",
     "street": "維多利亞",
     "region": "維多利亞 墮落城市",
     "image": "res://assets/maps/103000805.png",
@@ -7502,13 +6818,11 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
-        "spawn_slots": 10
+        "level": 24
       },
       {
         "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
+        "level": 15
       }
     ],
     "npcs": [
@@ -7518,11 +6832,12 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "103000805"
   },
   "103000890": {
     "map_id": "103000890",
-    "name": "組隊訓練場&lt;出口&gt;",
+    "name": "組隊訓練場<出口>",
     "street": "維多利亞",
     "region": "維多利亞 墮落城市",
     "image": "res://assets/maps/103000890.png",
@@ -7546,63 +6861,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "娜拉"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "103000890"
   },
   "103010000": {
     "map_id": "103010000",
@@ -7647,7 +6914,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -7679,7 +6946,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "103010000"
   },
   "103020000": {
     "map_id": "103020000",
@@ -7767,7 +7035,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "103020000"
   },
   "103020100": {
     "map_id": "103020100",
@@ -7852,7 +7121,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -7870,7 +7139,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "103020100"
   },
   "103020200": {
     "map_id": "103020200",
@@ -7963,7 +7233,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "103020200"
   },
   "103030000": {
     "map_id": "103030000",
@@ -8045,7 +7316,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "103030000"
   },
   "103030100": {
     "map_id": "103030100",
@@ -8128,7 +7400,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "103030100"
   },
   "103030200": {
     "map_id": "103030200",
@@ -8207,7 +7480,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "103030200"
   },
   "107000000": {
     "map_id": "107000000",
@@ -8237,8 +7511,8 @@
     ],
     "monsters": [
       {
-        "name": "風獨眼獸",
-        "level": 32,
+        "name": "獨眼獸",
+        "level": 28,
         "spawn_slots": 10
       },
       {
@@ -8265,7 +7539,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "107000000"
   },
   "107000100": {
     "map_id": "107000100",
@@ -8295,8 +7570,8 @@
     ],
     "monsters": [
       {
-        "name": "風獨眼獸",
-        "level": 32,
+        "name": "獨眼獸",
+        "level": 28,
         "spawn_slots": 10
       },
       {
@@ -8320,7 +7595,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "107000100"
   },
   "107000200": {
     "map_id": "107000200",
@@ -8350,8 +7626,8 @@
     ],
     "monsters": [
       {
-        "name": "風獨眼獸",
-        "level": 32,
+        "name": "獨眼獸",
+        "level": 28,
         "spawn_slots": 10
       },
       {
@@ -8373,7 +7649,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "107000200"
   },
   "107000300": {
     "map_id": "107000300",
@@ -8403,13 +7680,13 @@
     ],
     "monsters": [
       {
-        "name": "鱷魚",
+        "name": "黑鱷魚槽位",
         "level": 52,
         "spawn_slots": 10
       },
       {
-        "name": "風獨眼獸",
-        "level": 32,
+        "name": "獨眼獸",
+        "level": 28,
         "spawn_slots": 10
       },
       {
@@ -8431,7 +7708,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "107000300"
   },
   "107000400": {
     "map_id": "107000400",
@@ -8461,7 +7739,7 @@
     ],
     "monsters": [
       {
-        "name": "鱷魚",
+        "name": "黑鱷魚槽位",
         "level": 52,
         "spawn_slots": 10
       },
@@ -8484,7 +7762,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "107000400"
   },
   "910310000": {
     "map_id": "910310000",
@@ -8519,7 +7798,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       }
@@ -8535,7 +7814,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910310000"
   },
   "912030000": {
     "map_id": "912030000",
@@ -8586,7 +7866,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "912030000"
   },
   "103000101": {
     "map_id": "103000101",
@@ -8616,44 +7897,9 @@
     ],
     "monsters": [
       {
-        "name": "三眼章魚",
-        "level": 12
-      },
-      {
-        "name": "藍水靈",
-        "level": 15
-      },
-      {
-        "name": "蝙蝠",
-        "level": 20
-      },
-      {
-        "name": "青蛇",
-        "level": 21
-      },
-      {
-        "name": "小幽靈",
-        "level": 35
-      },
-      {
-        "name": "大幽靈",
-        "level": 48
-      },
-      {
-        "name": "沼澤巨鱷",
-        "level": 52
-      },
-      {
-        "name": "泥沼巨怪",
-        "level": 65
-      },
-      {
-        "name": "巨鱷王",
-        "level": 65
-      },
-      {
-        "name": "超綠水靈",
-        "level": 50
+        "name": "黑肥肥",
+        "level": 25,
+        "spawn_slots": 10
       }
     ],
     "npcs": [
@@ -8667,7 +7913,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000101"
   },
   "103000102": {
     "map_id": "103000102",
@@ -8697,7 +7944,7 @@
     ],
     "monsters": [
       {
-        "name": "蝙蝠",
+        "name": "蝙蝠槽位",
         "level": 20,
         "spawn_slots": 10
       }
@@ -8720,7 +7967,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000102"
   },
   "103000103": {
     "map_id": "103000103",
@@ -8751,11 +7999,11 @@
     "monsters": [
       {
         "name": "紅螃蟹",
-        "level": 35,
+        "level": 40,
         "spawn_slots": 10
       },
       {
-        "name": "蝙蝠",
+        "name": "蝙蝠槽位",
         "level": 20,
         "spawn_slots": 10
       }
@@ -8774,7 +8022,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000103"
   },
   "103000104": {
     "map_id": "103000104",
@@ -8805,16 +8054,16 @@
     "monsters": [
       {
         "name": "骷髏指揮官",
-        "level": 48,
+        "level": 73,
         "spawn_slots": 10
       },
       {
         "name": "紅螃蟹",
-        "level": 35,
+        "level": 40,
         "spawn_slots": 10
       },
       {
-        "name": "蝙蝠",
+        "name": "蝙蝠槽位",
         "level": 20,
         "spawn_slots": 10
       }
@@ -8833,7 +8082,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000104"
   },
   "103000105": {
     "map_id": "103000105",
@@ -8864,11 +8114,11 @@
     "monsters": [
       {
         "name": "骷髏指揮官",
-        "level": 48,
+        "level": 73,
         "spawn_slots": 10
       },
       {
-        "name": "冥界幽靈",
+        "name": "冥界幽靈槽位",
         "level": 56,
         "spawn_slots": 10
       }
@@ -8884,7 +8134,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000105"
   },
   "103000200": {
     "map_id": "103000200",
@@ -8915,7 +8166,7 @@
     "monsters": [
       {
         "name": "紅螃蟹",
-        "level": 35,
+        "level": 40,
         "spawn_slots": 10
       },
       {
@@ -8938,7 +8189,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000200"
   },
   "103000201": {
     "map_id": "103000201",
@@ -8969,12 +8221,12 @@
     "monsters": [
       {
         "name": "骷髏指揮官",
-        "level": 48,
+        "level": 73,
         "spawn_slots": 10
       },
       {
         "name": "紅螃蟹",
-        "level": 35,
+        "level": 40,
         "spawn_slots": 10
       },
       {
@@ -8996,7 +8248,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000201"
   },
   "103000202": {
     "map_id": "103000202",
@@ -9027,11 +8280,11 @@
     "monsters": [
       {
         "name": "骷髏指揮官",
-        "level": 48,
+        "level": 73,
         "spawn_slots": 10
       },
       {
-        "name": "冥界幽靈",
+        "name": "冥界幽靈槽位",
         "level": 56,
         "spawn_slots": 10
       }
@@ -9047,7 +8300,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000202"
   },
   "103000900": {
     "map_id": "103000900",
@@ -9075,23 +8329,7 @@
       0.35,
       0.3
     ],
-    "monsters": [
-      {
-        "name": "小幽靈",
-        "level": 28,
-        "spawn_slots": 10
-      },
-      {
-        "name": "大幽靈",
-        "level": 48,
-        "spawn_slots": 10
-      },
-      {
-        "name": "惡魔水靈",
-        "level": 55,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "出口"
     ],
@@ -9143,7 +8381,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000900"
   },
   "103000901": {
     "map_id": "103000901",
@@ -9171,23 +8410,7 @@
       0.35,
       0.3
     ],
-    "monsters": [
-      {
-        "name": "小幽靈",
-        "level": 28,
-        "spawn_slots": 10
-      },
-      {
-        "name": "大幽靈",
-        "level": 48,
-        "spawn_slots": 10
-      },
-      {
-        "name": "惡魔水靈",
-        "level": 55,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "出口"
     ],
@@ -9203,7 +8426,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000901"
   },
   "103000902": {
     "map_id": "103000902",
@@ -9233,52 +8457,9 @@
     ],
     "monsters": [
       {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
+        "name": "黑肥肥",
+        "level": 25,
+        "spawn_slots": 10
       }
     ],
     "npcs": [
@@ -9287,7 +8468,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000902"
   },
   "103000903": {
     "map_id": "103000903",
@@ -9315,23 +8497,7 @@
       0.35,
       0.3
     ],
-    "monsters": [
-      {
-        "name": "小幽靈",
-        "level": 28,
-        "spawn_slots": 10
-      },
-      {
-        "name": "大幽靈",
-        "level": 48,
-        "spawn_slots": 10
-      },
-      {
-        "name": "惡魔水靈",
-        "level": 55,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "出口"
     ],
@@ -9372,7 +8538,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000903"
   },
   "103000904": {
     "map_id": "103000904",
@@ -9400,23 +8567,7 @@
       0.35,
       0.3
     ],
-    "monsters": [
-      {
-        "name": "小幽靈",
-        "level": 28,
-        "spawn_slots": 10
-      },
-      {
-        "name": "大幽靈",
-        "level": 48,
-        "spawn_slots": 10
-      },
-      {
-        "name": "惡魔水靈",
-        "level": 55,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "出口"
     ],
@@ -9437,7 +8588,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000904"
   },
   "103000905": {
     "map_id": "103000905",
@@ -9468,12 +8620,12 @@
     "monsters": [
       {
         "name": "紅螃蟹",
-        "level": 35,
+        "level": 40,
         "spawn_slots": 10
       },
       {
         "name": "變身垃圾桶",
-        "level": 35,
+        "level": 18,
         "spawn_slots": 10
       }
     ],
@@ -9483,7 +8635,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000905"
   },
   "103000906": {
     "map_id": "103000906",
@@ -9511,23 +8664,7 @@
       0.35,
       0.3
     ],
-    "monsters": [
-      {
-        "name": "小幽靈",
-        "level": 28,
-        "spawn_slots": 10
-      },
-      {
-        "name": "大幽靈",
-        "level": 48,
-        "spawn_slots": 10
-      },
-      {
-        "name": "惡魔水靈",
-        "level": 55,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "出口"
     ],
@@ -9543,7 +8680,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000906"
   },
   "103000907": {
     "map_id": "103000907",
@@ -9571,23 +8709,7 @@
       0.35,
       0.3
     ],
-    "monsters": [
-      {
-        "name": "小幽靈",
-        "level": 28,
-        "spawn_slots": 10
-      },
-      {
-        "name": "大幽靈",
-        "level": 48,
-        "spawn_slots": 10
-      },
-      {
-        "name": "惡魔水靈",
-        "level": 55,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "出口"
     ],
@@ -9599,7 +8721,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000907"
   },
   "103000908": {
     "map_id": "103000908",
@@ -9627,23 +8750,7 @@
       0.35,
       0.3
     ],
-    "monsters": [
-      {
-        "name": "小幽靈",
-        "level": 28,
-        "spawn_slots": 10
-      },
-      {
-        "name": "大幽靈",
-        "level": 48,
-        "spawn_slots": 10
-      },
-      {
-        "name": "惡魔水靈",
-        "level": 55,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "出口"
     ],
@@ -9664,7 +8771,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000908"
   },
   "103000909": {
     "map_id": "103000909",
@@ -9695,16 +8803,16 @@
     "monsters": [
       {
         "name": "骷髏指揮官",
-        "level": 48,
+        "level": 73,
         "spawn_slots": 10
       },
       {
         "name": "變身垃圾桶",
-        "level": 35,
+        "level": 18,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -9715,7 +8823,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "subway"
+    "terrain_theme": "subway",
+    "id": "103000909"
   },
   "105030000": {
     "map_id": "105030000",
@@ -9756,7 +8865,7 @@
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
@@ -9770,13 +8879,13 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -9799,7 +8908,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105030000"
   },
   "105040000": {
     "map_id": "105040000",
@@ -9840,12 +8950,12 @@
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
@@ -9854,7 +8964,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       }
@@ -9880,7 +8990,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040000"
   },
   "105040100": {
     "map_id": "105040100",
@@ -9925,7 +9036,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -9941,7 +9052,7 @@
       },
       {
         "name": "變身垃圾桶",
-        "level": 35,
+        "level": 18,
         "spawn_slots": 10
       }
     ],
@@ -9954,7 +9065,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040100"
   },
   "105040200": {
     "map_id": "105040200",
@@ -9990,11 +9102,11 @@
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
@@ -10015,7 +9127,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040200"
   },
   "105040300": {
     "map_id": "105040300",
@@ -10043,23 +9156,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "刺菇菇",
-        "level": 22,
-        "spawn_slots": 10
-      },
-      {
-        "name": "殭屍",
-        "level": 24,
-        "spawn_slots": 10
-      },
-      {
-        "name": "土龍",
-        "level": 50,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "倉庫吳老闆",
       "克利斯拉瑪",
@@ -10090,7 +9187,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105040300"
   },
   "105040301": {
     "map_id": "105040301",
@@ -10121,7 +9219,7 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
@@ -10130,7 +9228,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
@@ -10140,7 +9238,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -10164,7 +9262,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040301"
   },
   "105040302": {
     "map_id": "105040302",
@@ -10195,11 +9294,11 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
@@ -10214,7 +9313,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
@@ -10233,7 +9332,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040302"
   },
   "105040303": {
     "map_id": "105040303",
@@ -10268,12 +9368,12 @@
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
       {
-        "name": "黑曜石巨人",
+        "name": "黑曜石巨人槽位",
         "level": 58,
         "spawn_slots": 10
       },
@@ -10284,7 +9384,7 @@
       },
       {
         "name": "變身垃圾桶",
-        "level": 35,
+        "level": 18,
         "spawn_slots": 10
       }
     ],
@@ -10292,7 +9392,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040303"
   },
   "105040304": {
     "map_id": "105040304",
@@ -10327,7 +9428,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "黑曜石巨人",
+        "name": "黑曜石巨人槽位",
         "level": 58,
         "spawn_slots": 10
       },
@@ -10338,11 +9439,11 @@
       },
       {
         "name": "變身垃圾桶",
-        "level": 35,
+        "level": 18,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -10353,7 +9454,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040304"
   },
   "105040305": {
     "map_id": "105040305",
@@ -10383,12 +9485,12 @@
     ],
     "monsters": [
       {
-        "name": "黑曜石巨人",
+        "name": "黑曜石巨人槽位",
         "level": 58,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
@@ -10403,17 +9505,17 @@
         "spawn_slots": 10
       },
       {
-        "name": "混種石巨人",
+        "name": "混種石巨人槽位",
         "level": 59,
         "spawn_slots": 10
       },
       {
         "name": "變身垃圾桶",
-        "level": 35,
+        "level": 18,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       },
@@ -10434,7 +9536,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040305"
   },
   "105040306": {
     "map_id": "105040306",
@@ -10464,7 +9567,7 @@
     ],
     "monsters": [
       {
-        "name": "混種石巨人",
+        "name": "混種石巨人槽位",
         "level": 59,
         "spawn_slots": 10
       },
@@ -10474,12 +9577,12 @@
         "spawn_slots": 10
       },
       {
-        "name": "黑曜石巨人",
+        "name": "黑曜石巨人槽位",
         "level": 58,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -10493,7 +9596,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105040306"
   },
   "105050000": {
     "map_id": "105050000",
@@ -10524,12 +9628,12 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       }
     ],
@@ -10548,7 +9652,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105050000"
   },
   "105050100": {
     "map_id": "105050100",
@@ -10579,12 +9684,12 @@
     "monsters": [
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       }
     ],
@@ -10603,7 +9708,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105050100"
   },
   "105050200": {
     "map_id": "105050200",
@@ -10634,12 +9740,12 @@
     "monsters": [
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       }
     ],
@@ -10659,7 +9765,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105050200"
   },
   "105050300": {
     "map_id": "105050300",
@@ -10690,12 +9797,12 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       }
     ],
@@ -10714,7 +9821,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105050300"
   },
   "105050400": {
     "map_id": "105050400",
@@ -10744,18 +9852,18 @@
     ],
     "monsters": [
       {
-        "name": "蝙蝠",
+        "name": "蝙蝠槽位",
         "level": 20,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       }
     ],
@@ -10772,7 +9880,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105050400"
   },
   "105060000": {
     "map_id": "105060000",
@@ -10802,18 +9911,18 @@
     ],
     "monsters": [
       {
-        "name": "蝙蝠",
+        "name": "蝙蝠槽位",
         "level": 20,
         "spawn_slots": 10
       },
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       }
     ],
@@ -10832,7 +9941,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105060000"
   },
   "105060100": {
     "map_id": "105060100",
@@ -10863,21 +9973,21 @@
     "monsters": [
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       },
       {
         "name": "三眼章魚",
-        "level": 27,
+        "level": 12,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -10895,7 +10005,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105060100"
   },
   "105070000": {
     "map_id": "105070000",
@@ -10926,17 +10037,17 @@
     "monsters": [
       {
         "name": "三眼章魚",
-        "level": 27,
+        "level": 12,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       }
     ],
@@ -10955,7 +10066,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105070000"
   },
   "105070001": {
     "map_id": "105070001",
@@ -10986,17 +10098,17 @@
     "monsters": [
       {
         "name": "三眼章魚",
-        "level": 27,
+        "level": 12,
         "spawn_slots": 10
       },
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       }
     ],
@@ -11025,7 +10137,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105070001"
   },
   "105070002": {
     "map_id": "105070002",
@@ -11056,16 +10169,16 @@
     "monsters": [
       {
         "name": "藍水靈",
-        "level": 24,
+        "level": 15,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       },
       {
-        "name": "殭屍",
+        "name": "殭屍蘑菇王槽位",
         "level": 65,
         "spawn_slots": 10
       }
@@ -11079,7 +10192,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105070002"
   },
   "105070100": {
     "map_id": "105070100",
@@ -11110,11 +10224,11 @@
     "monsters": [
       {
         "name": "三眼章魚",
-        "level": 27,
+        "level": 12,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -11134,7 +10248,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105070100"
   },
   "105070200": {
     "map_id": "105070200",
@@ -11165,11 +10280,11 @@
     "monsters": [
       {
         "name": "三眼章魚",
-        "level": 27,
+        "level": 12,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -11189,7 +10304,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105070200"
   },
   "105070300": {
     "map_id": "105070300",
@@ -11220,11 +10336,11 @@
     "monsters": [
       {
         "name": "三眼章魚",
-        "level": 27,
+        "level": 12,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -11244,7 +10360,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105070300"
   },
   "105070400": {
     "map_id": "105070400",
@@ -11275,11 +10392,11 @@
     "monsters": [
       {
         "name": "三眼章魚",
-        "level": 27,
+        "level": 12,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -11299,7 +10416,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105070400"
   },
   "105080000": {
     "map_id": "105080000",
@@ -11329,17 +10447,17 @@
     ],
     "monsters": [
       {
-        "name": "青龍",
+        "name": "青龍槽位",
         "level": 50,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -11358,7 +10476,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105080000"
   },
   "105090000": {
     "map_id": "105090000",
@@ -11388,12 +10507,12 @@
     ],
     "monsters": [
       {
-        "name": "土龍",
+        "name": "土龍槽位",
         "level": 45,
         "spawn_slots": 10
       },
       {
-        "name": "青龍",
+        "name": "青龍槽位",
         "level": 50,
         "spawn_slots": 10
       }
@@ -11413,7 +10532,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090000"
   },
   "105090100": {
     "map_id": "105090100",
@@ -11444,17 +10564,17 @@
     "monsters": [
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
-        "name": "青龍",
+        "name": "青龍槽位",
         "level": 50,
         "spawn_slots": 10
       },
       {
         "name": "赤龍",
-        "level": 62,
+        "level": 50,
         "spawn_slots": 10
       }
     ],
@@ -11478,7 +10598,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090100"
   },
   "105090200": {
     "map_id": "105090200",
@@ -11506,56 +10627,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "無意義存在者",
       "葛溫"
@@ -11581,7 +10653,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105090200"
   },
   "105090300": {
     "map_id": "105090300",
@@ -11611,18 +10684,18 @@
     ],
     "monsters": [
       {
-        "name": "青龍",
+        "name": "青龍槽位",
         "level": 50,
         "spawn_slots": 10
       },
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
         "name": "赤龍",
-        "level": 62,
+        "level": 50,
         "spawn_slots": 10
       },
       {
@@ -11648,7 +10721,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105090300"
   },
   "105090301": {
     "map_id": "105090301",
@@ -11679,12 +10753,12 @@
     "monsters": [
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
         "name": "赤龍",
-        "level": 62,
+        "level": 50,
         "spawn_slots": 10
       }
     ],
@@ -11697,7 +10771,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105090301"
   },
   "105090310": {
     "map_id": "105090310",
@@ -11727,18 +10802,18 @@
     ],
     "monsters": [
       {
-        "name": "冰龍",
+        "name": "冰龍槽位",
         "level": 64,
         "spawn_slots": 10
       },
       {
-        "name": "青龍",
+        "name": "青龍槽位",
         "level": 50,
         "spawn_slots": 10
       },
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       }
     ],
@@ -11755,7 +10830,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105090310"
   },
   "105090311": {
     "map_id": "105090311",
@@ -11785,12 +10861,12 @@
     ],
     "monsters": [
       {
-        "name": "冰龍",
+        "name": "冰龍槽位",
         "level": 64,
         "spawn_slots": 10
       },
       {
-        "name": "黑龍",
+        "name": "黑龍槽位",
         "level": 68,
         "spawn_slots": 10
       }
@@ -11808,7 +10884,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105090311"
   },
   "105090312": {
     "map_id": "105090312",
@@ -11838,12 +10915,12 @@
     ],
     "monsters": [
       {
-        "name": "黑龍",
+        "name": "黑龍槽位",
         "level": 68,
         "spawn_slots": 10
       },
       {
-        "name": "冰龍",
+        "name": "冰龍槽位",
         "level": 64,
         "spawn_slots": 10
       }
@@ -11857,7 +10934,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "105090312"
   },
   "105090400": {
     "map_id": "105090400",
@@ -11888,7 +10966,7 @@
     "monsters": [
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       }
     ],
@@ -11905,7 +10983,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090400"
   },
   "105090500": {
     "map_id": "105090500",
@@ -11936,12 +11015,12 @@
     "monsters": [
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
-        "name": "噴火龍",
-        "level": 70,
+        "name": "火龍",
+        "level": 65,
         "spawn_slots": 10
       }
     ],
@@ -11958,7 +11037,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090500"
   },
   "105090600": {
     "map_id": "105090600",
@@ -11989,12 +11069,12 @@
     "monsters": [
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
-        "name": "噴火龍",
-        "level": 70,
+        "name": "火龍",
+        "level": 65,
         "spawn_slots": 10
       }
     ],
@@ -12011,7 +11091,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090600"
   },
   "105090700": {
     "map_id": "105090700",
@@ -12042,7 +11123,7 @@
     "monsters": [
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
@@ -12051,8 +11132,8 @@
         "spawn_slots": 10
       },
       {
-        "name": "噴火龍",
-        "level": 70,
+        "name": "火龍",
+        "level": 65,
         "spawn_slots": 10
       }
     ],
@@ -12069,7 +11150,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090700"
   },
   "105090800": {
     "map_id": "105090800",
@@ -12100,7 +11182,7 @@
     "monsters": [
       {
         "name": "骷髏士兵",
-        "level": 40,
+        "level": 57,
         "spawn_slots": 10
       },
       {
@@ -12109,8 +11191,8 @@
         "spawn_slots": 10
       },
       {
-        "name": "噴火龍",
-        "level": 70,
+        "name": "火龍",
+        "level": 65,
         "spawn_slots": 10
       }
     ],
@@ -12127,7 +11209,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090800"
   },
   "105090900": {
     "map_id": "105090900",
@@ -12157,7 +11240,7 @@
     ],
     "monsters": [
       {
-        "name": "巴洛古",
+        "name": "巴洛古槽位",
         "level": 80,
         "spawn_slots": 10
       }
@@ -12171,7 +11254,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "105090900"
   },
   "107000500": {
     "map_id": "107000500",
@@ -12201,7 +11285,7 @@
     ],
     "monsters": [
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -12216,7 +11300,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       }
@@ -12239,7 +11323,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "107000500"
   },
   "107000501": {
     "map_id": "107000501",
@@ -12274,7 +11359,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -12293,7 +11378,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "107000501"
   },
   "120000000": {
     "map_id": "120000000",
@@ -12321,18 +11407,7 @@
       0.45,
       0.25
     ],
-    "monsters": [
-      {
-        "name": "肥肥",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "海怒斯",
-        "level": 60,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "可可",
       "娃娃",
@@ -12370,7 +11445,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "nautilus"
+    "terrain_theme": "nautilus",
+    "id": "120000000"
   },
   "120000100": {
     "map_id": "120000100",
@@ -12398,18 +11474,7 @@
       0.45,
       0.25
     ],
-    "monsters": [
-      {
-        "name": "肥肥",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "海怒斯",
-        "level": 60,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "傑克",
       "垃圾桶",
@@ -12424,7 +11489,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "nautilus"
+    "terrain_theme": "nautilus",
+    "id": "120000100"
   },
   "120000200": {
     "map_id": "120000200",
@@ -12452,18 +11518,7 @@
       0.45,
       0.25
     ],
-    "monsters": [
-      {
-        "name": "肥肥",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "海怒斯",
-        "level": 60,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "守財奴",
       "巴勒圖",
@@ -12496,7 +11551,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "nautilus"
+    "terrain_theme": "nautilus",
+    "id": "120000200"
   },
   "120000201": {
     "map_id": "120000201",
@@ -12524,18 +11580,7 @@
       0.45,
       0.25
     ],
-    "monsters": [
-      {
-        "name": "肥肥",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "海怒斯",
-        "level": 60,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "黑巴克"
     ],
@@ -12547,7 +11592,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "nautilus"
+    "terrain_theme": "nautilus",
+    "id": "120000201"
   },
   "120000300": {
     "map_id": "120000300",
@@ -12575,18 +11621,7 @@
       0.45,
       0.25
     ],
-    "monsters": [
-      {
-        "name": "肥肥",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "海怒斯",
-        "level": 60,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "寶妮",
       "查理斯",
@@ -12604,7 +11639,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "nautilus"
+    "terrain_theme": "nautilus",
+    "id": "120000300"
   },
   "120000301": {
     "map_id": "120000301",
@@ -12632,18 +11668,7 @@
       0.45,
       0.25
     ],
-    "monsters": [
-      {
-        "name": "肥肥",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "海怒斯",
-        "level": 60,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "布希",
       "發光石"
@@ -12656,11 +11681,12 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "nautilus"
+    "terrain_theme": "nautilus",
+    "id": "120000301"
   },
   "200000301": {
     "map_id": "200000301",
-    "name": "公會本部&lt;英雄之殿&gt;",
+    "name": "公會本部<英雄之殿>",
     "street": "天空之城",
     "region": "維多利亞 鯨魚號",
     "image": "res://assets/maps/200000301.png",
@@ -12684,56 +11710,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "海拉格",
       "蕾雅",
@@ -12742,7 +11719,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "200000301"
   },
   "100000002": {
     "map_id": "100000002",
@@ -12795,7 +11773,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000002"
   },
   "100000005": {
     "map_id": "100000005",
@@ -12830,13 +11809,13 @@
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       },
       {
         "name": "巴洛古",
-        "level": 60,
+        "level": 80,
         "spawn_slots": 10
       }
     ],
@@ -12849,7 +11828,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100000005"
   },
   "100010100": {
     "map_id": "100010100",
@@ -12893,7 +11873,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "100010100"
   },
   "101040003": {
     "map_id": "101040003",
@@ -12923,13 +11904,13 @@
     ],
     "monsters": [
       {
-        "name": "肥肥",
+        "name": "鋼之黑肥肥槽位",
         "level": 45,
         "spawn_slots": 10
       },
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       }
     ],
@@ -12942,7 +11923,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101040003"
   },
   "102040001": {
     "map_id": "102040001",
@@ -12972,7 +11954,7 @@
     ],
     "monsters": [
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -12991,7 +11973,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "kerning"
+    "terrain_theme": "kerning",
+    "id": "102040001"
   },
   "103010001": {
     "map_id": "103010001",
@@ -13021,7 +12004,7 @@
     ],
     "monsters": [
       {
-        "name": "三眼章魚",
+        "name": "三眼章魚槽位",
         "level": 12,
         "spawn_slots": 10
       },
@@ -13040,7 +12023,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "103010001"
   },
   "107000001": {
     "map_id": "107000001",
@@ -13089,7 +12073,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "107000001"
   },
   "108000500": {
     "map_id": "108000500",
@@ -13117,63 +12102,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "卡伊琳"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000500"
   },
   "108000501": {
     "map_id": "108000501",
@@ -13201,63 +12138,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "卡伊琳"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000501"
   },
   "108000502": {
     "map_id": "108000502",
@@ -13285,63 +12174,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "卡伊琳"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000502"
   },
   "108000503": {
     "map_id": "108000503",
@@ -13369,63 +12210,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "卡伊琳"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000503"
   },
   "910010000": {
     "map_id": "910010000",
@@ -13453,63 +12246,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "興兒"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910010000"
   },
   "910010100": {
     "map_id": "910010100",
@@ -13537,56 +12282,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "幹員C",
       "達爾利",
@@ -13595,7 +12291,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910010100"
   },
   "910010200": {
     "map_id": "910010200",
@@ -13623,56 +12320,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "達爾米"
     ],
@@ -13692,7 +12340,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910010200"
   },
   "910010300": {
     "map_id": "910010300",
@@ -13720,63 +12369,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "達爾米"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910010300"
   },
   "910010400": {
     "map_id": "910010400",
@@ -13804,63 +12405,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "達爾利"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910010400"
   },
   "910100000": {
     "map_id": "910100000",
@@ -13888,56 +12441,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "利普"
     ],
@@ -13949,7 +12453,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910100000"
   },
   "910100001": {
     "map_id": "910100001",
@@ -13977,56 +12482,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "利普"
     ],
@@ -14038,7 +12494,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910100001"
   },
   "910110000": {
     "map_id": "910110000",
@@ -14066,30 +12523,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "魔法圖書館角落"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "910110000"
   },
   "910200000": {
     "map_id": "910200000",
@@ -14117,18 +12559,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "黑木妖",
-        "level": 8,
-        "spawn_slots": 10
-      },
-      {
-        "name": "斧木妖",
-        "level": 17,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [
@@ -14142,7 +12573,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "910200000"
   },
   "910200001": {
     "map_id": "910200001",
@@ -14170,18 +12602,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "黑木妖",
-        "level": 8,
-        "spawn_slots": 10
-      },
-      {
-        "name": "斧木妖",
-        "level": 17,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [
@@ -14195,7 +12616,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "910200001"
   },
   "910200002": {
     "map_id": "910200002",
@@ -14223,18 +12645,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "黑木妖",
-        "level": 8,
-        "spawn_slots": 10
-      },
-      {
-        "name": "斧木妖",
-        "level": 17,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [
@@ -14248,7 +12659,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "perion"
+    "terrain_theme": "perion",
+    "id": "910200002"
   },
   "910210000": {
     "map_id": "910210000",
@@ -14276,63 +12688,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "守護者之石"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910210000"
   },
   "910300000": {
     "map_id": "910300000",
@@ -14360,56 +12724,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [
       {
@@ -14428,11 +12743,12 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910300000"
   },
   "910340000": {
     "map_id": "910340000",
-    "name": "第一次同行&lt;出發地&gt;",
+    "name": "第一次同行<出發地>",
     "street": "隱藏地圖",
     "region": "維多利亞 隱藏地圖",
     "image": "res://assets/maps/910340000.png",
@@ -14456,67 +12772,19 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "娜拉"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910340000"
   },
   "910340100": {
     "map_id": "910340100",
-    "name": "第一次同行&lt;1號關隘&gt;",
+    "name": "第一次同行<1號關隘>",
     "street": "隱藏地圖",
     "region": "維多利亞 隱藏地圖",
     "image": "res://assets/maps/910340100.png",
@@ -14540,56 +12808,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -14597,11 +12816,12 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910340100"
   },
   "910340200": {
     "map_id": "910340200",
-    "name": "第一次同行&lt;2號關隘&gt;",
+    "name": "第一次同行<2號關隘>",
     "street": "隱藏地圖",
     "region": "維多利亞 隱藏地圖",
     "image": "res://assets/maps/910340200.png",
@@ -14625,56 +12845,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -14682,11 +12853,12 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910340200"
   },
   "910340300": {
     "map_id": "910340300",
-    "name": "第一次同行&lt;3號關隘&gt;",
+    "name": "第一次同行<3號關隘>",
     "street": "隱藏地圖",
     "region": "維多利亞 隱藏地圖",
     "image": "res://assets/maps/910340300.png",
@@ -14710,56 +12882,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -14767,11 +12890,12 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910340300"
   },
   "910340400": {
     "map_id": "910340400",
-    "name": "第一次同行&lt;4號關隘&gt;",
+    "name": "第一次同行<4號關隘>",
     "street": "隱藏地圖",
     "region": "維多利亞 隱藏地圖",
     "image": "res://assets/maps/910340400.png",
@@ -14795,56 +12919,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "克魯特",
       "娜拉"
@@ -14852,11 +12927,12 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910340400"
   },
   "910340500": {
     "map_id": "910340500",
-    "name": "第一次同行&lt;最後的關隘&gt;",
+    "name": "第一次同行<最後的關隘>",
     "street": "隱藏地圖",
     "region": "維多利亞 隱藏地圖",
     "image": "res://assets/maps/910340500.png",
@@ -14882,7 +12958,7 @@
     ],
     "monsters": [
       {
-        "name": "超級綠水靈",
+        "name": "超級綠水靈槽位",
         "level": 40,
         "spawn_slots": 10
       }
@@ -14911,11 +12987,12 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910340500"
   },
   "910340600": {
     "map_id": "910340600",
-    "name": "第一次同行&lt;獎勵&gt;",
+    "name": "第一次同行<獎勵>",
     "street": "隱藏地圖",
     "region": "維多利亞 隱藏地圖",
     "image": "res://assets/maps/910340600.png",
@@ -14942,7 +13019,7 @@
     "monsters": [
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       },
       {
@@ -14958,7 +13035,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910340600"
   },
   "912000000": {
     "map_id": "912000000",
@@ -14997,7 +13075,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "912000000"
   },
   "912000100": {
     "map_id": "912000100",
@@ -15025,18 +13104,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "肥肥",
-        "level": 12,
-        "spawn_slots": 10
-      },
-      {
-        "name": "海怒斯",
-        "level": 60,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "乳牛",
       "小乳牛"
@@ -15044,7 +13112,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "nautilus"
+    "terrain_theme": "nautilus",
+    "id": "912000100"
   },
   "912020000": {
     "map_id": "912020000",
@@ -15072,61 +13141,13 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "912020000"
   },
   "100040101": {
     "map_id": "100040101",
@@ -15157,11 +13178,11 @@
     "monsters": [
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -15196,7 +13217,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040101"
   },
   "100040102": {
     "map_id": "100040102",
@@ -15227,7 +13249,7 @@
     "monsters": [
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       },
       {
@@ -15249,7 +13271,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040102"
   },
   "100040103": {
     "map_id": "100040103",
@@ -15280,11 +13303,11 @@
     "monsters": [
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -15331,7 +13354,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040103"
   },
   "100040104": {
     "map_id": "100040104",
@@ -15362,7 +13386,7 @@
     "monsters": [
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       },
       {
@@ -15388,7 +13412,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040104"
   },
   "100040105": {
     "map_id": "100040105",
@@ -15418,13 +13443,13 @@
     ],
     "monsters": [
       {
-        "name": "巫婆",
+        "name": "巫婆槽位",
         "level": 55,
         "spawn_slots": 10
       },
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       }
     ],
@@ -15466,7 +13491,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040105"
   },
   "100040106": {
     "map_id": "100040106",
@@ -15496,13 +13522,13 @@
     ],
     "monsters": [
       {
-        "name": "巫婆",
+        "name": "巫婆槽位",
         "level": 55,
         "spawn_slots": 10
       },
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       }
     ],
@@ -15542,7 +13568,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040106"
   },
   "100040110": {
     "map_id": "100040110",
@@ -15572,13 +13599,13 @@
     ],
     "monsters": [
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
       {
         "name": "殭屍菇菇",
-        "level": 22,
+        "level": 24,
         "spawn_slots": 10
       }
     ],
@@ -15608,7 +13635,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "100040110"
   },
   "101000100": {
     "map_id": "101000100",
@@ -15636,56 +13664,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "路易士"
     ],
@@ -15697,7 +13676,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101000100"
   },
   "101000101": {
     "map_id": "101000101",
@@ -15725,56 +13705,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "花簇",
       "路易士"
@@ -15782,7 +13713,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101000101"
   },
   "101000102": {
     "map_id": "101000102",
@@ -15810,56 +13742,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "路易士"
     ],
@@ -15880,7 +13763,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101000102"
   },
   "101000103": {
     "map_id": "101000103",
@@ -15908,56 +13792,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "路易士"
     ],
@@ -15969,7 +13804,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101000103"
   },
   "101000104": {
     "map_id": "101000104",
@@ -15997,56 +13833,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "草藥叢",
       "路易士"
@@ -16071,7 +13858,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101000104"
   },
   "101000200": {
     "map_id": "101000200",
@@ -16099,56 +13887,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "妖精 瑪麗"
     ],
@@ -16185,7 +13924,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101000200"
   },
   "101030001": {
     "map_id": "101030001",
@@ -16216,22 +13956,22 @@
     "monsters": [
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       },
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       }
     ],
@@ -16244,7 +13984,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101030001"
   },
   "101040001": {
     "map_id": "101040001",
@@ -16275,21 +14016,21 @@
     "monsters": [
       {
         "name": "小幽靈",
-        "level": 25,
+        "level": 35,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "變身垃圾桶",
-        "level": 35,
+        "level": 18,
         "spawn_slots": 10
       },
       {
-        "name": "黑肥肥",
+        "name": "幼魔精靈槽位",
         "level": 35,
         "spawn_slots": 10
       }
@@ -16312,7 +14053,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101040001"
   },
   "101040002": {
     "map_id": "101040002",
@@ -16343,17 +14085,17 @@
     "monsters": [
       {
         "name": "黑木妖",
-        "level": 17,
+        "level": 10,
         "spawn_slots": 10
       },
       {
-        "name": "斧木妖",
+        "name": "黑斧木妖槽位",
         "level": 22,
         "spawn_slots": 10
       },
       {
         "name": "刺菇菇",
-        "level": 10,
+        "level": 22,
         "spawn_slots": 10
       },
       {
@@ -16371,7 +14113,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "101040002"
   },
   "105040310": {
     "map_id": "105040310",
@@ -16399,23 +14142,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "坍塌的石像"
     ],
@@ -16427,7 +14154,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040310"
   },
   "105040311": {
     "map_id": "105040311",
@@ -16455,23 +14183,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "坍塌的石像",
       "粉紅色花簇"
@@ -16479,7 +14191,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040311"
   },
   "105040312": {
     "map_id": "105040312",
@@ -16507,23 +14220,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "坍塌的石像"
     ],
@@ -16535,7 +14232,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040312"
   },
   "105040313": {
     "map_id": "105040313",
@@ -16563,23 +14261,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "坍塌的石像",
       "藍花簇"
@@ -16587,7 +14269,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040313"
   },
   "105040314": {
     "map_id": "105040314",
@@ -16615,23 +14298,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "坍塌的石像"
     ],
@@ -16643,7 +14310,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040314"
   },
   "105040315": {
     "map_id": "105040315",
@@ -16671,23 +14339,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "坍塌的石像"
     ],
@@ -16699,7 +14351,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040315"
   },
   "105040316": {
     "map_id": "105040316",
@@ -16727,23 +14380,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "綠水靈",
-        "level": 6,
-        "spawn_slots": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15,
-        "spawn_slots": 10
-      },
-      {
-        "name": "天使猴",
-        "level": 37,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "坍塌的石像",
       "白花簇"
@@ -16751,7 +14388,8 @@
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "105040316"
   },
   "106000001": {
     "map_id": "106000001",
@@ -16786,7 +14424,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "土龍",
+        "name": "土龍槽位",
         "level": 45,
         "spawn_slots": 10
       }
@@ -16805,7 +14443,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000001"
   },
   "106000002": {
     "map_id": "106000002",
@@ -16835,8 +14474,8 @@
     ],
     "monsters": [
       {
-        "name": "殭屍",
-        "level": 60,
+        "name": "殭屍菇菇王",
+        "level": 65,
         "spawn_slots": 10
       },
       {
@@ -16845,7 +14484,7 @@
         "spawn_slots": 10
       },
       {
-        "name": "土龍",
+        "name": "土龍槽位",
         "level": 45,
         "spawn_slots": 10
       }
@@ -16859,7 +14498,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "106000002"
   },
   "106010101": {
     "map_id": "106010101",
@@ -16894,17 +14534,17 @@
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
       {
-        "name": "石巨人",
+        "name": "石巨人槽位",
         "level": 55,
         "spawn_slots": 10
       },
       {
-        "name": "蝴蝶精",
+        "name": "蝴蝶精槽位",
         "level": 30,
         "spawn_slots": 10
       }
@@ -16923,7 +14563,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "sleepywood"
+    "terrain_theme": "sleepywood",
+    "id": "106010101"
   },
   "107000401": {
     "map_id": "107000401",
@@ -16953,7 +14594,7 @@
     ],
     "monsters": [
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
@@ -16976,7 +14617,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "107000401"
   },
   "107000402": {
     "map_id": "107000402",
@@ -17007,11 +14649,11 @@
     "monsters": [
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       },
       {
-        "name": "猴子",
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       },
@@ -17036,7 +14678,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "107000402"
   },
   "107000403": {
     "map_id": "107000403",
@@ -17067,7 +14710,7 @@
     "monsters": [
       {
         "name": "骷髏士官",
-        "level": 40,
+        "level": 63,
         "spawn_slots": 10
       },
       {
@@ -17085,7 +14728,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "107000403"
   },
   "108000100": {
     "map_id": "108000100",
@@ -17113,63 +14757,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "弓箭手轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000100"
   },
   "108000101": {
     "map_id": "108000101",
@@ -17197,63 +14793,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "弓箭手轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000101"
   },
   "108000102": {
     "map_id": "108000102",
@@ -17281,63 +14829,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "弓箭手轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000102"
   },
   "108000200": {
     "map_id": "108000200",
@@ -17365,63 +14865,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "法師轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000200"
   },
   "108000201": {
     "map_id": "108000201",
@@ -17449,63 +14901,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "法師轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000201"
   },
   "108000202": {
     "map_id": "108000202",
@@ -17533,63 +14937,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "法師轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000202"
   },
   "108000300": {
     "map_id": "108000300",
@@ -17617,63 +14973,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "劍士轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000300"
   },
   "108000301": {
     "map_id": "108000301",
@@ -17701,63 +15009,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "劍士轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000301"
   },
   "108000302": {
     "map_id": "108000302",
@@ -17785,63 +15045,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "劍士轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000302"
   },
   "108000400": {
     "map_id": "108000400",
@@ -17869,63 +15081,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "盜賊轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000400"
   },
   "108000401": {
     "map_id": "108000401",
@@ -17953,63 +15117,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "盜賊轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000401"
   },
   "108000402": {
     "map_id": "108000402",
@@ -18037,63 +15153,15 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "盜賊轉職教官"
     ],
     "normal_portals": [],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "108000402"
   },
   "104000000": {
     "map_id": "104000000",
@@ -18121,23 +15189,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "五星級計程車",
       "佩森",
@@ -18172,7 +15224,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "lith_harbor"
+    "terrain_theme": "lith_harbor",
+    "id": "104000000"
   },
   "104000100": {
     "map_id": "104000100",
@@ -18230,7 +15283,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "lith_harbor"
+    "terrain_theme": "lith_harbor",
+    "id": "104000100"
   },
   "104000200": {
     "map_id": "104000200",
@@ -18298,7 +15352,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "104000200"
   },
   "104000300": {
     "map_id": "104000300",
@@ -18361,7 +15416,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "104000300"
   },
   "104000400": {
     "map_id": "104000400",
@@ -18419,7 +15475,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "104000400"
   },
   "104010000": {
     "map_id": "104010000",
@@ -18510,7 +15567,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "104010000"
   },
   "104010001": {
     "map_id": "104010001",
@@ -18558,6 +15616,11 @@
         "name": "藍寶",
         "level": 2,
         "spawn_slots": 10
+      },
+      {
+        "name": "鋼之肥肥",
+        "level": 42,
+        "spawn_slots": 10
       }
     ],
     "npcs": [],
@@ -18569,7 +15632,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "104010001"
   },
   "104010002": {
     "map_id": "104010002",
@@ -18657,7 +15721,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "104010002"
   },
   "110000000": {
     "map_id": "110000000",
@@ -18685,18 +15750,7 @@
       0.45,
       0.25
     ],
-    "monsters": [
-      {
-        "name": "青螃蟹",
-        "level": 35,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅螃蟹",
-        "level": 40,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "拉爾",
       "拜倫",
@@ -18712,7 +15766,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "110000000"
   },
   "110010000": {
     "map_id": "110010000",
@@ -18742,7 +15797,12 @@
     ],
     "monsters": [
       {
-        "name": "猴子",
+        "name": "寄居蟹",
+        "level": 42,
+        "spawn_slots": 10
+      },
+      {
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -18760,7 +15820,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "110010000"
   },
   "110020000": {
     "map_id": "110020000",
@@ -18790,7 +15851,12 @@
     ],
     "monsters": [
       {
-        "name": "猴子",
+        "name": "寄居蟹",
+        "level": 42,
+        "spawn_slots": 10
+      },
+      {
+        "name": "猴子槽位",
         "level": 37,
         "spawn_slots": 10
       }
@@ -18813,7 +15879,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "110020000"
   },
   "110020001": {
     "map_id": "110020001",
@@ -18843,28 +15910,9 @@
     ],
     "monsters": [
       {
-        "name": "青螃蟹",
-        "level": 35
-      },
-      {
-        "name": "紅螃蟹",
-        "level": 40
-      },
-      {
         "name": "寄居蟹",
-        "level": 42
-      },
-      {
-        "name": "烏龜",
-        "level": 50
-      },
-      {
-        "name": "海膽",
-        "level": 22
-      },
-      {
-        "name": "巨型寄居蟹",
-        "level": 55
+        "level": 42,
+        "spawn_slots": 10
       }
     ],
     "npcs": [],
@@ -18876,7 +15924,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "110020001"
   },
   "110030000": {
     "map_id": "110030000",
@@ -18906,8 +15955,13 @@
     ],
     "monsters": [
       {
-        "name": "青螃蟹",
+        "name": "青螃蟹槽位",
         "level": 48,
+        "spawn_slots": 10
+      },
+      {
+        "name": "寄居蟹",
+        "level": 42,
         "spawn_slots": 10
       }
     ],
@@ -18929,7 +15983,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "110030000"
   },
   "110030001": {
     "map_id": "110030001",
@@ -18959,12 +16014,17 @@
     ],
     "monsters": [
       {
-        "name": "青螃蟹",
+        "name": "青螃蟹槽位",
         "level": 48,
         "spawn_slots": 10
       },
       {
-        "name": "烏龜",
+        "name": "寄居蟹",
+        "level": 42,
+        "spawn_slots": 10
+      },
+      {
+        "name": "烏龜槽位",
         "level": 46,
         "spawn_slots": 10
       }
@@ -18978,7 +16038,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "110030001"
   },
   "110040000": {
     "map_id": "110040000",
@@ -19008,12 +16069,12 @@
     ],
     "monsters": [
       {
-        "name": "烏龜",
+        "name": "烏龜槽位",
         "level": 46,
         "spawn_slots": 10
       },
       {
-        "name": "青螃蟹",
+        "name": "青螃蟹槽位",
         "level": 48,
         "spawn_slots": 10
       }
@@ -19068,7 +16129,8 @@
       }
     ],
     "is_town": false,
-    "terrain_theme": "florina"
+    "terrain_theme": "florina",
+    "id": "110040000"
   },
   "120010000": {
     "map_id": "120010000",
@@ -19096,56 +16158,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "官方名稱未取得的 NPC"
     ],
@@ -19162,7 +16175,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "120010000"
   },
   "0": {
     "map_id": "0",
@@ -19190,23 +16204,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "希娜",
       "莎麗"
@@ -19219,7 +16217,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "0"
   },
   "10000": {
     "map_id": "10000",
@@ -19247,23 +16246,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "羅傑"
     ],
@@ -19275,7 +16258,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "10000"
   },
   "20000": {
     "map_id": "20000",
@@ -19303,23 +16287,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "妮娜"
     ],
@@ -19335,7 +16303,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "20000"
   },
   "20001": {
     "map_id": "20001",
@@ -19363,23 +16332,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "桑"
     ],
@@ -19391,7 +16344,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "20001"
   },
   "30000": {
     "map_id": "30000",
@@ -19419,23 +16373,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "彼特",
       "托德"
@@ -19448,7 +16386,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "30000"
   },
   "40000": {
     "map_id": "40000",
@@ -19479,51 +16418,8 @@
     "monsters": [
       {
         "name": "嫩寶",
-        "level": 1
-      },
-      {
-        "name": "藍寶",
-        "level": 2
-      },
-      {
-        "name": "紅寶",
-        "level": 4
-      },
-      {
-        "name": "菇菇仔",
-        "level": 2
-      },
-      {
-        "name": "綠水靈",
-        "level": 6
-      },
-      {
-        "name": "肥肥",
-        "level": 7
-      },
-      {
-        "name": "菇菇寶貝",
-        "level": 8
-      },
-      {
-        "name": "緞帶肥肥",
-        "level": 10
-      },
-      {
-        "name": "綠菇菇",
-        "level": 15
-      },
-      {
-        "name": "藍菇菇",
-        "level": 20
-      },
-      {
-        "name": "鋼之肥肥",
-        "level": 42
-      },
-      {
-        "name": "菇菇王",
-        "level": 60
+        "level": 1,
+        "spawn_slots": 10
       }
     ],
     "npcs": [
@@ -19538,7 +16434,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "40000"
   },
   "40001": {
     "map_id": "40001",
@@ -19591,7 +16488,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "40001"
   },
   "40002": {
     "map_id": "40002",
@@ -19644,7 +16542,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "40002"
   },
   "50000": {
     "map_id": "50000",
@@ -19708,7 +16607,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "lith_harbor"
+    "terrain_theme": "lith_harbor",
+    "id": "50000"
   },
   "50001": {
     "map_id": "50001",
@@ -19781,7 +16681,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "lith_harbor"
+    "terrain_theme": "lith_harbor",
+    "id": "50001"
   },
   "60000": {
     "map_id": "60000",
@@ -19809,23 +16710,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "官方名稱未取得的 NPC",
       "桑克斯",
@@ -19840,7 +16725,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "lith_harbor"
+    "terrain_theme": "lith_harbor",
+    "id": "60000"
   },
   "1000000": {
     "map_id": "1000000",
@@ -19913,7 +16799,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1000000"
   },
   "1000001": {
     "map_id": "1000001",
@@ -19977,7 +16864,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "ellinia"
+    "terrain_theme": "ellinia",
+    "id": "1000001"
   },
   "1000002": {
     "map_id": "1000002",
@@ -20041,7 +16929,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1000002"
   },
   "1000003": {
     "map_id": "1000003",
@@ -20090,7 +16979,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1000003"
   },
   "1000004": {
     "map_id": "1000004",
@@ -20144,7 +17034,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1000004"
   },
   "1000005": {
     "map_id": "1000005",
@@ -20198,7 +17089,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1000005"
   },
   "1000006": {
     "map_id": "1000006",
@@ -20257,7 +17149,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1000006"
   },
   "1010000": {
     "map_id": "1010000",
@@ -20285,23 +17178,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [
       "瑞恩",
       "皮奧",
@@ -20323,7 +17200,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1010000"
   },
   "1010002": {
     "map_id": "1010002",
@@ -20351,23 +17229,7 @@
       0.35,
       0.18
     ],
-    "monsters": [
-      {
-        "name": "嫩寶",
-        "level": 1,
-        "spawn_slots": 10
-      },
-      {
-        "name": "藍寶",
-        "level": 2,
-        "spawn_slots": 10
-      },
-      {
-        "name": "紅寶",
-        "level": 4,
-        "spawn_slots": 10
-      }
-    ],
+    "monsters": [],
     "npcs": [],
     "normal_portals": [
       {
@@ -20381,7 +17243,8 @@
     ],
     "hidden_portals": [],
     "is_town": true,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1010002"
   },
   "1010004": {
     "map_id": "1010004",
@@ -20445,7 +17308,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1010004"
   },
   "1020000": {
     "map_id": "1020000",
@@ -20518,7 +17382,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1020000"
   },
   "1020001": {
     "map_id": "1020001",
@@ -20572,7 +17437,8 @@
     ],
     "hidden_portals": [],
     "is_town": false,
-    "terrain_theme": "maple_island"
+    "terrain_theme": "maple_island",
+    "id": "1020001"
   },
   "910000000": {
     "map_id": "910000000",
@@ -20772,7 +17638,8 @@
       }
     ],
     "is_town": true,
-    "terrain_theme": "henesys"
+    "terrain_theme": "henesys",
+    "id": "910000000"
   },
   "990000001": {
     "id": "990000001",
@@ -20908,7 +17775,8 @@
         "target": "990000002"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000001"
   },
   "990000002": {
     "id": "990000002",
@@ -21142,7 +18010,8 @@
         "target": "990000003"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000002"
   },
   "990000003": {
     "id": "990000003",
@@ -21425,7 +18294,8 @@
         "target": "990000004"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000003"
   },
   "990000004": {
     "id": "990000004",
@@ -21687,7 +18557,8 @@
         "target": "990000005"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000004"
   },
   "990000005": {
     "id": "990000005",
@@ -21809,7 +18680,8 @@
         "target": "990000006"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000005"
   },
   "990000006": {
     "id": "990000006",
@@ -21889,7 +18761,8 @@
         "target": "990000007"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000006"
   },
   "990000007": {
     "id": "990000007",
@@ -22004,7 +18877,8 @@
         "target": "990000008"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000007"
   },
   "990000008": {
     "id": "990000008",
@@ -22105,7 +18979,8 @@
         "target": "990000009"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000008"
   },
   "990000009": {
     "id": "990000009",
@@ -22304,7 +19179,8 @@
         "target": "990000001"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000009"
   },
   "990000010": {
     "id": "990000010",
@@ -22405,6 +19281,7 @@
         "target": "990000001"
       }
     ],
-    "hidden_portals": []
+    "hidden_portals": [],
+    "map_id": "990000010"
   }
 }

@@ -987,7 +987,7 @@ func render_tabbed_map_browser(selected_region_id: String):
 			enter_btn.text = "⚡ 進入地圖"
 			enter_btn.custom_minimum_size = Vector2(110, 28)
 			enter_btn.modulate = Color(0.3, 1.0, 0.5)
-			var target_id = m.get("id", "100000000")
+			var target_id = str(m.get("map_id", m.get("id", "100000000")))
 			enter_btn.pressed.connect(func():
 				Global.change_map(target_id)
 				map_select_modal.visible = false
