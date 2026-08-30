@@ -1033,19 +1033,207 @@ func show_region_detail_drawer(drawer: PanelContainer, region_data: Dictionary):
 	mob_lbl.modulate = Color(1.0, 0.8, 0.6)
 	vbox.add_child(mob_lbl)
 	
+	# Action Buttons Row
+	var btn_hbox = HBoxContainer.new()
+	btn_hbox.add_theme_constant_override("separation", 8)
+	
 	# Direct Teleport Button
 	var teleport_btn = Button.new()
-	teleport_btn.text = "⚡ 立即傳送前往【%s】" % region_data.name.split(" ")[0]
-	teleport_btn.custom_minimum_size = Vector2(0, 32)
+	teleport_btn.text = "⚡ 立即直達主城"
+	teleport_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	teleport_btn.modulate = Color(0.3, 1.0, 0.5)
 	var t_id = region_data.town_map_id
 	teleport_btn.pressed.connect(func():
 		Global.change_map(t_id)
 		map_select_modal.visible = false
 	)
-	vbox.add_child(teleport_btn)
+	btn_hbox.add_child(teleport_btn)
 	
+	# Sub-Area Map Browser Button
+	var browse_btn = Button.new()
+	browse_btn.text = "📜 挑選該區全部地圖"
+	browse_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	browse_btn.modulate = Color(1.0, 0.85, 0.2)
+	var reg_id = region_data.id
+	var reg_name = region_data.name
+	var reg_color = region_data.color
+	browse_btn.pressed.connect(func():
+		open_region_map_browser(reg_id, reg_name, reg_color)
+	)
+	btn_hbox.add_child(browse_btn)
+	
+	vbox.add_child(btn_hbox)
 	drawer.add_child(vbox)
+
+func open_region_map_browser(region_id: String, region_name: String, region_color: Color):
+	for c in map_select_modal.get_children():
+		c.queue_free()
+		
+	var main_vbox = VBoxContainer.new()
+	main_vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
+	main_vbox.add_theme_constant_override("separation", 8)
+	
+	# Header with Back button
+	var header = HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
+	
+	var back_btn = Button.new()
+	back_btn.text = " ⬅ 返回世界地圖 "
+	back_btn.modulate = Color(0.4, 0.9, 1.0)
+	back_btn.pressed.connect(setup_map_selection_list)
+	header.add_child(back_btn)
+	
+	var title = Label.new()
+	title.text = "🗺️ 【%s】分區地圖挑選進圖列表" % region_name
+	title.add_theme_font_size_override("font_size", 16)
+	title.modulate = region_color
+	header.add_child(title)
+	
+	var sp = Control.new()
+	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(sp)
+	
+	var search_input = LineEdit.new()
+	search_input.placeholder_text = "🔍 搜尋地圖名稱或怪物..."
+	search_input.custom_minimum_size = Vector2(220, 30)
+	header.add_child(search_input)
+	
+	var close_btn = Button.new()
+	close_btn.text = " ✕ 關閉 "
+	close_btn.pressed.connect(func(): map_select_modal.visible = false)
+	header.add_child(close_btn)
+	main_vbox.add_child(header)
+	
+	# Filter maps belonging to this region
+	var matched_maps: Array[Dictionary] = []
+	for mid in MapDatabase.MAPS.keys():
+		var m = MapDatabase.MAPS[mid]
+		var theme = m.get("terrain_theme", "")
+		var r_name = m.get("region", "")
+		var m_name = m.get("name", "")
+		var is_match = false
+		
+		match region_id:
+			"perion":
+				is_match = (theme == "perion" or "勇士" in r_name or "石巨人" in m_name or "岩山" in m_name or "峽谷" in m_name or "黑石頭人" in m_name)
+			"ellinia":
+				is_match = (theme == "ellinia" or "魔法森林" in r_name or "大木林" in m_name or "樹林" in m_name or "猴子" in m_name or "巫婆" in m_name)
+			"henesys":
+				is_match = (theme == "henesys" or "弓箭手" in r_name or "肥肥" in m_name or "東部" in m_name or "菇菇" in m_name)
+			"kerning":
+				is_match = (theme in ["kerning", "subway"] or "墮落" in r_name or "地鐵" in m_name or "沼澤" in m_name or "幽靈" in m_name)
+			"sleepywood":
+				is_match = (theme == "sleepywood" or "奇幻" in r_name or "螞蟻洞" in m_name or "幽靈樹" in m_name or "神殿" in m_name or "龍穴" in m_name)
+			"lith_harbor":
+				is_match = (theme == "lith_harbor" or "維多利亞港" in r_name or "海岸草叢" in m_name or "三叉路" in m_name)
+			"nautilus":
+				is_match = (theme == "nautilus" or "鯨魚號" in r_name or "航海" in m_name or "甲板" in m_name)
+			"florina":
+				is_match = (theme == "florina" or "黃金海岸" in r_name or "沙灘" in m_name or "椰子" in m_name or "螃蟹" in m_name)
+			_:
+				is_match = (region_id in theme or region_id in r_name)
+				
+		if is_match:
+			matched_maps.append(m)
+			
+	if matched_maps.is_empty():
+		matched_maps = [MapDatabase.MAPS.get("100000000", {})]
+		
+	# Sub-Map Scroll Container
+	var scroll = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	
+	var list_vbox = VBoxContainer.new()
+	list_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list_vbox.add_theme_constant_override("separation", 6)
+	
+	var render_map_cards = func(filter_text: String):
+		for ch in list_vbox.get_children():
+			ch.queue_free()
+			
+		for m in matched_maps:
+			var m_name = m.get("name", "未命名地圖")
+			var s_name = m.get("street", "維多利亞島")
+			var mobs = m.get("monsters", [])
+			var portals = m.get("normal_portals", [])
+			
+			# Monster name string
+			var mob_str_list = []
+			for mob in mobs:
+				mob_str_list.append("%s (Lv.%d)" % [mob.get("name", ""), mob.get("level", 1)])
+			var mob_display = "、".join(mob_str_list) if not mob_str_list.is_empty() else "無野怪出沒 (城鎮安全區)"
+			
+			# Filter matching
+			if filter_text != "" and not (filter_text in m_name or filter_text in s_name or filter_text in mob_display):
+				continue
+				
+			var card = PanelContainer.new()
+			var card_vbox = VBoxContainer.new()
+			card_vbox.add_theme_constant_override("separation", 4)
+			
+			# Row 1: Map Name + Location + Enter Button
+			var row1 = HBoxContainer.new()
+			var map_title = Label.new()
+			map_title.text = "📍 %s" % m_name
+			map_title.add_theme_font_size_override("font_size", 14)
+			map_title.modulate = Color.GOLD
+			row1.add_child(map_title)
+			
+			var loc_lbl = Label.new()
+			loc_lbl.text = "  [%s]" % s_name
+			loc_lbl.add_theme_font_size_override("font_size", 11)
+			loc_lbl.modulate = Color(0.7, 0.7, 0.8)
+			row1.add_child(loc_lbl)
+			
+			var card_sp = Control.new()
+			card_sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row1.add_child(card_sp)
+			
+			var enter_btn = Button.new()
+			enter_btn.text = "⚡ 進入地圖"
+			enter_btn.custom_minimum_size = Vector2(100, 26)
+			enter_btn.modulate = Color(0.3, 1.0, 0.5)
+			var target_id = m.get("id", "100000000")
+			enter_btn.pressed.connect(func():
+				Global.change_map(target_id)
+				map_select_modal.visible = false
+			)
+			row1.add_child(enter_btn)
+			card_vbox.add_child(row1)
+			
+			# Row 2: Monsters & Portals Info
+			var row2 = HBoxContainer.new()
+			var mob_lbl = Label.new()
+			mob_lbl.text = "👾 出沒怪物: %s" % mob_display
+			mob_lbl.add_theme_font_size_override("font_size", 11)
+			mob_lbl.modulate = Color(1.0, 0.85, 0.6)
+			mob_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			mob_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			row2.add_child(mob_lbl)
+			
+			if not portals.is_empty():
+				var portal_lbl = Label.new()
+				var p_names = []
+				for p in portals:
+					p_names.append(p.get("title", "傳送點"))
+				portal_lbl.text = "🚪 通往: %s" % "、".join(p_names)
+				portal_lbl.add_theme_font_size_override("font_size", 10)
+				portal_lbl.modulate = Color(0.5, 0.8, 1.0)
+				row2.add_child(portal_lbl)
+				
+			card_vbox.add_child(row2)
+			card.add_child(card_vbox)
+			list_vbox.add_child(card)
+	
+	render_map_cards.call("")
+	search_input.text_changed.connect(func(new_text: String):
+		render_map_cards.call(new_text.strip_edges())
+	)
+	
+	scroll.add_child(list_vbox)
+	main_vbox.add_child(scroll)
+	map_select_modal.add_child(main_vbox)
 
 func show_game_over(victory: bool):
 	game_over_modal.visible = true
