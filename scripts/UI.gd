@@ -934,6 +934,8 @@ func render_tabbed_map_browser(selected_region_id: String):
 	var scroll = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	scroll.custom_minimum_size = Vector2(0, 440)
 	
 	var list_vbox = VBoxContainer.new()
@@ -963,30 +965,27 @@ func render_tabbed_map_browser(selected_region_id: String):
 				
 			displayed_count += 1
 			var card = PanelContainer.new()
-			var card_vbox = VBoxContainer.new()
-			card_vbox.add_theme_constant_override("separation", 4)
+			card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			
-			# Row 1: Map Name + Street + Enter Button
+			var card_vbox = VBoxContainer.new()
+			card_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			card_vbox.add_theme_constant_override("separation", 3)
+			
+			# Row 1: Title (left, expand) + Enter Button (right, fixed)
 			var row1 = HBoxContainer.new()
+			row1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			
 			var map_title = Label.new()
-			map_title.text = "📍 %s" % m_name
+			map_title.text = "📍 %s  [%s]" % [m_name, s_name]
 			map_title.add_theme_font_size_override("font_size", 14)
 			map_title.modulate = Color.GOLD
+			map_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			map_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			row1.add_child(map_title)
-			
-			var loc_lbl = Label.new()
-			loc_lbl.text = "  [%s]" % s_name
-			loc_lbl.add_theme_font_size_override("font_size", 11)
-			loc_lbl.modulate = Color(0.7, 0.7, 0.8)
-			row1.add_child(loc_lbl)
-			
-			var card_sp = Control.new()
-			card_sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			row1.add_child(card_sp)
 			
 			var enter_btn = Button.new()
 			enter_btn.text = "⚡ 進入地圖"
-			enter_btn.custom_minimum_size = Vector2(100, 26)
+			enter_btn.custom_minimum_size = Vector2(110, 28)
 			enter_btn.modulate = Color(0.3, 1.0, 0.5)
 			var target_id = m.get("id", "100000000")
 			enter_btn.pressed.connect(func():
@@ -996,27 +995,36 @@ func render_tabbed_map_browser(selected_region_id: String):
 			row1.add_child(enter_btn)
 			card_vbox.add_child(row1)
 			
-			# Row 2: Monsters & Portals Info
-			var row2 = HBoxContainer.new()
+			# Row 2: Monsters info (Full width)
 			var mob_lbl = Label.new()
 			mob_lbl.text = "👾 出沒怪物: %s" % mob_display
 			mob_lbl.add_theme_font_size_override("font_size", 11)
 			mob_lbl.modulate = Color(1.0, 0.85, 0.6)
 			mob_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			mob_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			row2.add_child(mob_lbl)
+			card_vbox.add_child(mob_lbl)
 			
+			# Row 3: Portals info (Full width, formatted)
 			if not portals.is_empty():
 				var portal_lbl = Label.new()
 				var p_names = []
 				for p in portals:
-					p_names.append(p.get("title", "傳送點"))
-				portal_lbl.text = "🚪 通往: %s" % "、".join(p_names)
+					var p_title = p.get("title", "傳送點")
+					if p_title.begins_with("前往"):
+						p_title = p_title.substr(2)
+					p_names.append(p_title)
+				var p_summary = ""
+				if p_names.size() > 4:
+					p_summary = "、".join(p_names.slice(0, 4)) + " 等共 %d 個傳送點" % p_names.size()
+				else:
+					p_summary = "、".join(p_names)
+				portal_lbl.text = "🚪 連接: %s" % p_summary
 				portal_lbl.add_theme_font_size_override("font_size", 10)
 				portal_lbl.modulate = Color(0.5, 0.8, 1.0)
-				row2.add_child(portal_lbl)
+				portal_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				portal_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+				card_vbox.add_child(portal_lbl)
 				
-			card_vbox.add_child(row2)
 			card.add_child(card_vbox)
 			list_vbox.add_child(card)
 			

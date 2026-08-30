@@ -65,9 +65,9 @@ static func spawn_monster_drops(parent: Node, spawn_pos: Vector2, monster_data: 
 	}, Vector2(randf_range(20, 80), -180))
 
 static func generate_fallback_equipment(lvl: int, _mob_name: String) -> Dictionary:
-	var weapons = ["雙手劍", "精鋼短刀", "獵人之弓", "幻影法杖", "雷電手甲", "雙管短槍", "鋼鐵戰錘"]
-	var armors = ["頭盔", "戰甲", "長袍", "皮靴", "護手", "木盾"]
-	var is_wp = randf() < 0.6
+	var weapons = ["雙手劍", "精鋼短刀", "獵人之弓", "幻影法杖", "拳套", "雙管短槍", "鋼鐵戰錘"]
+	var armors = ["頭盔", "頭巾", "套服", "戰甲", "長袍", "皮靴", "長靴", "手套", "護手", "護腕", "木盾", "精靈披風"]
+	var is_wp = randf() < 0.45
 	var item_base = weapons[randi() % weapons.size()] if is_wp else armors[randi() % armors.size()]
 	var prefix = "初心者" if lvl < 15 else ("青銅" if lvl < 35 else ("鋼鐵" if lvl < 65 else ("精靈" if lvl < 90 else "傳奇神聖")))
 	return {

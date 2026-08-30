@@ -294,17 +294,17 @@ func build_equipment_stats(base_item: Dictionary) -> Dictionary:
 	
 	# Determine slot
 	var slot = "weapon"
-	if "帽" in name or "頭巾" in name or "頭盔" in name:
+	if "帽" in name or "頭巾" in name or "頭盔" in name or "帽子" in name or "羽冠" in name:
 		slot = "hat"
-	elif "服" in name or "衣" in name or "袍" in name or "甲" in name or "褲" in name or "裙" in name:
+	elif "套服" in name or "長袍" in name or "鎧甲" in name or "戰甲" in name or "衣服" in name or "上衣" in name or "褲" in name or "裙" in name or "袍" in name or "甲" in name:
 		slot = "overall"
-	elif "手套" in name or "護腕" in name or "拳套" in name and not ("手甲" in name or "爪" in name):
+	elif "手套" in name or "護手" in name or "護腕" in name or "指套" in name or "皮手套" in name or "鐵手套" in name:
 		slot = "gloves"
-	elif "鞋" in name or "靴" in name:
+	elif "鞋" in name or "靴" in name or "長靴" in name or "皮靴" in name or "鐵鞋" in name:
 		slot = "shoes"
-	elif "盾" in name:
+	elif "盾" in name or "鍋蓋" in name:
 		slot = "shield"
-	elif "戒" in name or "項鍊" in name or "耳環" in name or "披風" in name or "眼罩" in name:
+	elif "戒" in name or "項鍊" in name or "耳環" in name or "披風" in name or "眼罩" in name or "腰帶" in name or "墜飾" in name:
 		slot = "accessory"
 	else:
 		slot = "weapon"
