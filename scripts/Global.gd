@@ -402,26 +402,32 @@ func recalculate_stats():
 	var total_int = stat_int + equip_bonus_int
 	var total_luk = stat_luk + equip_bonus_luk
 	
-	# Update Attack Power based on Job Primary & Secondary Stat formulas
+	# Base level attack scaling (Every level makes you noticeably stronger!)
+	var lvl_atk_bonus = player_level * 8
+	
+	# Update Attack Power based on Job Primary & Secondary Stat formulas (Infinitely scaling with AP & Equips!)
 	match player_job_id:
 		"warrior":
-			weapon_atk = int((total_str * 4.0 + total_dex) * 0.45) + equip_bonus_atk + 25
-			magic_atk = int(total_int * 1.5) + equip_bonus_magic_atk
+			weapon_atk = int((total_str * 4.2 + total_dex * 1.5) * 1.6) + int(equip_bonus_atk * 2.5) + lvl_atk_bonus + 45
+			magic_atk = int(total_int * 2.0) + equip_bonus_magic_atk
 		"archer":
-			weapon_atk = int((total_dex * 4.0 + total_str) * 0.45) + equip_bonus_atk + 25
-			magic_atk = int(total_int * 1.5) + equip_bonus_magic_atk
+			weapon_atk = int((total_dex * 4.4 + total_str * 1.3) * 1.6) + int(equip_bonus_atk * 2.5) + lvl_atk_bonus + 45
+			magic_atk = int(total_int * 2.0) + equip_bonus_magic_atk
 		"mage":
-			magic_atk = int((total_int * 4.0 + total_luk) * 0.50) + equip_bonus_magic_atk + 35
-			weapon_atk = int((total_str + total_dex) * 0.3) + equip_bonus_atk + 10
+			magic_atk = int((total_int * 4.5 + total_luk * 1.5) * 1.7) + int(equip_bonus_magic_atk * 2.8) + (player_level * 10) + 60
+			weapon_atk = int((total_str + total_dex) * 1.0) + equip_bonus_atk + 20
 		"rogue":
-			weapon_atk = int((total_luk * 4.0 + total_dex) * 0.48) + equip_bonus_atk + 28
-			magic_atk = int(total_int * 1.5) + equip_bonus_magic_atk
+			weapon_atk = int((total_luk * 4.6 + total_dex * 1.6) * 1.7) + int(equip_bonus_atk * 2.5) + lvl_atk_bonus + 50
+			magic_atk = int(total_int * 2.0) + equip_bonus_magic_atk
 		"pirate":
-			weapon_atk = int((total_str * 3.8 + total_dex) * 0.45) + equip_bonus_atk + 25
-			magic_atk = int(total_int * 1.5) + equip_bonus_magic_atk
+			weapon_atk = int((total_str * 4.2 + total_dex * 1.5) * 1.6) + int(equip_bonus_atk * 2.5) + lvl_atk_bonus + 45
+			magic_atk = int(total_int * 2.0) + equip_bonus_magic_atk
+		_:
+			weapon_atk = int((total_str * 3.0 + total_dex * 1.2) * 1.2) + equip_bonus_atk + lvl_atk_bonus + 30
+			magic_atk = int(total_int * 2.0) + equip_bonus_magic_atk
 			
 	player_speed = 250.0 + equip_bonus_speed + (50.0 if passive_buffs.get("speed_demon", false) else 0.0)
-	base_crit_rate = 0.15 + (float(total_luk) * 0.003) + passive_buffs.get("crit_rate_boost", 0.0)
+	base_crit_rate = clamp(0.15 + (float(total_luk) * 0.005) + passive_buffs.get("crit_rate_boost", 0.0), 0.15, 0.95)
 
 # =========================================================================
 # JOB & LEVELING SYSTEM
@@ -433,13 +439,15 @@ func set_player_job(job_id: String):
 	player_job_data = JobDatabase.JOBS[job_id]
 	
 	# Update Job Initial Base Attributes
-	stat_str = player_job_data.get("str", 15)
-	stat_dex = player_job_data.get("dex", 15)
-	stat_int = player_job_data.get("int", 15)
-	stat_luk = player_job_data.get("luk", 15)
-	player_max_hp = player_job_data.get("base_hp", 600) + (player_level - 1) * 75
+	var b_stats = player_job_data.get("base_stats", {})
+	stat_str = b_stats.get("str", player_job_data.get("str", 25))
+	stat_dex = b_stats.get("dex", player_job_data.get("dex", 15))
+	stat_int = b_stats.get("int", player_job_data.get("int", 10))
+	stat_luk = b_stats.get("luk", player_job_data.get("luk", 10))
+	
+	player_max_hp = b_stats.get("hp", player_job_data.get("base_hp", 650)) + (player_level - 1) * 80
 	player_hp = player_max_hp
-	player_max_mp = player_job_data.get("base_mp", 150) + (player_level - 1) * 35
+	player_max_mp = b_stats.get("mp", player_job_data.get("base_mp", 150)) + (player_level - 1) * 40
 	player_mp = player_max_mp
 	
 	recalculate_stats()
@@ -532,12 +540,12 @@ func remove_pet_from_inventory(index: int):
 func calculate_skill_damage(multiplier: float) -> Dictionary:
 	var base_dmg = float(weapon_atk) if player_job_id != "mage" else float(magic_atk)
 	var mastery_min = mastery
-	var rolled_mult = randf_range(mastery_min, 1.0)
+	var rolled_mult = randf_range(mastery_min, 1.05)
 	var is_crit = randf() < base_crit_rate
 	
 	var final_dmg = base_dmg * multiplier * rolled_mult * passive_buffs.get("bonus_damage_mult", 1.0)
 	if is_crit:
-		final_dmg *= 1.5
+		final_dmg *= randf_range(2.0, 2.5) # 200% ~ 250% Critical Strike
 		
 	return {
 		"damage": max(1, int(final_dmg)),
