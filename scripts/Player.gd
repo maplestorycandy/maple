@@ -309,11 +309,11 @@ func perform_job_skill(skill_data: Dictionary, skill_key: String):
 
 func execute_melee_cone_damage(multiplier: float, hits: int, radius: float):
 	var enemies = get_tree().get_nodes_in_group("enemies")
-	var hit_center = global_position + Vector2(facing_direction * 45, -20)
+	var hit_center = global_position + Vector2(facing_direction * 50, -20)
 	
 	for e in enemies:
 		if is_instance_valid(e) and not e.is_queued_for_deletion():
-			if hit_center.distance_to(e.global_position) <= radius:
+			if hit_center.distance_to(e.global_position) <= radius or global_position.distance_to(e.global_position) <= (radius + 30.0):
 				apply_multi_hit_damage(e, multiplier, hits)
 
 func execute_screen_warrior(multiplier: float, hits: int):

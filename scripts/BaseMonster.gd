@@ -254,7 +254,8 @@ func take_damage_custom(amount: int, is_crit: bool = false, hit_index: int = 0):
 	else:
 		take_damage_authoritative(amount, is_crit, hit_index)
 
-func take_damage(amount: int, is_crit: bool = false):
+func take_damage(amount: int, is_crit: bool = false, hit_index: int = 0):
+	take_damage_custom(amount, is_crit, hit_index)
 	take_damage_custom(amount, is_crit, 0)
 
 func take_damage_authoritative(amount: int, is_crit: bool = false, hit_index: int = 0):

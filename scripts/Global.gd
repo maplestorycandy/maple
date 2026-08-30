@@ -576,6 +576,28 @@ func level_up():
 		emit_signal("skill_draft_requested", cards)
 
 
+
+func calculate_player_damage(skill_multiplier: float = 1.0) -> Dictionary:
+	var base_atk = magic_atk if player_job_id in ["magician", "mage"] else weapon_atk
+	var effective_mastery = clamp(mastery + passive_buffs.get("mastery_boost", 0.0), 0.50, 0.95)
+	var min_atk = int(base_atk * effective_mastery)
+	var max_atk = max(min_atk + 1, base_atk)
+	var raw_damage = randi_range(min_atk, max_atk)
+	
+	# Apply skill multiplier & passive multipliers
+	var total_dmg = float(raw_damage) * skill_multiplier * passive_buffs.get("bonus_damage_mult", 1.0)
+	
+	# Check crit
+	var is_crit = randf() < base_crit_rate
+	if is_crit:
+		var crit_mult = 1.5 + passive_buffs.get("crit_dmg_mult", 0.0)
+		total_dmg *= crit_mult
+		
+	return {
+		"damage": max(1, int(total_dmg)),
+		"is_crit": is_crit
+	}
+
 func damage_player(amount: int):
 	if is_game_over:
 		return
