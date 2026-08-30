@@ -1,5 +1,5 @@
 # DropItemManager.gd
-# 依據 BoBo 資料庫 100% 參照掉落物生成 (保證每隻怪物必定掉落楓幣、極品裝備、消耗藥水與戰利品)
+# 100% 正版 BoBo 掉落保證：每隻怪物擊殺必定噴出【楓幣 + 專屬裝備 + 消耗藥水 + 戰利品材料】大爆裝！
 extends Node
 
 static var drop_scene = preload("res://scenes/entities/DropItem.tscn")
@@ -17,75 +17,70 @@ static func spawn_monster_drops(parent: Node, spawn_pos: Vector2, monster_data: 
 	var con_list = drops.get("consumables", [])
 	var mat_list = drops.get("materials", [])
 	
-	# 1. 楓幣金幣袋 (100% 必爆)
-	var meso_val = max(20, int(monster_data.get("exp", 25) * randf_range(1.2, 2.5)))
+	# 1. 楓幣金幣袋 (100% 必定掉落)
+	var meso_val = max(30, int(monster_data.get("exp", 25) * randf_range(1.5, 3.0)))
 	spawn_single_drop(parent, spawn_pos, {
 		"name": "%d 楓幣" % meso_val,
 		"type": "meso",
 		"meso_amount": meso_val
-	})
+	}, Vector2(randf_range(-40, 40), -160))
 	
-	# 2. 材料 / 戰利品 (90% 機率)
-	if not mat_list.is_empty():
-		var mat = mat_list[randi() % mat_list.size()]
-		spawn_single_drop(parent, spawn_pos + Vector2(randf_range(-20, 20), -10), {
-			"name": mat.get("name", "%s的戰利品" % mob_name),
-			"type": "material"
-		})
-	else:
-		spawn_single_drop(parent, spawn_pos + Vector2(randf_range(-20, 20), -10), {
-			"name": "%s的戰利品" % mob_name,
-			"type": "material"
-		})
-		
-	# 3. 消耗品 / 藥水 (70% 機率)
-	if not con_list.is_empty() and randf() < 0.70:
-		var con = con_list[randi() % con_list.size()]
-		spawn_single_drop(parent, spawn_pos + Vector2(randf_range(-35, 35), -15), {
-			"name": con.get("name", "紅色藥水" if mob_lvl < 30 else "白色藥水"),
-			"type": "consumable"
-		})
-	elif randf() < 0.50:
-		var pot_name = "紅色藥水" if mob_lvl < 25 else ("白色藥水" if mob_lvl < 60 else "特殊藥水")
-		spawn_single_drop(parent, spawn_pos + Vector2(randf_range(-35, 35), -15), {
-			"name": pot_name,
-			"type": "consumable"
-		})
-		
-	# 4. 裝備掉落 (普通怪 55% 機率，BOSS 100% 爆 2~4 件神裝)
-	var eq_count = randi_range(2, 4) if is_boss else (1 if randf() < 0.55 else 0)
-	
+	# 2. 裝備掉落 (100% 必定掉落，BOSS 掉落 3~5 件神裝！)
+	var eq_count = randi_range(3, 5) if is_boss else 1
 	for i in range(eq_count):
 		var eq_item = null
 		if not eq_list.is_empty():
 			eq_item = eq_list[randi() % eq_list.size()]
 		else:
-			# Fallback generate authentic level equipment
 			eq_item = generate_fallback_equipment(mob_lvl, mob_name)
 			
-		if eq_item:
-			spawn_single_drop(parent, spawn_pos + Vector2(randf_range(-50, 50), -20), {
-				"name": eq_item.get("name", "稀有裝備"),
-				"type": "equipment",
-				"req_lvl": eq_item.get("req_lvl", mob_lvl),
-				"job": eq_item.get("job", "")
-			})
+		var vel_x = randf_range(-110, 110)
+		spawn_single_drop(parent, spawn_pos, {
+			"name": eq_item.get("name", "稀有裝備"),
+			"type": "equipment",
+			"req_lvl": eq_item.get("req_lvl", mob_lvl),
+			"job": eq_item.get("job", "")
+		}, Vector2(vel_x, randf_range(-200, -150)))
+		
+	# 3. 消耗品 / 藥水 (100% 必定掉落)
+	var pot_name = "紅色藥水"
+	if not con_list.is_empty():
+		pot_name = con_list[randi() % con_list.size()].get("name", "紅色藥水")
+	else:
+		pot_name = "紅色藥水" if mob_lvl < 25 else ("白色藥水" if mob_lvl < 60 else "超級藥水")
+		
+	spawn_single_drop(parent, spawn_pos, {
+		"name": pot_name,
+		"type": "consumable"
+	}, Vector2(randf_range(-80, -20), -180))
+	
+	# 4. 材料 / 怪物戰利品 (100% 必定掉落)
+	var mat_name = "%s的戰利品" % mob_name
+	if not mat_list.is_empty():
+		mat_name = mat_list[randi() % mat_list.size()].get("name", mat_name)
+		
+	spawn_single_drop(parent, spawn_pos, {
+		"name": mat_name,
+		"type": "material"
+	}, Vector2(randf_range(20, 80), -180))
 
 static func generate_fallback_equipment(lvl: int, _mob_name: String) -> Dictionary:
-	var weapons = ["雙手劍", "長弓", "法杖", "拳套", "短槍", "戰錘"]
-	var w_name = weapons[randi() % weapons.size()]
-	var prefix = "初級" if lvl < 20 else ("青銅" if lvl < 40 else ("鋼鐵" if lvl < 70 else "神聖黃金"))
+	var weapons = ["雙手劍", "精鋼短刀", "獵人之弓", "幻影法杖", "雷電手甲", "雙管短槍", "鋼鐵戰錘"]
+	var armors = ["頭盔", "戰甲", "長袍", "皮靴", "護手", "木盾"]
+	var is_wp = randf() < 0.6
+	var item_base = weapons[randi() % weapons.size()] if is_wp else armors[randi() % armors.size()]
+	var prefix = "初心者" if lvl < 15 else ("青銅" if lvl < 35 else ("鋼鐵" if lvl < 65 else ("精靈" if lvl < 90 else "傳奇神聖")))
 	return {
-		"name": "%s%s" % [prefix, w_name],
+		"name": "%s%s" % [prefix, item_base],
 		"req_lvl": max(1, lvl),
 		"job": "全職業"
 	}
 
-static func spawn_single_drop(parent: Node, pos: Vector2, item_data: Dictionary):
+static func spawn_single_drop(parent: Node, pos: Vector2, item_data: Dictionary, initial_vel: Vector2 = Vector2.ZERO):
 	if not drop_scene:
 		drop_scene = load("res://scenes/entities/DropItem.tscn")
 	var item = drop_scene.instantiate()
-	item.setup(item_data, pos)
+	item.setup(item_data, pos, initial_vel)
 	if is_instance_valid(parent):
 		parent.add_child.call_deferred(item)
 	else:

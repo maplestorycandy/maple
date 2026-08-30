@@ -18,8 +18,15 @@ var skill_2_cd: float = 0.0
 var skill_3_cd: float = 0.0
 var net_sync_timer: float = 0.0
 
+# Down-jump mechanics
+var is_down_jumping: bool = false
+var down_jump_timer: float = 0.0
+
 func _ready():
 	add_to_group("player")
+	collision_layer = 1
+	collision_mask = 3 # Layer 1 (Ground) & Layer 2 (One-way Platforms)
+	
 	Global.player_hp_changed.connect(_on_hp_changed)
 	Global.player_job_changed.connect(_on_job_changed)
 	Global.pet_summoned.connect(_on_pet_summoned)
@@ -33,6 +40,13 @@ func _physics_process(delta):
 	
 	if hurt_flash > 0.0:
 		hurt_flash -= delta * 4.0
+		
+	# Down jump timer recovery
+	if is_down_jumping:
+		down_jump_timer -= delta
+		if down_jump_timer <= 0:
+			is_down_jumping = false
+			set_collision_mask_value(2, true) # Re-enable one-way platforms
 		
 	# Cooldown timers
 	if skill_1_cd > 0: skill_1_cd -= delta
@@ -74,12 +88,17 @@ func handle_input(delta):
 		
 	# Jump & Down-jump & Flash Jump
 	if Input.is_action_just_pressed("jump"):
-		if Input.is_action_pressed("move_down") and is_on_floor() and position.y < 370:
-			position.y += 6.0
-			velocity.y = 120.0
+		var is_down = Input.is_action_pressed("move_down") or Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S)
+		if is_down and is_on_floor() and position.y < 350:
+			# Seamless MapleStory Down-Jump: Temporarily drop through platform
+			is_down_jumping = true
+			down_jump_timer = 0.22
+			set_collision_mask_value(2, false) # Drop through Layer 2 platforms
+			position.y += 12.0
+			velocity.y = 220.0
 		elif is_on_floor():
 			velocity.y = jump_velocity
-		elif flash_jump_available and Input.is_action_just_pressed("jump"):
+		elif flash_jump_available:
 			flash_jump_available = false
 			velocity.x = facing_direction * Global.player_speed * 2.2
 			velocity.y = jump_velocity * 0.75

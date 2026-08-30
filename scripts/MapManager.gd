@@ -222,7 +222,11 @@ func create_static_collider(rect: Rect2, is_one_way: bool):
 	col.shape = shape
 	if is_one_way:
 		col.one_way_collision = true
-		col.one_way_collision_margin = 8.0
+		col.one_way_collision_margin = 12.0
+		body.collision_layer = 2 # One-way platform layer
+		body.add_to_group("one_way_platforms")
+	else:
+		body.collision_layer = 1 # Solid ground layer
 	
 	body.add_child(col)
 	dynamic_platforms_node.add_child(body)
