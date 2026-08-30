@@ -23,6 +23,18 @@ signal map_change_requested(map_id: String)
 signal skill_draft_requested(cards: Array)
 signal keybindings_changed()
 signal active_skills_updated()
+signal skill_slots_changed()
+signal player_cast_skill_requested(skill_id: String)
+
+var equipped_skill_slots: Dictionary = {
+	"slot_1": "skill_1",
+	"slot_2": "skill_2",
+	"slot_3": "skill_3",
+	"slot_4": "skill_4",
+	"slot_5": "skill_5",
+	"slot_6": "skill_6",
+	"ultimate": "ultimate"
+}
 
 # Job & Character Stats
 var player_job_id: String = "warrior"
@@ -837,6 +849,17 @@ func set_player_job(job_id: String):
 	emit_signal("player_mp_changed", player_mp, player_max_mp)
 	emit_signal("player_sp_changed", available_sp)
 	emit_signal("player_stats_changed")
+
+func equip_skill_to_slot(slot_name: String, skill_id: String):
+	equipped_skill_slots[slot_name] = skill_id
+	emit_signal("skill_slots_changed")
+	var s_data = player_job_data.get("skills", {}).get(skill_id, {})
+	var s_name = s_data.get("name", skill_id)
+	var slot_display = slot_name.replace("slot_1", "快捷鍵 1 (Z)").replace("slot_2", "快捷鍵 2 (C)").replace("slot_3", "快捷鍵 3 (V)").replace("slot_4", "快捷鍵 4 (A)").replace("slot_5", "快捷鍵 5 (S)").replace("slot_6", "快捷鍵 6 (D)").replace("ultimate", "奧義鍵 (F)")
+	broadcast_message("⚡ 已將【%s】配置到【%s】！" % [s_name, slot_display], Color(0.3, 0.9, 1.0))
+
+func request_cast_skill(skill_id: String):
+	emit_signal("player_cast_skill_requested", skill_id)
 
 func get_skill_level(skill_id: String) -> int:
 	return player_skill_levels.get(skill_id, 1)

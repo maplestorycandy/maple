@@ -31,6 +31,8 @@ var net_sync_timer: float = 0.0
 var is_down_jumping: bool = false
 var down_jump_timer: float = 0.0
 
+var skill_cooldowns: Dictionary = {}
+
 func _ready():
 	add_to_group("player")
 	collision_layer = 1
@@ -40,6 +42,7 @@ func _ready():
 	Global.player_job_changed.connect(_on_job_changed)
 	Global.pet_summoned.connect(_on_pet_summoned)
 	Global.pet_unsummoned.connect(_on_pet_unsummoned)
+	Global.player_cast_skill_requested.connect(func(sid): trigger_custom_action(sid))
 	
 	if not Global.pet_inventory.is_empty():
 		Global.select_active_pet(0)
@@ -72,14 +75,16 @@ func _input(event: InputEvent):
 			if not matched:
 				if code == KEY_SPACE or code == KEY_ALT:
 					do_jump()
-				elif code == KEY_Z or code == KEY_CTRL:
+				elif code == KEY_X or code == KEY_CTRL:
 					trigger_custom_action("attack")
-				elif code == KEY_X:
+				elif code == KEY_Z:
 					trigger_custom_action("skill_1")
 				elif code == KEY_C:
 					trigger_custom_action("skill_2")
 				elif code == KEY_V:
 					trigger_custom_action("skill_3")
+				elif code == KEY_F:
+					trigger_custom_action("ultimate")
 
 func _physics_process(delta):
 	anim_frame += delta * 8.0
@@ -94,7 +99,11 @@ func _physics_process(delta):
 			is_down_jumping = false
 			set_collision_mask_value(2, true) # Re-enable one-way platforms
 		
-	# Cooldown timers
+	# Dynamic Cooldown Timers
+	for k in skill_cooldowns.keys():
+		if skill_cooldowns[k] > 0.0:
+			skill_cooldowns[k] = max(0.0, skill_cooldowns[k] - delta)
+			
 	skill_1_cd = max(0.0, skill_1_cd - delta)
 	skill_2_cd = max(0.0, skill_2_cd - delta)
 	skill_3_cd = max(0.0, skill_3_cd - delta)
@@ -188,62 +197,62 @@ func spawn_skill_visual(effect_type: String, target_pos: Vector2, facing: int = 
 func trigger_custom_action(action_name: String):
 	var cd_mult = (1.0 - Global.passive_buffs.get("cooldown_reduction", 0.0))
 	
-	match action_name:
-		"attack":
-			var s = Global.get_player_skill_stats("basic")
-			perform_job_skill(s, "basic")
-		"jump":
-			do_jump()
-		"skill_1":
-			if skill_1_cd <= 0:
-				var s = Global.get_player_skill_stats("skill_1")
-				if consume_mp(s.get("mp", 0)):
-					skill_1_cd = s.get("cd", 1.0) * cd_mult
-					perform_job_skill(s, "skill_1")
-		"skill_2":
-			if skill_2_cd <= 0:
-				var s = Global.get_player_skill_stats("skill_2")
-				if consume_mp(s.get("mp", 0)):
-					skill_2_cd = s.get("cd", 1.5) * cd_mult
-					perform_job_skill(s, "skill_2")
-		"skill_3":
-			if skill_3_cd <= 0:
-				var s = Global.get_player_skill_stats("skill_3")
-				if consume_mp(s.get("mp", 0)):
-					skill_3_cd = s.get("cd", 2.0) * cd_mult
-					perform_job_skill(s, "skill_3")
-		"skill_4":
-			if skill_4_cd <= 0 and ("skill_4" in Global.unlocked_skills or Global.player_level >= 10):
-				var s = Global.get_player_skill_stats("skill_4")
-				if consume_mp(s.get("mp", 0)):
-					skill_4_cd = s.get("cd", 3.0) * cd_mult
-					perform_job_skill(s, "skill_4")
-		"skill_5":
-			if skill_5_cd <= 0 and ("skill_5" in Global.unlocked_skills or Global.player_level >= 20):
-				var s = Global.get_player_skill_stats("skill_5")
-				if consume_mp(s.get("mp", 0)):
-					skill_5_cd = s.get("cd", 4.0) * cd_mult
-					perform_job_skill(s, "skill_5")
-		"skill_6":
-			if skill_6_cd <= 0 and ("skill_6" in Global.unlocked_skills or Global.player_level >= 30):
-				var s = Global.get_player_skill_stats("skill_6")
-				if consume_mp(s.get("mp", 0)):
-					skill_6_cd = s.get("cd", 5.0) * cd_mult
-					perform_job_skill(s, "skill_6")
-		"ultimate":
-			if ultimate_cd <= 0 and ("ultimate" in Global.unlocked_skills or Global.player_level >= 40):
-				var s = Global.get_player_skill_stats("ultimate")
-				if consume_mp(s.get("mp", 0)):
-					ultimate_cd = s.get("cd", 10.0) * cd_mult
-					perform_job_skill(s, "ultimate")
-		"potion_hp":
-			use_quick_potion("hp")
-		"potion_mp":
-			use_quick_potion("mp")
-		"tame_monster":
-			attempt_tame_nearby_monster()
-		"summon_pet":
-			toggle_pet_summon()
+	if action_name == "attack":
+		var s = Global.get_player_skill_stats("basic")
+		perform_job_skill(s, "basic")
+		return
+	elif action_name == "jump":
+		do_jump()
+		return
+	elif action_name == "potion_hp":
+		use_quick_potion("hp")
+		return
+	elif action_name == "potion_mp":
+		use_quick_potion("mp")
+		return
+	elif action_name == "tame_monster" or action_name == "capture":
+		attempt_tame_nearby_monster()
+		return
+	elif action_name == "summon_pet":
+		toggle_pet_summon()
+		return
+		
+	# Determine target skill ID from slot mappings or raw skill key
+	var target_skill = action_name
+	if action_name == "skill_1" or action_name == "slot_1":
+		target_skill = Global.equipped_skill_slots.get("slot_1", "skill_1")
+	elif action_name == "skill_2" or action_name == "slot_2":
+		target_skill = Global.equipped_skill_slots.get("slot_2", "skill_2")
+	elif action_name == "skill_3" or action_name == "slot_3":
+		target_skill = Global.equipped_skill_slots.get("slot_3", "skill_3")
+	elif action_name == "skill_4" or action_name == "slot_4":
+		target_skill = Global.equipped_skill_slots.get("slot_4", "skill_4")
+	elif action_name == "skill_5" or action_name == "slot_5":
+		target_skill = Global.equipped_skill_slots.get("slot_5", "skill_5")
+	elif action_name == "skill_6" or action_name == "slot_6":
+		target_skill = Global.equipped_skill_slots.get("slot_6", "skill_6")
+	elif action_name == "ultimate":
+		target_skill = Global.equipped_skill_slots.get("ultimate", "ultimate")
+		
+	# Check Cooldown
+	var cur_cd = skill_cooldowns.get(target_skill, 0.0)
+	if cur_cd > 0.0:
+		return
+		
+	var s = Global.get_player_skill_stats(target_skill)
+	if s.is_empty():
+		var job_s = Global.player_job_data.get("skills", {})
+		if job_s.has(target_skill):
+			s = job_s[target_skill]
+			
+	if s.is_empty():
+		return
+		
+	var req_mp = s.get("mp", 0)
+	if consume_mp(req_mp):
+		var base_cd = s.get("cd", 1.0)
+		skill_cooldowns[target_skill] = base_cd * cd_mult
+		perform_job_skill(s, target_skill)
 
 func use_quick_potion(type: String):
 	for i in range(Global.use_inventory.size()):

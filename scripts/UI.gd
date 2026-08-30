@@ -196,6 +196,39 @@ func setup_touch_controls():
 	var top_nav = tc.get_node_or_null("TopMenuBar")
 	if top_nav:
 		top_nav.visible = false
+		
+	Global.skill_slots_changed.connect(update_touch_skill_labels)
+	Global.player_job_changed.connect(func(_j): update_touch_skill_labels())
+	update_touch_skill_labels()
+
+func update_touch_skill_labels():
+	var tc = get_node_or_null("HUD/TouchControls")
+	if not is_instance_valid(tc):
+		return
+		
+	var btn1 = tc.get_node_or_null("RightPad/BtnSkill1")
+	var btn2 = tc.get_node_or_null("RightPad/BtnSkill2")
+	var btn3 = tc.get_node_or_null("RightPad/BtnSkill3")
+	
+	var job_skills = Global.player_job_data.get("skills", {})
+	
+	if is_instance_valid(btn1):
+		var s1_id = Global.equipped_skill_slots.get("slot_1", "skill_1")
+		var s1 = job_skills.get(s1_id, {})
+		var n1 = s1.get("name", "一轉")
+		btn1.text = "%s\n(Z)" % n1.substr(0, 4)
+		
+	if is_instance_valid(btn2):
+		var s2_id = Global.equipped_skill_slots.get("slot_2", "skill_2")
+		var s2 = job_skills.get(s2_id, {})
+		var n2 = s2.get("name", "二轉")
+		btn2.text = "%s\n(C)" % n2.substr(0, 4)
+		
+	if is_instance_valid(btn3):
+		var s3_id = Global.equipped_skill_slots.get("slot_3", "skill_3")
+		var s3 = job_skills.get(s3_id, {})
+		var n3 = s3.get("name", "奧義")
+		btn3.text = "%s\n(V)" % n3.substr(0, 4)
 
 func bind_hold_button(btn: Button, action: String):
 	if not is_instance_valid(btn):
@@ -714,9 +747,16 @@ func refresh_skill_modal():
 		var card_hbox = HBoxContainer.new()
 		card_hbox.add_theme_constant_override("separation", 12)
 		
-		# Left: Icon & Name & Level
+		# Check which slots this skill is equipped to
+		var equipped_slots = []
+		for slot_k in Global.equipped_skill_slots.keys():
+			if Global.equipped_skill_slots[slot_k] == s_key:
+				var slot_str = slot_k.replace("slot_1", "快捷 1 (Z)").replace("slot_2", "快捷 2 (C)").replace("slot_3", "快捷 3 (V)").replace("slot_4", "快捷 4 (A)").replace("slot_5", "快捷 5 (S)").replace("slot_6", "快捷 6 (D)").replace("ultimate", "奧義 (F)")
+				equipped_slots.append(slot_str)
+				
+		# Left: Icon & Name & Level & Equipped Tag
 		var left_vbox = VBoxContainer.new()
-		left_vbox.custom_minimum_size = Vector2(170, 0)
+		left_vbox.custom_minimum_size = Vector2(175, 0)
 		
 		var s_name_lbl = Label.new()
 		s_name_lbl.text = "%s %s" % [s_data.get("icon", "⚔️"), s_data.get("name", "")]
@@ -729,6 +769,14 @@ func refresh_skill_modal():
 		s_lvl_lbl.add_theme_font_size_override("font_size", 12)
 		s_lvl_lbl.modulate = Color.GOLD if is_max else Color(0.3, 1.0, 0.5)
 		left_vbox.add_child(s_lvl_lbl)
+		
+		if not equipped_slots.is_empty():
+			var eq_lbl = Label.new()
+			eq_lbl.text = "⚡ %s" % "、".join(equipped_slots)
+			eq_lbl.add_theme_font_size_override("font_size", 11)
+			eq_lbl.modulate = Color(1.0, 0.75, 0.2)
+			left_vbox.add_child(eq_lbl)
+			
 		card_hbox.add_child(left_vbox)
 		
 		# Middle: Description and Stats
@@ -763,20 +811,58 @@ func refresh_skill_modal():
 			
 		card_hbox.add_child(mid_vbox)
 		
-		# Right: Upgrade Buttons
+		# Right: Action Buttons (Cast, Equip Slot, Upgrade)
 		var right_vbox = VBoxContainer.new()
 		right_vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-		right_vbox.add_theme_constant_override("separation", 4)
+		right_vbox.add_theme_constant_override("separation", 3)
+		
+		# Direct Cast Button
+		var cast_btn = Button.new()
+		cast_btn.text = "⚡ 立即施放"
+		cast_btn.custom_minimum_size = Vector2(110, 24)
+		cast_btn.modulate = Color(0.5, 0.95, 1.0)
+		cast_btn.pressed.connect(func():
+			Global.request_cast_skill(s_key)
+		)
+		right_vbox.add_child(cast_btn)
+		
+		# Slot Selection Dropdown
+		var opt_btn = OptionButton.new()
+		opt_btn.custom_minimum_size = Vector2(110, 24)
+		opt_btn.add_item("⚙️ 配置至快捷鍵...")
+		opt_btn.add_item("配置至 快捷 1 (Z)", 1)
+		opt_btn.add_item("配置至 快捷 2 (C)", 2)
+		opt_btn.add_item("配置至 快捷 3 (V)", 3)
+		opt_btn.add_item("配置至 快捷 4 (A)", 4)
+		opt_btn.add_item("配置至 快捷 5 (S)", 5)
+		opt_btn.add_item("配置至 快捷 6 (D)", 6)
+		opt_btn.add_item("配置至 奧義 (F)", 7)
+		opt_btn.item_selected.connect(func(idx):
+			if idx == 1: Global.equip_skill_to_slot("slot_1", s_key)
+			elif idx == 2: Global.equip_skill_to_slot("slot_2", s_key)
+			elif idx == 3: Global.equip_skill_to_slot("slot_3", s_key)
+			elif idx == 4: Global.equip_skill_to_slot("slot_4", s_key)
+			elif idx == 5: Global.equip_skill_to_slot("slot_5", s_key)
+			elif idx == 6: Global.equip_skill_to_slot("slot_6", s_key)
+			elif idx == 7: Global.equip_skill_to_slot("ultimate", s_key)
+			refresh_skill_modal()
+		)
+		right_vbox.add_child(opt_btn)
+		
+		# SP Upgrade Buttons
+		var sp_btn_hbox = HBoxContainer.new()
+		sp_btn_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+		sp_btn_hbox.add_theme_constant_override("separation", 4)
 		
 		var add1_btn = Button.new()
 		add1_btn.text = " ＋1 "
-		add1_btn.custom_minimum_size = Vector2(54, 26)
+		add1_btn.custom_minimum_size = Vector2(52, 24)
 		add1_btn.disabled = (Global.available_sp < 1 or is_max)
 		add1_btn.pressed.connect(func():
 			Global.allocate_sp(s_key, 1)
 			refresh_skill_modal()
 		)
-		right_vbox.add_child(add1_btn)
+		sp_btn_hbox.add_child(add1_btn)
 		
 		var max_btn = Button.new()
 		max_btn.text = " ＋MAX "
@@ -786,7 +872,8 @@ func refresh_skill_modal():
 			Global.allocate_sp(s_key, max_lvl - cur_lvl)
 			refresh_skill_modal()
 		)
-		right_vbox.add_child(max_btn)
+		sp_btn_hbox.add_child(max_btn)
+		right_vbox.add_child(sp_btn_hbox)
 		
 		card_hbox.add_child(right_vbox)
 		card.add_child(card_hbox)
