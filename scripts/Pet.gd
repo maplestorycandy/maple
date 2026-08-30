@@ -12,6 +12,7 @@ extends CharacterBody2D
 @export var sprite_path: String = ""
 
 var player_ref: CharacterBody2D = null
+var pet_id: int = 0
 var facing_direction: int = 1
 var attack_cooldown: float = 1.0
 var attack_timer: float = 0.0
@@ -34,7 +35,8 @@ func _ready():
 
 func setup_pet(data: Dictionary, player: CharacterBody2D):
 	player_ref = player
-	pet_name = data.get("name", "寵物")
+	pet_id = data.get("id", data.get("monster_id", 0))
+	pet_name = data.get("name", "寵物").replace(" (寵物)", "")
 	pet_type = data.get("type", "Normal")
 	max_hp = data.get("max_hp", 300)
 	hp = max_hp
@@ -59,14 +61,38 @@ func setup_visuals():
 		name_label.text = "★ %s" % pet_name
 		
 	has_sprite_texture = false
-	if sprite and sprite_path != "":
-		if ResourceLoader.exists(sprite_path):
-			var tex = load(sprite_path)
+	
+	# Determine monster ID
+	var mob_id = pet_id
+	if mob_id == 0:
+		var found_mob = MonsterDatabaseFull.get_monster_by_name(pet_name)
+		mob_id = found_mob.get("id", 0)
+		
+	var paths_to_try = [
+		sprite_path,
+		"res://assets/monsters/%d.png" % mob_id if mob_id > 0 else "",
+		"res://assets/monsters/%07d.png" % mob_id if mob_id > 0 else "",
+		"res://assets/monsters/%s.png" % str(mob_id) if mob_id > 0 else ""
+	]
+	
+	for p in paths_to_try:
+		if p != "" and ResourceLoader.exists(p):
+			var tex = load(p)
 			if tex:
+				if not sprite:
+					sprite = Sprite2D.new()
+					add_child(sprite)
 				sprite.texture = tex
 				has_sprite_texture = true
-				sprite.scale = Vector2(pet_scale, pet_scale)
+				var target_h = 45.0
+				var base_h = float(tex.get_height())
+				var auto_scale = (target_h / base_h) if base_h > 0 else 0.85
+				sprite.scale = Vector2(auto_scale * pet_scale, auto_scale * pet_scale)
+				sprite.position.y = -target_h * 0.5
 				sprite.visible = true
+				if name_label:
+					name_label.position.y = -target_h - 18
+				break
 				
 	if not has_sprite_texture and sprite:
 		sprite.visible = false

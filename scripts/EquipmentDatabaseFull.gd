@@ -4543,3 +4543,47 @@ static func get_equipment_by_name(eq_name: String) -> Dictionary:
 		if EQUIPMENTS[k].get("name", "") == eq_name:
 			return EQUIPMENTS[k]
 	return {}
+
+static func get_random_cape(target_lvl: int = 1) -> Dictionary:
+	var matches = []
+	for k in EQUIPMENTS.keys():
+		var eq = EQUIPMENTS[k]
+		var id_str = str(k)
+		var is_cape = id_str.begins_with("110") or eq.get("slot") == "cape" or "披風" in eq.get("name", "")
+		if is_cape:
+			var req = eq.get("req_lvl", 0)
+			if abs(req - target_lvl) <= 30 or matches.size() < 10:
+				matches.append(eq)
+	if not matches.is_empty():
+		return matches[randi() % matches.size()]
+	return {"id": 1102039, "name": "冒險家披風", "slot": "cape", "req_lvl": max(1, target_lvl), "wdef": 5, "mdef": 5}
+
+static func get_random_accessory(target_lvl: int = 1) -> Dictionary:
+	var matches = []
+	for k in EQUIPMENTS.keys():
+		var eq = EQUIPMENTS[k]
+		var id_str = str(k)
+		var is_acc = id_str.begins_with("101") or id_str.begins_with("102") or id_str.begins_with("103") or id_str.begins_with("111") or id_str.begins_with("112") or id_str.begins_with("113") or "耳環" in eq.get("name", "") or "戒指" in eq.get("name", "") or "項鍊" in eq.get("name", "") or "墜飾" in eq.get("name", "")
+		if is_acc:
+			var req = eq.get("req_lvl", 0)
+			if abs(req - target_lvl) <= 35 or matches.size() < 10:
+				matches.append(eq)
+	if not matches.is_empty():
+		return matches[randi() % matches.size()]
+	return {"id": 1032003, "name": "紫水晶耳環", "slot": "accessory", "req_lvl": max(1, target_lvl), "wdef": 5, "mdef": 10}
+
+static func get_random_shield(target_lvl: int = 1) -> Dictionary:
+	var matches = []
+	for k in EQUIPMENTS.keys():
+		var eq = EQUIPMENTS[k]
+		var id_str = str(k)
+		var is_shield = id_str.begins_with("109") or eq.get("slot") == "shield" or "盾" in eq.get("name", "") or "鍋蓋" in eq.get("name", "")
+		if is_shield:
+			var req = eq.get("req_lvl", 0)
+			if abs(req - target_lvl) <= 35 or matches.size() < 10:
+				matches.append(eq)
+	if not matches.is_empty():
+		return matches[randi() % matches.size()]
+	return {"id": 1092000, "name": "鍋蓋", "slot": "shield", "req_lvl": 10, "wdef": 10}
+
+

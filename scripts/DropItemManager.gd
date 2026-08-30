@@ -64,6 +64,29 @@ static func spawn_monster_drops(parent: Node, spawn_pos: Vector2, monster_data: 
 		var vel_x = randf_range(-110, 110)
 		spawn_single_drop(parent, spawn_pos, eq_drop_data, Vector2(vel_x, randf_range(-200, -150)))
 		
+	# 2.5 專屬【披風】、【飾品】、【盾牌】額外掉落 (BOSS 必定噴出，一般怪高機率掉落)
+	var drop_cape = is_boss or (randf() < 0.35)
+	var drop_acc = is_boss or (randf() < 0.35)
+	var drop_shield = is_boss or (randf() < 0.25)
+	
+	if drop_cape:
+		var cape_data = EquipmentDatabaseFull.get_random_cape(mob_lvl)
+		var cape_drop = cape_data.duplicate()
+		cape_drop["type"] = "equipment"
+		spawn_single_drop(parent, spawn_pos, cape_drop, Vector2(randf_range(-90, 90), randf_range(-210, -160)))
+		
+	if drop_acc:
+		var acc_data = EquipmentDatabaseFull.get_random_accessory(mob_lvl)
+		var acc_drop = acc_data.duplicate()
+		acc_drop["type"] = "equipment"
+		spawn_single_drop(parent, spawn_pos, acc_drop, Vector2(randf_range(-90, 90), randf_range(-210, -160)))
+		
+	if drop_shield:
+		var shield_data = EquipmentDatabaseFull.get_random_shield(mob_lvl)
+		var shield_drop = shield_data.duplicate()
+		shield_drop["type"] = "equipment"
+		spawn_single_drop(parent, spawn_pos, shield_drop, Vector2(randf_range(-90, 90), randf_range(-210, -160)))
+		
 	# 3. 消耗品 / 藥水 (100% 依官方掉落表)
 	var pot_drop_data = {}
 	if not official_uses.is_empty():

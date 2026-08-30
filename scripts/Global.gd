@@ -739,12 +739,33 @@ func use_consume_item(inv_index: int) -> bool:
 	emit_signal("quick_potions_updated")
 	return true
 
+func is_hp_potion(iname: String) -> bool:
+	if iname == quick_hp_potion_name:
+		return true
+	if "紅" in iname or "白" in iname or "HP" in iname or "蘋果" in iname or "熱狗" in iname or "鰻魚" in iname:
+		return true
+	if "超級藥水" in iname or "特殊藥水" in iname:
+		return true
+	return false
+
+func is_mp_potion(iname: String) -> bool:
+	if iname == quick_mp_potion_name:
+		return true
+	if "藍" in iname or "MP" in iname or "露" in iname or "清晨" in iname or "黃昏" in iname or "魔力" in iname:
+		return true
+	if "超級藥水" in iname or "特殊藥水" in iname:
+		return true
+	return false
+
 func get_quick_hp_potion_info() -> Dictionary:
 	var total = 0
 	var found_name = quick_hp_potion_name
 	for it in use_inventory:
 		var iname = it.get("name", "")
-		if iname == quick_hp_potion_name or ("紅" in iname or "白" in iname or "超級" in iname or "HP" in iname or "蘋果" in iname or "水" in iname):
+		# Exclude pure MP potions like 藍色藥水
+		if ("藍" in iname or "清晨之露" in iname or "黃昏之露" in iname) and not ("紅" in iname or "白" in iname or "超級" in iname):
+			continue
+		if is_hp_potion(iname):
 			total += it.get("count", 1)
 			if found_name == "":
 				found_name = iname
@@ -755,17 +776,31 @@ func get_quick_mp_potion_info() -> Dictionary:
 	var found_name = quick_mp_potion_name
 	for it in use_inventory:
 		var iname = it.get("name", "")
-		if iname == quick_mp_potion_name or ("藍" in iname or "超級" in iname or "MP" in iname or "特水" in iname or "水" in iname):
+		# Exclude pure HP potions like 紅色藥水, 白色藥水, 青蘋果
+		if ("紅" in iname or "白" in iname or "蘋果" in iname) and not ("藍" in iname or "超級" in iname):
+			continue
+		if is_mp_potion(iname):
 			total += it.get("count", 1)
 			if found_name == "":
 				found_name = iname
 	return {"name": found_name, "count": total}
 
 func use_quick_hp_potion() -> bool:
+	# 1. Look for preferred HP potion
 	for i in range(use_inventory.size()):
 		var it = use_inventory[i]
 		var iname = it.get("name", "")
-		if iname == quick_hp_potion_name or ("紅" in iname or "白" in iname or "超級" in iname or "HP" in iname or "蘋果" in iname or "水" in iname):
+		if iname == quick_hp_potion_name:
+			use_consume_item(i)
+			emit_signal("quick_potions_updated")
+			return true
+	# 2. Fallback to any other HP potion (excluding pure MP)
+	for i in range(use_inventory.size()):
+		var it = use_inventory[i]
+		var iname = it.get("name", "")
+		if ("藍" in iname or "清晨之露" in iname or "黃昏之露" in iname) and not ("紅" in iname or "白" in iname or "超級" in iname):
+			continue
+		if is_hp_potion(iname):
 			use_consume_item(i)
 			emit_signal("quick_potions_updated")
 			return true
@@ -773,10 +808,21 @@ func use_quick_hp_potion() -> bool:
 	return false
 
 func use_quick_mp_potion() -> bool:
+	# 1. Look for preferred MP potion
 	for i in range(use_inventory.size()):
 		var it = use_inventory[i]
 		var iname = it.get("name", "")
-		if iname == quick_mp_potion_name or ("藍" in iname or "超級" in iname or "MP" in iname or "特水" in iname or "水" in iname):
+		if iname == quick_mp_potion_name:
+			use_consume_item(i)
+			emit_signal("quick_potions_updated")
+			return true
+	# 2. Fallback to any other MP potion (excluding pure HP)
+	for i in range(use_inventory.size()):
+		var it = use_inventory[i]
+		var iname = it.get("name", "")
+		if ("紅" in iname or "白" in iname or "蘋果" in iname) and not ("藍" in iname or "超級" in iname):
+			continue
+		if is_mp_potion(iname):
 			use_consume_item(i)
 			emit_signal("quick_potions_updated")
 			return true
