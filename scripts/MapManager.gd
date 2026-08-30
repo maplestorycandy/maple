@@ -348,7 +348,7 @@ func spawn_wild_monster():
 		active_wild_monsters.append(mob)
 
 # =========================================================================
-# AUTHENTIC TERRAIN RENDERING (MATCHING USER'S SCREENSHOTS 100%)
+# AUTHENTIC TERRAIN RENDERING (100% FAITHFUL TO OFFICIAL MAPLESTORY SCREENSHOTS)
 # =========================================================================
 func _draw():
 	if not MapDatabase.MAPS.has(current_map_id):
@@ -369,128 +369,159 @@ func _draw():
 		_:
 			draw_henesys_field(map_info)
 
-# 1. 勇士之村斷崖峽谷 (Perion Canyon - media_1788065677610.jpg)
+# 1. 勇士之村與石巨人寺院 (Perion / Golem Temple - media_1788066772563.png & media_1788065677610.jpg)
 func draw_perion_canyon(_map_info: Dictionary):
-	var rock_col = Color(0.78, 0.52, 0.30)
-	var rock_dark = Color(0.55, 0.34, 0.18)
-	var rock_top = Color(0.92, 0.68, 0.42)
+	var stone_base = Color(0.72, 0.72, 0.70)
+	var stone_dark = Color(0.48, 0.48, 0.46)
+	var stone_moss = Color(0.35, 0.68, 0.25)
 	
-	# Left & Right Elevated Sandstone & Center Ravine
-	draw_rect(Rect2(Vector2(-1800, 340), Vector2(1000, 460)), rock_dark)
-	draw_rect(Rect2(Vector2(-1800, 335), Vector2(1000, 8)), rock_col)
+	# Canyon Ground & Temple Foundations
+	draw_rect(Rect2(Vector2(-1800, 340), Vector2(1000, 460)), stone_dark)
+	draw_rect(Rect2(Vector2(-1800, 335), Vector2(1000, 8)), stone_base)
+	draw_rect(Rect2(Vector2(-800, 400), Vector2(1600, 400)), stone_dark)
+	draw_rect(Rect2(Vector2(-800, 395), Vector2(1600, 8)), stone_base)
+	draw_rect(Rect2(Vector2(800, 340), Vector2(1000, 460)), stone_dark)
+	draw_rect(Rect2(Vector2(800, 335), Vector2(1000, 8)), stone_base)
 	
-	draw_rect(Rect2(Vector2(-800, 400), Vector2(1600, 400)), rock_dark)
-	draw_rect(Rect2(Vector2(-800, 395), Vector2(1600, 8)), rock_col)
-	
-	draw_rect(Rect2(Vector2(800, 340), Vector2(1000, 460)), rock_dark)
-	draw_rect(Rect2(Vector2(800, 335), Vector2(1000, 8)), rock_col)
-	
-	# Sandstone Cliffs Tiers (Tier 1, Tier 2, Tier 3)
+	# Temple Carved Stone Block Platforms
 	for p in active_platform_rects:
-		draw_rect(p, rock_col)
-		draw_rect(Rect2(Vector2(p.position.x, p.position.y), Vector2(p.size.x, 6)), rock_top)
-		# Support Rock Arches
-		for rx in range(int(p.position.x + 80), int(p.position.x + p.size.x - 40), 220):
-			draw_rect(Rect2(Vector2(rx, p.position.y + p.size.y), Vector2(24, 120)), rock_dark)
-			
-	# Totem poles & Indian Chief Statues
-	for tx in [-1100, -300, 500, 1100]:
-		draw_rect(Rect2(Vector2(tx, 240), Vector2(16, 95)), Color(0.4, 0.22, 0.12))
-		draw_circle(Vector2(tx + 8, 235), 12.0, Color(0.85, 0.3, 0.2))
-		draw_line(Vector2(tx - 12, 255), Vector2(tx + 28, 255), Color(0.9, 0.8, 0.2), 4.0)
+		draw_rect(p, stone_base)
+		draw_rect(Rect2(Vector2(p.position.x, p.position.y), Vector2(p.size.x, 6)), stone_moss)
+		# Carved stone brick grid lines
+		for bx in range(int(p.position.x), int(p.position.x + p.size.x), 45):
+			draw_line(Vector2(bx, p.position.y), Vector2(bx, p.position.y + p.size.y), stone_dark, 2.0)
+		# Support Pillars & Ivy Vines
+		for rx in range(int(p.position.x + 60), int(p.position.x + p.size.x - 30), 180):
+			draw_rect(Rect2(Vector2(rx, p.position.y + p.size.y), Vector2(28, 120)), stone_dark)
+			# Vines on pillars
+			draw_line(Vector2(rx + 6, p.position.y + p.size.y), Vector2(rx + 6, p.position.y + p.size.y + 70), stone_moss, 3.0)
 
-# 2. 弓箭手村丘陵與肥肥公園 (Henesys Field - media_1788065678411.jpg)
+# 2. 弓箭手村海岸草叢與肥肥公園 (Henesys Coast & Pig Park - media_1788066779892.png & media_1788066796111.png)
 func draw_henesys_field(_map_info: Dictionary):
-	var ground_col = Color(0.42, 0.30, 0.16)
-	var grass_col = Color(0.38, 0.78, 0.22)
+	var soil_col = Color(0.38, 0.28, 0.16)
+	var soil_dark = Color(0.24, 0.17, 0.10)
+	var grass_col = Color(0.36, 0.76, 0.20)
 	var grass_top = Color(0.55, 0.90, 0.30)
+	var fence_col = Color(0.96, 0.94, 0.88)
 	
-	# Left Ground, Center Trench, Right Stepped Hill
-	draw_rect(Rect2(Vector2(-1800, 340), Vector2(1300, 460)), ground_col)
+	# Ground & Stepped Cliffs
+	draw_rect(Rect2(Vector2(-1800, 340), Vector2(1300, 460)), soil_col)
 	draw_rect(Rect2(Vector2(-1800, 335), Vector2(1300, 8)), grass_col)
 	draw_rect(Rect2(Vector2(-1800, 333), Vector2(1300, 3)), grass_top)
 	
-	draw_rect(Rect2(Vector2(-500, 400), Vector2(900, 400)), ground_col)
+	draw_rect(Rect2(Vector2(-500, 400), Vector2(900, 400)), soil_col)
 	draw_rect(Rect2(Vector2(-500, 395), Vector2(900, 8)), grass_col)
 	
-	# Right Stepped Hill (media_1788065678411.jpg)
 	var steps = [
 		Rect2(Vector2(400, 340), Vector2(550, 460)),
 		Rect2(Vector2(950, 280), Vector2(300, 520)),
 		Rect2(Vector2(1250, 210), Vector2(550, 590))
 	]
 	for s in steps:
-		draw_rect(s, ground_col)
+		draw_rect(s, soil_col)
 		draw_rect(Rect2(Vector2(s.position.x, s.position.y), Vector2(s.size.x, 8)), grass_col)
 		draw_rect(Rect2(Vector2(s.position.x, s.position.y), Vector2(s.size.x, 3)), grass_top)
 		
-	# Floating Grass Platforms
+	# Floating Earthy Soil Platforms with White Picket Fences (media_1788066779892.png)
 	for p in active_platform_rects:
-		draw_rect(p, ground_col)
+		# Soil Body
+		draw_rect(p, soil_col)
+		# Hanging Roots / soil texture
+		for sx in range(int(p.position.x + 10), int(p.position.x + p.size.x - 10), 30):
+			draw_line(Vector2(sx, p.position.y + p.size.y), Vector2(sx, p.position.y + p.size.y + 12), soil_dark, 2.0)
+		# Grass Carpet
 		draw_rect(Rect2(Vector2(p.position.x, p.position.y), Vector2(p.size.x, 7)), grass_col)
 		draw_rect(Rect2(Vector2(p.position.x, p.position.y), Vector2(p.size.x, 3)), grass_top)
 		
-	# Autumn Trees, White Fences & Streetlights
-	for fx in [1000, 1300]:
-		for fi in range(5):
-			draw_rect(Rect2(Vector2(fx + fi * 16, 190), Vector2(6, 20)), Color(0.95, 0.95, 0.9))
-		draw_line(Vector2(fx, 198), Vector2(fx + 75, 198), Color(0.9, 0.9, 0.85), 3.0)
+		# White Wooden Picket Fence along platform
+		if p.size.x >= 200:
+			for fx in range(int(p.position.x + 15), int(p.position.x + min(120, p.size.x - 20)), 16):
+				draw_rect(Rect2(Vector2(fx, p.position.y - 18), Vector2(5, 18)), fence_col)
+				draw_line(Vector2(fx, p.position.y - 18), Vector2(fx + 2.5, p.position.y - 22), fence_col, 2.0)
+			draw_line(Vector2(p.position.x + 15, p.position.y - 10), Vector2(p.position.x + min(120, p.size.x - 20) + 5, p.position.y - 10), fence_col, 2.5)
+
+	# Autumn Orange & Emerald Leaf Trees (media_1788066779892.png)
+	for tx in [-1150, -450, 350, 1100]:
+		# Trunk
+		draw_rect(Rect2(Vector2(tx - 6, 210), Vector2(12, 130)), Color(0.75, 0.72, 0.68))
+		# Autumn Foliage Canopy
+		draw_circle(Vector2(tx - 18, 200), 28.0, Color(0.85, 0.45, 0.15))
+		draw_circle(Vector2(tx + 18, 195), 26.0, Color(0.88, 0.62, 0.20))
+		draw_circle(Vector2(tx, 175), 32.0, Color(0.35, 0.75, 0.25))
 		
-	for lx in [-1150, -200, 700]:
-		draw_rect(Rect2(Vector2(lx, 260), Vector2(8, 75)), Color(0.35, 0.22, 0.12))
-		draw_circle(Vector2(lx + 4, 255), 14.0, Color(1.0, 0.9, 0.4, 0.4))
-		draw_circle(Vector2(lx + 4, 255), 6.0, Color(1.0, 1.0, 0.7))
+	# Climbing Wooden Rope Ladders (media_1788066779892.png)
+	for lx in [-220, 680]:
+		draw_line(Vector2(lx, 100), Vector2(lx, 340), Color(0.55, 0.38, 0.22), 3.0)
+		draw_line(Vector2(lx + 22, 100), Vector2(lx + 22, 340), Color(0.55, 0.38, 0.22), 3.0)
+		for ry in range(115, 335, 20):
+			draw_line(Vector2(lx, ry), Vector2(lx + 22, ry), Color(0.70, 0.52, 0.32), 3.5)
 
-# 3. 魔法森林巨樹樹洞 (Ellinia Tree - media_1788065686413.jpg)
+# 3. 巫婆森林與魔法森林巨木 (Witch Forest & Ellinia Tree Canopy - media_1788066785173.png)
 func draw_ellinia_tree(_map_info: Dictionary):
-	var bark_col = Color(0.32, 0.20, 0.12)
-	var leaf_col = Color(0.18, 0.55, 0.28)
-	var leaf_glow = Color(0.30, 0.85, 0.45)
+	var bark_col = Color(0.28, 0.18, 0.10)
+	var wood_ring_outer = Color(0.52, 0.34, 0.18)
+	var wood_ring_inner = Color(0.75, 0.54, 0.32)
+	var moss_green = Color(0.22, 0.68, 0.26)
+	var vine_glow = Color(0.30, 0.85, 0.45)
 	
-	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), bark_col)
-	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 10)), leaf_col)
-	
-	# 3 Giant Hollow Tree Columns (media_1788065686413.jpg)
-	for gx in [-1000, 0, 800]:
-		draw_rect(Rect2(Vector2(gx - 45, -350), Vector2(90, 730)), bark_col.darkened(0.15))
-		draw_rect(Rect2(Vector2(gx - 40, -350), Vector2(80, 730)), bark_col)
-		for dy in [320, 180, 50, -80]:
-			draw_circle(Vector2(gx, dy), 22.0, Color(0.06, 0.04, 0.02))
-			draw_circle(Vector2(gx, dy - 2), 16.0, Color(0.12, 0.35, 0.15, 0.6))
+	# Massive Ancient Tree Trunk Columns in Background
+	for gx in [-1050, -150, 750]:
+		draw_rect(Rect2(Vector2(gx - 60, -350), Vector2(120, 750)), bark_col)
+		# Circular wood cuts on trunk sides (media_1788066785173.png)
+		for dy in [280, 160, 40, -80]:
+			draw_circle(Vector2(gx + 40, dy), 14.0, wood_ring_outer)
+			draw_circle(Vector2(gx + 40, dy), 8.0, wood_ring_inner)
 			
-	# Platforms & Hanging Vines
+	# Sliced Round Log Platforms (media_1788066785173.png)
 	for p in active_platform_rects:
-		draw_rect(p, bark_col)
-		draw_rect(Rect2(Vector2(p.position.x, p.position.y), Vector2(p.size.x, 6)), leaf_col)
-		draw_line(Vector2(p.position.x + 15, p.position.y + p.size.y), Vector2(p.position.x + 15, p.position.y + 40), leaf_glow, 3.0)
-		draw_line(Vector2(p.position.x + p.size.x - 15, p.position.y + p.size.y), Vector2(p.position.x + p.size.x - 15, p.position.y + 40), leaf_glow, 3.0)
+		# Draw horizontal row of sliced round logs
+		var log_radius = 12.0
+		var num_logs = int(p.size.x / (log_radius * 2.0))
+		for i in range(num_logs):
+			var cx = p.position.x + log_radius + i * (log_radius * 2.0)
+			var cy = p.position.y + log_radius
+			draw_circle(Vector2(cx, cy), log_radius, wood_ring_outer)
+			draw_circle(Vector2(cx, cy), log_radius - 3.0, wood_ring_inner)
+			draw_circle(Vector2(cx, cy), 2.5, bark_col)
+		# Green Moss Top Carpet
+		draw_rect(Rect2(Vector2(p.position.x, p.position.y - 2), Vector2(p.size.x, 5)), moss_green)
+		# Hanging Vines
+		draw_line(Vector2(p.position.x + 20, p.position.y + p.size.y), Vector2(p.position.x + 20, p.position.y + 65), vine_glow, 3.0)
+		draw_line(Vector2(p.position.x + p.size.x - 20, p.position.y + p.size.y), Vector2(p.position.x + p.size.x - 20, p.position.y + 55), vine_glow, 3.0)
 
-# 4. 黃金海岸與維多利亞港 (Florina Beach & Lith Harbor - media_1788065688479.jpg)
+	# Ground Log Floor
+	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), bark_col)
+	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 8)), moss_green)
+
+# 4. 黃金海岸與維多利亞港 (Florina Beach & Lith Harbor - media_1788066772563.png)
 func draw_florina_beach(_map_info: Dictionary):
-	var sand = Color(0.88, 0.82, 0.55)
-	var wood_pier = Color(0.55, 0.38, 0.22)
+	var sand = Color(0.92, 0.86, 0.58)
+	var wood_pier = Color(0.58, 0.40, 0.24)
+	var palm_green = Color(0.20, 0.75, 0.30)
 	
 	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), sand)
-	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 8)), sand.lightened(0.1))
+	draw_rect(Rect2(Vector2(-1800, 375), Vector2(3600, 8)), sand.lightened(0.12))
 	
-	# Stranded Ship
+	# Stranded Viking Exploration Ship
 	var ship_hull = PackedVector2Array([
 		Vector2(-1400, 380),
-		Vector2(-1520, 320),
-		Vector2(-1250, 320),
-		Vector2(-1200, 380)
+		Vector2(-1540, 310),
+		Vector2(-1220, 310),
+		Vector2(-1180, 380)
 	])
 	draw_colored_polygon(ship_hull, Color(0.45, 0.25, 0.12))
-	draw_line(Vector2(-1360, 320), Vector2(-1360, 190), Color(0.3, 0.18, 0.08), 6.0)
+	draw_line(Vector2(-1360, 310), Vector2(-1360, 170), Color(0.3, 0.18, 0.08), 7.0)
+	# Orange Striped Sails
+	draw_rect(Rect2(Vector2(-1410, 180), Vector2(100, 60)), Color(0.95, 0.45, 0.15))
+	draw_rect(Rect2(Vector2(-1390, 180), Vector2(25, 60)), Color(0.95, 0.95, 0.95))
 	
-	# Palm Tree Platforms & Umbrellas
+	# Palm Tree Platforms & Tropical Umbrellas
 	for p in active_platform_rects:
 		draw_rect(p, wood_pier)
 		draw_line(Vector2(p.position.x + p.size.x / 2.0, p.position.y + p.size.y), Vector2(p.position.x + p.size.x / 2.0, 380), Color(0.48, 0.32, 0.18), 8.0)
-		draw_circle(Vector2(p.position.x + p.size.x / 2.0, p.position.y - 10), 32.0, Color(0.2, 0.72, 0.28))
+		draw_circle(Vector2(p.position.x + p.size.x / 2.0, p.position.y - 12), 34.0, palm_green)
 		if p.position.y < 100:
-			# Blue Umbrella
-			draw_circle(Vector2(p.position.x + p.size.x / 2.0, p.position.y - 20), 18.0, Color(0.2, 0.65, 0.95))
+			draw_circle(Vector2(p.position.x + p.size.x / 2.0, p.position.y - 20), 20.0, Color(0.2, 0.65, 0.95))
 
 # 5. 墮落城市與地鐵 (Kerning City & Subway)
 func draw_kerning_subway(_map_info: Dictionary):
@@ -511,7 +542,7 @@ func draw_kerning_subway(_map_info: Dictionary):
 func draw_sleepywood_cavern(_map_info: Dictionary):
 	var cave_rock = Color(0.18, 0.14, 0.22)
 	var stalactite_col = Color(0.32, 0.25, 0.38)
-	var crystal_glow = Color(0.85, 0.35, 1.0, 0.6)
+	var crystal_glow = Color(0.85, 0.35, 1.0, 0.7)
 	
 	draw_rect(Rect2(Vector2(-1800, 380), Vector2(3600, 420)), cave_rock)
 	
@@ -527,3 +558,4 @@ func draw_sleepywood_cavern(_map_info: Dictionary):
 		draw_rect(p, cave_rock.lightened(0.2))
 		draw_circle(Vector2(p.position.x + 25, p.position.y - 6), 8.0, crystal_glow)
 		draw_circle(Vector2(p.position.x + p.size.x - 25, p.position.y - 6), 8.0, crystal_glow)
+

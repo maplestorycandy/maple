@@ -164,22 +164,46 @@ func _physics_process(delta):
 		check_melee_attack()
 
 func update_monster_ai(_delta: float, goal: Vector2):
-	var dir_x = sign(goal.x - global_position.x)
-	if dir_x != 0:
-		facing_direction = int(dir_x)
+	# Automatic wall-bounce & unstuck logic
+	if is_on_wall():
+		facing_direction *= -1
+		if is_on_floor() and randf() < 0.6:
+			velocity.y = -320.0 # Jump over obstacle/step
+			
+	# Map Boundary wrap
+	if global_position.x < -1650:
+		facing_direction = 1
+	elif global_position.x > 1650:
+		facing_direction = -1
 		
 	if is_wave_attacker:
-		velocity.x = dir_x * speed
-		if is_on_floor() and randf() < 0.015:
-			velocity.y = -260.0
+		var dir_x = sign(goal.x - global_position.x)
+		if dir_x != 0:
+			facing_direction = int(dir_x)
+		velocity.x = facing_direction * speed
+		if is_on_floor() and (is_on_wall() or randf() < 0.015):
+			velocity.y = -280.0
 	else:
-		# Idle / Patrol / Chase
-		if int(ai_timer) % 4 < 2:
-			velocity.x = facing_direction * speed * 0.6
+		# Wild Monster Patrol & Aggro Chase
+		var player = get_tree().get_first_node_in_group("player")
+		var is_chasing = false
+		if is_instance_valid(player) and global_position.distance_to(player.global_position) < 360.0:
+			is_chasing = true
+			var p_dir = sign(player.global_position.x - global_position.x)
+			if p_dir != 0:
+				facing_direction = int(p_dir)
+			velocity.x = facing_direction * speed * 0.9
+			if is_on_floor() and (is_on_wall() or player.global_position.y < global_position.y - 40):
+				if randf() < 0.08:
+					velocity.y = -360.0 # Jump towards higher platform
 		else:
-			velocity.x = 0
-		if is_on_wall():
-			facing_direction = -facing_direction
+			# Gentle wander & turn around periodically
+			if int(ai_timer) % 5 < 3:
+				velocity.x = facing_direction * speed * 0.5
+			else:
+				velocity.x = 0
+				if randf() < 0.02:
+					facing_direction *= -1
 			
 	if is_boss and boss_skill_timer >= 6.0:
 		boss_skill_timer = 0.0

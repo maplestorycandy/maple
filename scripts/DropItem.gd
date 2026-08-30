@@ -8,7 +8,7 @@ extends CharacterBody2D
 
 var bounce_count: int = 0
 var max_bounces: int = 2
-var pickup_delay: float = 0.3 # Cannot pickup for first 0.3s
+var pickup_delay: float = 0.1 # Instant responsive pickup
 var alive_timer: float = 0.0
 var max_lifetime: float = 60.0 # Disappears after 60s
 var is_picked_up: bool = false
@@ -19,6 +19,7 @@ var float_anim: float = 0.0
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _ready():
+	z_index = 25
 	add_to_group("drop_items")
 	setup_visuals()
 
