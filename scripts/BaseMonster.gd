@@ -119,7 +119,8 @@ func network_sync_position(pos: Vector2, vel: Vector2, cur_hp: int, facing: int)
 	queue_redraw()
 
 func _physics_process(delta):
-	anim_frame += delta * 6.0
+	var is_moving = abs(velocity.x) > 10.0 and is_on_floor()
+	anim_frame += delta * (9.0 if is_moving else 4.0)
 	
 	if hurt_flash > 0.0:
 		hurt_flash -= delta * 5.0
@@ -129,11 +130,29 @@ func _physics_process(delta):
 	else:
 		if sprite:
 			sprite.modulate = Color.WHITE
-	
-	# Sprite breathing bounce and orientation
+			
+	# Dynamic MapleStory Sprite Hopping, Walking, and Breathing Animation
 	if sprite and has_sprite_texture:
-		sprite.position.y = -24 + sin(anim_frame * 3.0) * 2.5
-		sprite.flip_h = (facing_direction < 0) # Flip sprite based on movement
+		if is_moving:
+			var hop_y = -abs(sin(anim_frame * 2.2)) * 6.5
+			sprite.position.y = -22.0 * body_scale + hop_y
+			var squish_x = 1.0 + sin(anim_frame * 2.2) * 0.12
+			var squish_y = 1.0 - sin(anim_frame * 2.2) * 0.10
+			sprite.scale = Vector2(body_scale * squish_x, body_scale * squish_y)
+		elif not is_on_floor():
+			sprite.position.y = -24.0 * body_scale
+			sprite.scale = Vector2(body_scale * 0.88, body_scale * 1.15)
+		else:
+			# Idle Organic Breathing
+			var breath_y = sin(anim_frame * 2.0) * 2.2
+			sprite.position.y = -24.0 * body_scale + breath_y
+			var breath_sy = 1.0 + sin(anim_frame * 2.0) * 0.07
+			var breath_sx = 1.0 - sin(anim_frame * 2.0) * 0.05
+			sprite.scale = Vector2(body_scale * breath_sx, body_scale * breath_sy)
+			
+		sprite.flip_h = (facing_direction < 0) # Flip sprite towards movement
+	else:
+		queue_redraw()
 	
 	# Client interpolation in multiplayer
 	if is_client_puppet():
@@ -297,17 +316,73 @@ func get_capture_data() -> Dictionary:
 	}
 
 func _draw():
-	# If no texture, draw procedural fallback
+	var is_moving = abs(velocity.x) > 10.0 and is_on_floor()
+	var hop_y = -abs(sin(anim_frame * 2.2)) * 6.5 if is_moving else sin(anim_frame * 2.0) * 2.0
+	var squish_x = (1.0 + sin(anim_frame * 2.2) * 0.12) if is_moving else (1.0 - sin(anim_frame * 2.0) * 0.05)
+	var squish_y = (1.0 - sin(anim_frame * 2.2) * 0.10) if is_moving else (1.0 + sin(anim_frame * 2.0) * 0.07)
+	
+	# Boss Glowing Aura
+	if is_boss:
+		var aura_pulse = (sin(anim_frame * 3.0) + 1.0) * 0.5
+		draw_circle(Vector2(0, -22 * body_scale + hop_y), 32 * body_scale + aura_pulse * 6.0, Color(1.0, 0.2, 0.2, 0.18 + aura_pulse * 0.12))
+		draw_circle(Vector2(0, -22 * body_scale + hop_y), 24 * body_scale, Color(1.0, 0.8, 0.2, 0.12))
+
+	# If no texture, draw procedural animated model
 	if not has_sprite_texture:
 		var col = body_color if hurt_flash <= 0.0 else Color.RED
-		var bounce = sin(anim_frame) * 3.0
-		draw_circle(Vector2(0, -18 + bounce), 16 * body_scale, col)
-		draw_circle(Vector2(5 * facing_direction, -20 + bounce), 3.5, Color.BLACK)
+		var base_y = -18.0 * body_scale + hop_y
+		
+		# 1. Shadow underneath
+		draw_rect(Rect2(-12 * body_scale * squish_x, -3, 24 * body_scale * squish_x, 4 * body_scale), Color(0, 0, 0, 0.35), true)
+		
+		# 2. Dynamic Monster Types
+		if "Snail" in monster_type or "嫩寶" in monster_name or "藍寶" in monster_name or "紅寶" in monster_name:
+			# Snail Shell + Body
+			var shell_col = Color(0.3, 0.6, 0.9) if "藍寶" in monster_name else (Color(0.9, 0.3, 0.3) if "紅寶" in monster_name else Color(0.4, 0.8, 0.4))
+			draw_circle(Vector2(-6 * facing_direction * squish_x, base_y), 12 * body_scale * squish_x, shell_col)
+			draw_circle(Vector2(4 * facing_direction * squish_x, base_y + 4), 8 * body_scale * squish_y, Color(0.9, 0.85, 0.7))
+			# Eye tentacles
+			draw_line(Vector2(6 * facing_direction, base_y), Vector2(10 * facing_direction, base_y - 8), Color(0.9, 0.85, 0.7), 2.5)
+			draw_circle(Vector2(10 * facing_direction, base_y - 8), 2.5, Color.BLACK)
+		elif "Slime" in monster_type or "水靈" in monster_name:
+			# Slime wobble
+			draw_circle(Vector2(0, base_y), 15 * body_scale * squish_x, col)
+			# Shiny gleam
+			draw_circle(Vector2(-4 * facing_direction, base_y - 5), 4 * body_scale, Color(1, 1, 1, 0.6))
+			# Eyes
+			draw_circle(Vector2(4 * facing_direction, base_y - 2), 2.5 * body_scale, Color.BLACK)
+			draw_circle(Vector2(9 * facing_direction, base_y - 2), 2.5 * body_scale, Color.BLACK)
+		elif "Mushroom" in monster_type or "菇" in monster_name:
+			# Stem
+			draw_rect(Rect2(-7 * body_scale * squish_x, base_y, 14 * body_scale * squish_x, 14 * body_scale), Color(0.95, 0.9, 0.8), true)
+			# Cap
+			draw_circle(Vector2(0, base_y - 4), 16 * body_scale * squish_x, col)
+			# Cap white spots
+			draw_circle(Vector2(-6, base_y - 8), 3.5 * body_scale, Color.WHITE)
+			draw_circle(Vector2(6, base_y - 8), 3.5 * body_scale, Color.WHITE)
+			# Eyes
+			draw_circle(Vector2(3 * facing_direction, base_y + 4), 2.2 * body_scale, Color.BLACK)
+		elif "Pig" in monster_type or "肥肥" in monster_name or "豬" in monster_name:
+			# Pig body
+			draw_circle(Vector2(0, base_y), 16 * body_scale * squish_x, col)
+			# Snout
+			draw_circle(Vector2(12 * facing_direction, base_y + 2), 6 * body_scale, Color(0.95, 0.7, 0.75))
+			draw_circle(Vector2(13 * facing_direction, base_y + 2), 1.8 * body_scale, Color.BLACK)
+			# Eye
+			draw_circle(Vector2(6 * facing_direction, base_y - 4), 2.8 * body_scale, Color.BLACK)
+			# Ribbon
+			if "緞帶" in monster_name:
+				draw_circle(Vector2(-4, base_y - 12), 4 * body_scale, Color.RED)
+		else:
+			# Universal Organic creature
+			draw_circle(Vector2(0, base_y), 16 * body_scale * squish_x, col)
+			draw_circle(Vector2(6 * facing_direction * squish_x, base_y - 3), 3.5 * body_scale, Color.BLACK)
+			draw_circle(Vector2(7 * facing_direction * squish_x, base_y - 4), 1.2 * body_scale, Color.WHITE)
 	
 	# Overhead Monster HP Bar
 	if hp < max_hp or is_boss:
 		var bar_w = 46.0 * body_scale
-		var bar_y = -52.0 * body_scale
+		var bar_y = -52.0 * body_scale + hop_y
 		draw_rect(Rect2(-bar_w / 2, bar_y, bar_w, 4), Color(0.1, 0.1, 0.1, 0.8), true)
 		var fill_w = clamp(float(hp) / float(max_hp), 0.0, 1.0) * bar_w
 		var hp_col = Color.RED if hp < max_hp * 0.3 else (Color.GOLD if is_boss else Color(0.2, 1.0, 0.4))
