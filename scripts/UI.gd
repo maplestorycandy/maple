@@ -940,6 +940,37 @@ func setup_map_selection_list():
 		
 	main_vbox.add_child(map_wrapper)
 	
+	# Event Challenge Tiers Bar (All 332 Monsters & 54 Bosses!)
+	var event_box = HBoxContainer.new()
+	event_box.add_theme_constant_override("separation", 6)
+	
+	var ev_lbl = Label.new()
+	ev_lbl.text = "🏆 全怪物特訓場:"
+	ev_lbl.add_theme_font_size_override("font_size", 12)
+	ev_lbl.modulate = Color(1.0, 0.4, 0.9)
+	event_box.add_child(ev_lbl)
+	
+	var event_tiers = [
+		{"id": "990000001", "name": "Ⅰ 初心者 (1-20)"},
+		{"id": "990000002", "name": "Ⅱ 荒野 (21-40)"},
+		{"id": "990000003", "name": "Ⅲ 秘境 (41-60)"},
+		{"id": "990000004", "name": "Ⅳ 競技場 (61-80)"},
+		{"id": "990000005", "name": "Ⅴ 天空 (81-100)"},
+		{"id": "990000006", "name": "Ⅵ 弒神殿堂 (101+ BOSS)"}
+	]
+	for et in event_tiers:
+		var et_btn = Button.new()
+		et_btn.text = et.name
+		et_btn.add_theme_font_size_override("font_size", 11)
+		et_btn.modulate = Color(0.4, 1.0, 0.8) if "BOSS" not in et.name else Color(1.0, 0.3, 0.3)
+		var m_id = et.id
+		et_btn.pressed.connect(func():
+			Global.change_map(m_id)
+			map_select_modal.visible = false
+		)
+		event_box.add_child(et_btn)
+	main_vbox.add_child(event_box)
+
 	# Bottom Quick 8-Town Teleport Bar
 	var btm_hbox = HBoxContainer.new()
 	btm_hbox.add_theme_constant_override("separation", 6)
