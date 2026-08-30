@@ -105,6 +105,8 @@ func _ready():
 	setup_map_selection_list()
 	refresh_pet_bag()
 	update_network_ui()
+	
+	Global.broadcast_message("⚡ 伺服器經驗值倍率：500% (5倍經驗急速升等)！", Color(1.0, 0.85, 0.2))
 
 func setup_touch_controls():
 	var tc = get_node_or_null("HUD/TouchControls")

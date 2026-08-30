@@ -53,6 +53,7 @@ var mastery: float = 0.60
 var base_crit_rate: float = 0.15
 var player_speed: float = 250.0
 var meso_gold: int = 500
+var exp_rate_multiplier: float = 5.0 # 500% EXP Multiplier (5x)
 
 # Inventory System (3 Categories: Equip, Use, Etc)
 var equip_inventory: Array[Dictionary] = []
@@ -448,7 +449,8 @@ func set_player_job(job_id: String):
 	emit_signal("player_stats_changed")
 
 func add_exp(amount: int):
-	player_exp += amount
+	var boosted_exp = int(amount * exp_rate_multiplier * passive_buffs.get("exp_gain_mult", 1.0))
+	player_exp += boosted_exp
 	while player_exp >= player_max_exp:
 		player_exp -= player_max_exp
 		level_up()
